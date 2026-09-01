@@ -1,16 +1,19 @@
-export type EventId = 'hackathon' | 'games2d' | 'ctf' | 'egames' | 'elaris';
+export type EventId = 'hackathon' | 'games2d' | 'ctf' | 'egames' | 'photography';
 
 export type PaymentStatus = 'pending' | 'verified' | 'rejected';
 
 export interface RegistrationInput {
   eventId: EventId;
   teamName: string;
+  leaderName: string;
   members: string[];
   email: string;
   phone: string;
-  department: string;
+  collegeName: string;
+  year: string;
   domain: string;
   upiRef?: string;
+  participantUpiId?: string;
   paymentStatus?: PaymentStatus;
 }
 

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { RegistrationForm } from '../components/RegistrationForm';
-import { StudentPassCard } from '../components/StudentPassCard';
 import { EVENTS } from '../data/events';
 import { useRegistrationsContext } from '../contexts/RegistrationsContext';
 import type { EventId, Registration } from '../types/registration';
@@ -16,8 +15,8 @@ export function Events() {
   const paramEvent = searchParams.get('event');
   const activeEventId: EventId = isEventId(paramEvent) ? paramEvent : 'hackathon';
 
-  const { submit, loadError, reload, takenDomains, settings } = useRegistrationsContext();
-  const [receipt, setReceipt] = useState<Registration | null>(null);
+  const { submit, loadError, reload, takenDomains, settings, registrations } = useRegistrationsContext();
+  const existingRegistration = registrations.length > 0 ? registrations[0] : undefined;
 
   function selectEvent(id: EventId) {
     setSearchParams({ event: id }, { replace: true });
@@ -65,29 +64,39 @@ export function Events() {
         </div>
       }
 
-      {receipt && (
-        <div className="mt-6">
-          <StudentPassCard
-            registration={receipt}
-            onClose={() => setReceipt(null)}
-          />
-        </div>
-      )}
+
 
       <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_260px] lg:items-start">
         <div className="rounded-2xl border border-line bg-surface p-6 sm:p-8">
-          <RegistrationForm
-            key={activeEventId}
-            eventId={activeEventId}
-            submit={submit}
-            takenDomains={takenDomains[activeEventId] ?? []}
-            upiId={settings.upiId}
-            payeeName={settings.payeeName}
-            onRegistered={(record) => {
-              setReceipt(record);
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }} />
-          
+          {existingRegistration ? (
+            <div className="flex flex-col items-center justify-center space-y-4 py-12 text-center">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-highlight/20 text-highlight">
+                <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <h2 className="font-display text-2xl font-bold text-highlight">
+                Registered Successfully
+              </h2>
+              <p className="text-sm text-metallic max-w-md">
+                Your registration for <strong>{existingRegistration.eventName}</strong> has been received. 
+                Our team is verifying your payment. You will be notified once confirmed.
+              </p>
+              <div className="mt-4 rounded-lg border border-line bg-gunmetal/60 px-4 py-2 text-xs font-mono text-metallic">
+                ID: {existingRegistration.id}
+              </div>
+            </div>
+          ) : (
+            <RegistrationForm
+              key={activeEventId}
+              eventId={activeEventId}
+              submit={submit}
+              takenDomains={takenDomains[activeEventId] ?? []}
+              upiId={settings.upiId}
+              payeeName={settings.payeeName}
+              onRegistered={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            />
+          )}
         </div>
 
         <aside className="rounded-2xl border border-line bg-surface p-6 text-sm text-metallic lg:sticky lg:top-28">

@@ -1,4 +1,4 @@
-import { EVENTS, REGISTRATION_FEE, getEvent } from '../data/events';
+import { EVENTS, getEvent } from '../data/events';
 import { CloudDatabase } from './firebase';
 import { submitToWeb3Forms } from './web3forms';
 import type {
@@ -33,8 +33,8 @@ const SETTINGS_KEY = 'ryvanta_settings_v2';
 const NETWORK_DELAY = 320;
 
 export const DEFAULT_SETTINGS: EventSettings = {
-  upiId: 'poosiju1@okaxis',
-  payeeName: 'RYVANTA Event'
+  upiId: '9080228433@upi',
+  payeeName: 'Mr VELKUMUDHAN D'
 };
 
 export class ApiRequestError extends Error {
@@ -106,15 +106,22 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 function validate(input: RegistrationInput, existing: Registration[]): void {
   const event = getEvent(input.eventId);
 
-  if (input.teamName.trim().length < 3) {
+  const isSoloEvent = event.memberCounts.length === 1 && event.memberCounts[0] === 1;
+
+  if (!isSoloEvent && input.teamName.trim().length < 3) {
     throw new ApiRequestError('Team name needs at least 3 characters.', 'teamName');
   }
-  if (input.members.some((name) => name.trim().length < 2)) {
+  if (input.leaderName.trim().length < 2) {
+    throw new ApiRequestError('Leader name must be at least 2 characters.', 'leaderName');
+  }
+  if (!isSoloEvent && input.members.some((name) => name.trim().length < 2)) {
     throw new ApiRequestError('Every member needs a full name.', 'members');
   }
-  if (!event.memberCounts.includes(input.members.length)) {
+  
+  const totalTeamSize = 1 + input.members.length; // Leader + Members
+  if (!event.memberCounts.includes(totalTeamSize)) {
     throw new ApiRequestError(
-      `${event.name} accepts ${event.memberCounts.join(' or ')} members.`,
+      `${event.name} accepts ${event.memberCounts.join(' or ')} members total.`,
       'members'
     );
   }
@@ -124,13 +131,17 @@ function validate(input: RegistrationInput, existing: Registration[]): void {
   if (!/^[0-9+\s-]{10,15}$/.test(input.phone.trim())) {
     throw new ApiRequestError('Enter a 10-digit contact number.', 'phone');
   }
-  if (event.requiresDepartment && !input.department) {
-    throw new ApiRequestError('Select your department.', 'department');
+  if (!input.collegeName.trim()) {
+    throw new ApiRequestError('Enter your college name.', 'collegeName');
   }
-  if ((event.requiresDepartment || event.domains) && !input.domain) {
+  if (!input.year) {
+    throw new ApiRequestError('Select your year of study.', 'year');
+  }
+  if (event.domains && event.domains.length > 0 && !input.domain) {
     throw new ApiRequestError('Select a domain to compete in.', 'domain');
   }
   if (
+  !isSoloEvent &&
   existing.some(
     (record) =>
     record.eventId === input.eventId &&
@@ -182,18 +193,24 @@ input: RegistrationInput)
   validate(input, existing);
 
   const event = getEvent(input.eventId);
+  const isSoloEvent = event.memberCounts.length === 1 && event.memberCounts[0] === 1;
+
   const record: Registration = {
     ...input,
-    teamName: input.teamName.trim(),
+    teamName: isSoloEvent ? '' : input.teamName.trim(),
+    leaderName: input.leaderName.trim(),
     members: input.members.map((name) => name.trim()),
     email: input.email.trim(),
     phone: input.phone.trim(),
+    collegeName: input.collegeName.trim(),
+    year: input.year,
     upiRef: input.upiRef ? input.upiRef.trim() : '',
+    participantUpiId: input.participantUpiId ? input.participantUpiId.trim() : '',
     id: nextId(input.eventId, existing),
     eventName: event.fullName,
     eventCode: event.code,
-    memberCount: input.members.length,
-    feeAmount: REGISTRATION_FEE,
+    memberCount: 1 + input.members.length,
+    feeAmount: event.fee,
     paymentStatus: input.paymentStatus ?? 'verified',
     createdAt: new Date().toISOString()
   };
@@ -302,10 +319,12 @@ export function toCsv(records: Registration[]): string {
   'ID',
   'Event',
   'Team Name',
+  'Leader Name',
   'Members',
   'Email',
   'Phone',
-  'Department',
+  'College',
+  'Year',
   'Domain',
   'Fee',
   'Payment Status',
@@ -316,11 +335,13 @@ export function toCsv(records: Registration[]): string {
   [
   record.id,
   record.eventName,
-  record.teamName,
+  record.teamName || 'N/A',
+  record.leaderName,
   record.members.join('; '),
   record.email,
   record.phone,
-  record.department || 'N/A',
+  record.collegeName,
+  record.year,
   record.domain || 'N/A',
   `INR ${record.feeAmount}`,
   record.paymentStatus,

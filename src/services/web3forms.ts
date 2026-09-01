@@ -1,25 +1,26 @@
 import type { Registration } from '../types/registration';
 
-export const WEB3FORMS_ACCESS_KEY = '5cdcb0d8-1706-4a19-9e9c-6cd2f5c5a599';
+export const WEB3FORMS_ACCESS_KEY = '42ca8ea6-f450-4594-b757-e8393c085c81';
 
 export async function submitToWeb3Forms(record: Registration): Promise<boolean> {
   try {
     const payload = {
       access_key: WEB3FORMS_ACCESS_KEY,
-      subject: `🏆 New Registration: ${record.eventName} - Team ${record.teamName} [ID: ${record.id}]`,
       from_name: 'RYVANTA 2026 Portal',
       registration_id: record.id,
       event_name: record.eventName,
-      team_name: record.teamName,
-      members_list: record.members.join(', '),
+      team_name: record.teamName || 'N/A',
+      leader_name: record.leaderName,
+      team_members: record.members.length > 0 ? record.members.join(', ') : 'None',
       team_size: record.memberCount,
       contact_email: record.email,
       contact_phone: record.phone,
-      department: record.department || 'N/A',
+      college_name: record.collegeName,
+      year_of_study: record.year,
       domain: record.domain || 'N/A',
       fee_amount: `INR ${record.feeAmount}`,
-      payment_status: record.paymentStatus,
-      transaction_reference: record.upiRef || 'AUTO_VERIFIED',
+      transaction_id: record.upiRef || 'AUTO_VERIFIED',
+      participant_upi_id: record.participantUpiId || 'N/A',
       registered_at: new Date(record.createdAt).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
     };
 

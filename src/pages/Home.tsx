@@ -6,9 +6,8 @@ import { CountdownCard } from '../components/CountdownCard';
 import {
   EVENTS,
   EVENT_STARTS_AT,
-  REGISTRATION_CLOSES_AT,
-  REGISTRATION_FEE } from
-'../data/events';
+  REGISTRATION_CLOSES_AT
+} from '../data/events';
 
 export function Home() {
   return (
@@ -25,9 +24,7 @@ export function Home() {
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-metallic">
             Five events, one campus, one day. RYVANTA '26 runs on{' '}
-            <span className="font-semibold text-highlight">19 September 2026</span> — a
-            flat <span className="font-semibold text-highlight">₹{REGISTRATION_FEE}</span>{' '}
-            per team gets you into any event on the roster.
+            <span className="font-semibold text-highlight">19 September 2026</span> — register your team below.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-4">
@@ -54,7 +51,7 @@ export function Home() {
           <CountdownCard
             label="Registration closes in"
             target={REGISTRATION_CLOSES_AT}
-            caption="Deadline: 10 September 2026, 11:59 PM IST"
+            caption="Deadline: 14 September 2026, 11:59 PM IST"
             completeLabel="Registration closed"
             emphasis />
           
