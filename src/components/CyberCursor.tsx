@@ -70,17 +70,17 @@ export function CyberCursor() {
         ringRef.current.style.transform = `translate3d(${ringPos.current.x}px, ${ringPos.current.y}px, 0) translate(-50%, -50%) scale(${scale})`;
 
         if (isHovered.current) {
-          ringRef.current.style.borderColor = '#C5A059';
-          ringRef.current.style.backgroundColor = 'rgba(197, 160, 89, 0.12)';
-          ringRef.current.style.boxShadow = '0 0 20px rgba(197, 160, 89, 0.4)';
+          ringRef.current.style.borderColor = '#D4AF37';
+          ringRef.current.style.backgroundColor = 'rgba(212, 175, 55, 0.15)';
+          ringRef.current.style.boxShadow = '0 0 20px rgba(212, 175, 55, 0.45)';
         } else if (isClicked.current) {
-          ringRef.current.style.borderColor = '#2C2C2C';
-          ringRef.current.style.backgroundColor = 'rgba(44, 44, 44, 0.15)';
-          ringRef.current.style.boxShadow = '0 0 15px rgba(44, 44, 44, 0.2)';
+          ringRef.current.style.borderColor = '#1C1C1C';
+          ringRef.current.style.backgroundColor = 'rgba(28, 28, 28, 0.15)';
+          ringRef.current.style.boxShadow = '0 0 15px rgba(28, 28, 28, 0.2)';
         } else {
-          ringRef.current.style.borderColor = '#C5A059';
-          ringRef.current.style.backgroundColor = 'rgba(197, 160, 89, 0.04)';
-          ringRef.current.style.boxShadow = '0 0 12px rgba(216, 215, 213, 0.6)';
+          ringRef.current.style.borderColor = '#D4AF37';
+          ringRef.current.style.backgroundColor = 'rgba(212, 175, 55, 0.04)';
+          ringRef.current.style.boxShadow = '0 0 12px rgba(212, 175, 55, 0.3)';
         }
       }
 
@@ -100,19 +100,19 @@ export function CyberCursor() {
 
   return (
     <>
-      {/* Soft Champagne Gold Ambient Spotlight */}
+      {/* Soft Metallic Gold Ambient Spotlight */}
       <div
         ref={spotRef}
         className="pointer-events-none fixed left-0 top-0 z-30 opacity-100 will-change-transform"
         style={{
           width: '380px',
           height: '380px',
-          background: 'radial-gradient(circle, rgba(197, 160, 89, 0.08) 0%, rgba(216, 215, 213, 0.04) 40%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, rgba(255, 215, 0, 0.03) 40%, transparent 70%)',
           borderRadius: '50%'
         }}
       />
 
-      {/* Luxury Platinum & Gold Ring */}
+      {/* Regal Metallic Gold Cursor Ring */}
       <div
         ref={ringRef}
         className="pointer-events-none fixed left-0 top-0 z-50 rounded-full border opacity-100 will-change-transform transition-[border-color,background-color,box-shadow] duration-150 ease-out"

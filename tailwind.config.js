@@ -8,43 +8,49 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Base Platinum & Cream Palette
-        background: '#F9F8F6',
-        card: '#F3F1ED',
+        // Regal Gold & White Palette
+        background: '#FAFAFA',
+        card: '#FFFFFF',
         'surface-elevated': '#FFFFFF',
-        'subtle-border': '#E5E4E2',
-        'accent-border': '#D8D7D5',
+        'subtle-border': '#EAE6DF',
+        'accent-border': '#D4AF37',
 
         // Typography Hierarchy
-        'text-primary': '#1A1A1A',
-        'text-secondary': '#4A4A4A',
-        'text-muted': '#8C8A85',
+        'text-primary': '#1C1C1C',
+        'text-secondary': '#383838',
+        'text-muted': '#767676',
 
-        // Accents & Luxury Noir
-        'accent-gold': '#C5A059',
-        'luxury-noir': '#2C2C2C',
-        'platinum-light': '#E5E4E2',
-        'platinum-polished': '#D8D7D5',
+        // Regal Gold Accents
+        'regal-gold': '#D4AF37',
+        'regal-gold-light': '#FFD700',
+        'regal-gold-dark': '#AA820A',
+        'luxury-noir': '#1C1C1C',
 
         // Legacy compatibility mappings
-        gunmetal: '#F9F8F6',
-        surface: '#F3F1ED',
+        gunmetal: '#FAFAFA',
+        surface: '#FFFFFF',
         elevated: '#FFFFFF',
-        line: '#E5E4E2',
-        metallic: '#4A4A4A',
-        highlight: '#1A1A1A',
-        accent: '#C5A059',
+        line: '#EAE6DF',
+        metallic: '#555555',
+        highlight: '#1C1C1C',
+        accent: '#D4AF37',
       },
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        display: ['Orbitron', 'Inter', 'sans-serif'],
+        serif: ['Playfair Display', 'Georgia', 'serif'],
+        display: ['Playfair Display', 'Inter', 'serif'],
         mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
       },
       boxShadow: {
-        'luxury': '0 10px 30px -10px rgba(26, 26, 26, 0.05), 0 1px 3px 0 rgba(0, 0, 0, 0.02)',
-        'luxury-lg': '0 20px 40px -15px rgba(26, 26, 26, 0.08), 0 0 0 1px rgba(216, 215, 213, 0.6)',
-        'glow-platinum': '0 0 20px -2px rgba(216, 215, 213, 0.6)',
-        'glow-gold': '0 0 25px rgba(197, 160, 89, 0.25)',
+        'luxury': '0 10px 30px -10px rgba(28, 28, 28, 0.06), 0 1px 3px 0 rgba(0, 0, 0, 0.02)',
+        'luxury-lg': '0 20px 40px -15px rgba(212, 175, 55, 0.12), 0 0 0 1px rgba(234, 230, 223, 0.9)',
+        'gold-glow': '0 0 25px rgba(212, 175, 55, 0.35)',
+        'gold-subtle': '0 4px 20px rgba(212, 175, 55, 0.15)',
+      },
+      backgroundImage: {
+        'gold-gradient': 'linear-gradient(135deg, #D4AF37 0%, #FFD700 50%, #D4AF37 100%)',
+        'gold-gradient-subtle': 'linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(255, 215, 0, 0.15) 100%)',
+        'pearl-gradient': 'linear-gradient(180deg, #FFFFFF 0%, #FAFAFA 100%)',
       },
       transitionTimingFunction: {
         smooth: 'cubic-bezier(0.23, 1, 0.32, 1)',

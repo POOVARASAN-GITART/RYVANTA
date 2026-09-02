@@ -4,11 +4,10 @@ import {
   CopyIcon,
   ExternalLinkIcon,
   SmartphoneIcon,
-  ZapIcon,
   UploadCloudIcon,
   FileImageIcon,
   XIcon,
-  ReceiptIcon
+  ShieldCheckIcon
 } from 'lucide-react';
 import { QrCodeView } from './QrCodeView';
 
@@ -95,203 +94,182 @@ export function PaymentQrBox({
   }
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-[#E5E4E2] bg-[#FFFFFF] p-5 sm:p-7 shadow-luxury">
+    <div className="overflow-hidden rounded-2xl border border-[#EAE6DF] bg-[#FFFFFF] p-5 sm:p-7 shadow-luxury">
       {/* Payee Profile Header Bar */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-[#E5E4E2] pb-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-[#EAE6DF] pb-4">
         <div className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#F3F1ED] border border-[#D8D7D5] font-display text-lg font-black text-[#C5A059] shadow-sm">
-            A
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FAFAFA] border border-[#D4AF37]/40 text-[#D4AF37] font-bold">
+            <ShieldCheckIcon className="h-5 w-5 text-[#D4AF37]" />
           </div>
           <div>
-            <h3 className="font-display text-base sm:text-lg font-bold text-[#1A1A1A] tracking-wide">
-              {payeeName}
+            <h3 className="font-serif text-base font-bold text-[#1C1C1C]">
+              Official Symposium Payment Gateway
             </h3>
-            <p className="text-xs font-mono text-[#8C8A85]">
-              UPI: {upiId}
-            </p>
+            <span className="text-xs text-[#767676]">Instant Automated Verification &amp; ID Issue</span>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 rounded-xl border border-[#D8D7D5] bg-[#F9F8F6] px-4 py-2 text-right shadow-sm">
-          <span className="text-[10px] uppercase font-bold tracking-wider text-[#8C8A85]">Fee Amount:</span>
-          <span className="font-display text-xl font-black text-[#1A1A1A]">₹{feeAmount}</span>
+        <div className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D4AF37]/15 to-[#FFD700]/15 border border-[#D4AF37] px-4 py-2 text-right">
+          <span className="text-[10px] uppercase font-mono font-bold tracking-widest text-[#AA820A]">
+            Fee Amount:
+          </span>
+          <span className="font-serif text-xl font-black text-[#1C1C1C]">
+            ₹{feeAmount}
+          </span>
         </div>
       </div>
 
-      <div className="mt-6 grid gap-6 md:grid-cols-[210px_1fr] items-start">
-        {/* Prominent QR Code container */}
-        <div className="flex flex-col items-center justify-center">
-          <div className="relative rounded-2xl bg-[#FFFFFF] p-3.5 shadow-md ring-1 ring-[#E5E4E2] transition-transform duration-200 hover:scale-[1.02]">
-            <QrCodeView
-              value={genericUpiUri}
-              size={175}
-              darkColor="#1A1A1A"
-              lightColor="#FFFFFF"
-              label="UPI Payment QR Code"
-            />
+      <div className="mt-6 grid gap-6 md:grid-cols-[220px_minmax(0,1fr)] items-start">
+        {/* QR Code Container */}
+        <div className="flex flex-col items-center justify-center rounded-2xl border border-[#EAE6DF] bg-[#FAFAFA] p-4 text-center">
+          <div className="rounded-xl border border-[#D4AF37]/50 bg-[#FFFFFF] p-3 shadow-md">
+            <QrCodeView value={genericUpiUri} size={168} />
           </div>
-          <div className="mt-3 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-widest text-[#C5A059]">
-            <ZapIcon className="h-3 w-3" />
-            <span>Scan to Pay with Any App</span>
-          </div>
+
+          <span className="mt-3 font-mono text-[10px] font-bold uppercase tracking-wider text-[#767676]">
+            Scan with any UPI App
+          </span>
+          <span className="mt-0.5 text-[11px] font-medium text-[#AA820A]">GPay · PhonePe · Paytm · BHIM</span>
         </div>
 
-        {/* UPI Details & 1-Click App Triggers */}
-        <div className="space-y-4 w-full">
-          {/* Official UPI ID box with 1-click Copy */}
-          <div className="flex items-center justify-between rounded-xl border border-[#E5E4E2] bg-[#F9F8F6] px-4 py-3 shadow-sm">
-            <div>
-              <span className="block text-[10px] uppercase font-bold tracking-wider text-[#8C8A85]">
-                Official Event UPI ID
+        {/* UPI Details & Deep Links */}
+        <div className="space-y-4">
+          {/* UPI ID Copy Field */}
+          <div className="rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] p-3.5">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#767676]">
+                Official UPI ID
               </span>
-              <span className="font-mono text-sm font-bold text-[#1A1A1A] select-all">
+              <span className="text-[10px] font-mono text-emerald-700 font-bold">
+                ● Active Payee
+              </span>
+            </div>
+            <div className="mt-1 flex items-center justify-between gap-2">
+              <span className="font-mono text-sm font-bold text-[#1C1C1C] select-all">
                 {upiId}
               </span>
-              <span className="block text-[11px] text-[#4A4A4A] mt-0.5">
-                Beneficiary: {payeeName}
-              </span>
+              <button
+                type="button"
+                onClick={() => void copyToClipboard(upiId)}
+                className="inline-flex items-center gap-1.5 rounded-lg border border-[#D4AF37] bg-[#FFFFFF] px-3 py-1.5 text-xs font-semibold text-[#1C1C1C] hover:bg-[#FAFAFA] transition-colors shadow-sm"
+              >
+                {copiedUpi ? (
+                  <>
+                    <CheckIcon className="h-3.5 w-3.5 text-emerald-600" />
+                    <span className="text-emerald-700">Copied</span>
+                  </>
+                ) : (
+                  <>
+                    <CopyIcon className="h-3.5 w-3.5 text-[#D4AF37]" />
+                    <span>Copy UPI</span>
+                  </>
+                )}
+              </button>
             </div>
-            <button
-              type="button"
-              onClick={() => void copyToClipboard(upiId)}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-[#D8D7D5] bg-[#FFFFFF] px-3.5 py-2 text-xs font-semibold text-[#1A1A1A] transition-all hover:bg-[#E5E4E2] shadow-sm"
-              title="Copy UPI ID"
-            >
-              {copiedUpi ? (
-                <>
-                  <CheckIcon className="h-3.5 w-3.5 text-emerald-600" />
-                  <span className="text-emerald-700 font-bold">Copied!</span>
-                </>
-              ) : (
-                <>
-                  <CopyIcon className="h-3.5 w-3.5 text-[#C5A059]" />
-                  <span>Copy ID</span>
-                </>
-              )}
-            </button>
+            <div className="mt-1 text-[11px] text-[#767676]">
+              Payee Name: <strong className="text-[#1C1C1C]">{payeeName}</strong>
+            </div>
           </div>
 
-          {/* Direct Mobile App Buttons (GPay, PhonePe, Paytm, All UPI) */}
-          <div className="space-y-2">
-            <span className="block text-[10px] font-bold uppercase tracking-wider text-[#8C8A85]">
-              Direct Mobile Payment Deep Links:
+          {/* Quick Pay Buttons for Mobile */}
+          <div>
+            <span className="mb-2 block text-[10px] font-mono font-bold uppercase tracking-widest text-[#767676]">
+              Direct App Deep-Links (Mobile Only)
             </span>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-              {/* Google Pay */}
               <a
                 href={gpayUri}
-                className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-[#E5E4E2] bg-[#F9F8F6] px-3 py-2.5 text-xs font-semibold text-[#1A1A1A] transition-all hover:border-[#2C2C2C] hover:bg-[#FFFFFF] shadow-sm"
+                className="flex items-center justify-center gap-1.5 rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] p-2.5 text-xs font-semibold text-[#1C1C1C] hover:border-[#D4AF37] hover:bg-[#FFFFFF] transition-colors shadow-sm"
               >
-                <span className="font-display font-bold">GPay</span>
-                <ExternalLinkIcon className="h-3 w-3 text-[#8C8A85]" />
+                <SmartphoneIcon className="h-3.5 w-3.5 text-[#D4AF37]" />
+                <span>Google Pay</span>
               </a>
-
-              {/* PhonePe */}
               <a
                 href={phonepeUri}
-                className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-[#E5E4E2] bg-[#F9F8F6] px-3 py-2.5 text-xs font-semibold text-[#1A1A1A] transition-all hover:border-[#2C2C2C] hover:bg-[#FFFFFF] shadow-sm"
+                className="flex items-center justify-center gap-1.5 rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] p-2.5 text-xs font-semibold text-[#1C1C1C] hover:border-[#D4AF37] hover:bg-[#FFFFFF] transition-colors shadow-sm"
               >
-                <span className="font-display font-bold">PhonePe</span>
-                <ExternalLinkIcon className="h-3 w-3 text-[#8C8A85]" />
+                <SmartphoneIcon className="h-3.5 w-3.5 text-[#D4AF37]" />
+                <span>PhonePe</span>
               </a>
-
-              {/* Paytm */}
               <a
                 href={paytmUri}
-                className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-[#E5E4E2] bg-[#F9F8F6] px-3 py-2.5 text-xs font-semibold text-[#1A1A1A] transition-all hover:border-[#2C2C2C] hover:bg-[#FFFFFF] shadow-sm"
+                className="flex items-center justify-center gap-1.5 rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] p-2.5 text-xs font-semibold text-[#1C1C1C] hover:border-[#D4AF37] hover:bg-[#FFFFFF] transition-colors shadow-sm"
               >
-                <span className="font-display font-bold">Paytm</span>
-                <ExternalLinkIcon className="h-3 w-3 text-[#8C8A85]" />
+                <SmartphoneIcon className="h-3.5 w-3.5 text-[#D4AF37]" />
+                <span>Paytm</span>
               </a>
-
-              {/* Any UPI App */}
               <a
                 href={genericUpiUri}
-                className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-[#2C2C2C] bg-[#2C2C2C] px-3 py-2.5 text-xs font-semibold text-[#F9F8F6] transition-all hover:bg-[#1A1A1A] shadow-sm"
+                className="flex items-center justify-center gap-1.5 rounded-xl border border-[#D4AF37] bg-gradient-to-r from-[#D4AF37]/20 to-transparent p-2.5 text-xs font-bold text-[#1C1C1C] hover:bg-[#FAFAFA] transition-colors shadow-sm"
               >
-                <SmartphoneIcon className="h-3.5 w-3.5 text-[#C5A059]" />
-                <span className="font-display font-bold">BHIM / UPI</span>
+                <ExternalLinkIcon className="h-3.5 w-3.5 text-[#D4AF37]" />
+                <span>Any UPI App</span>
               </a>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Transaction UTR & Payment Proof Upload Section */}
-      <div className="mt-6 border-t border-[#E5E4E2] pt-5 space-y-4">
-        <div className="grid gap-4 sm:grid-cols-2">
-          {/* UTR Reference Input */}
-          <div>
-            <label className="mb-1.5 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[#1A1A1A]">
-              <ReceiptIcon className="h-3.5 w-3.5 text-[#C5A059]" />
-              <span>UPI Ref / UTR / Transaction No.</span>
-              <span className="text-[10px] text-[#8C8A85] font-mono">(Recommended)</span>
-            </label>
-            <input
-              type="text"
-              value={upiRef}
-              onChange={(e) => onUpiRefChange?.(e.target.value)}
-              placeholder="e.g. 423987123456 or GPay Ref"
-              className="w-full rounded-xl border border-[#E5E4E2] bg-[#F9F8F6] px-3.5 py-2.5 font-mono text-sm text-[#1A1A1A] placeholder:text-[#8C8A85] focus:border-[#2C2C2C] focus:bg-[#FFFFFF] focus:outline-none"
-            />
-            <p className="mt-1 text-[11px] text-[#8C8A85]">
-              12-digit transaction number shown in your payment receipt.
-            </p>
-          </div>
+      {/* UTR Ref & Screenshot Proof Section */}
+      <div className="mt-6 border-t border-[#EAE6DF] pt-5 grid gap-4 sm:grid-cols-2">
+        {/* UPI Ref / UTR Number */}
+        <div>
+          <label
+            htmlFor="upi-ref"
+            className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#1C1C1C]"
+          >
+            UPI Reference / UTR Number <span className="text-[10px] text-[#767676]">(Optional)</span>
+          </label>
+          <input
+            id="upi-ref"
+            type="text"
+            value={upiRef}
+            onChange={(e) => onUpiRefChange?.(e.target.value)}
+            placeholder="e.g. 423984729182 (12-digit UTR)"
+            className="w-full rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] px-4 py-2.5 font-mono text-xs text-[#1C1C1C] placeholder:text-[#767676] focus:border-[#D4AF37] focus:bg-[#FFFFFF] focus:outline-none"
+          />
+        </div>
 
-          {/* Screenshot Proof Upload */}
-          <div>
-            <label className="mb-1.5 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[#1A1A1A]">
-              <FileImageIcon className="h-3.5 w-3.5 text-[#C5A059]" />
-              <span>Payment Screenshot Proof</span>
-              <span className="text-[10px] text-[#8C8A85] font-mono">(Recommended)</span>
-            </label>
+        {/* Screenshot Upload Proof */}
+        <div>
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#1C1C1C]">
+            Payment Screenshot Proof <span className="text-[10px] text-[#767676]">(Optional)</span>
+          </label>
+          <input
+            type="file"
+            ref={fileInputRef}
+            accept="image/*"
+            onChange={handleFileSelect}
+            className="hidden"
+          />
 
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              onChange={handleFileSelect}
-              className="hidden"
-              id="payment-screenshot-upload"
-            />
-
-            {!paymentScreenshot ? (
-              <label
-                htmlFor="payment-screenshot-upload"
-                className="flex cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-dashed border-[#D8D7D5] bg-[#F9F8F6] p-3 text-xs font-semibold text-[#4A4A4A] transition-all hover:border-[#2C2C2C] hover:bg-[#FFFFFF]"
-              >
-                <UploadCloudIcon className="h-4 w-4 text-[#C5A059]" />
-                <span>Upload Payment Screenshot (Max 5MB)</span>
-              </label>
-            ) : (
-              <div className="flex items-center justify-between rounded-xl border border-emerald-200 bg-emerald-50/70 p-2.5 text-xs">
-                <div className="flex items-center gap-2 overflow-hidden">
-                  <img
-                    src={paymentScreenshot}
-                    alt="Payment receipt proof"
-                    className="h-10 w-10 rounded-lg object-cover border border-emerald-300"
-                  />
-                  <div>
-                    <span className="block font-bold text-emerald-800">Screenshot Attached</span>
-                    <span className="text-[10px] text-emerald-700">Receipt image ready for verification</span>
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  onClick={handleRemoveScreenshot}
-                  className="rounded-lg p-1 text-emerald-800 hover:bg-emerald-100 transition-colors"
-                  title="Remove screenshot"
-                >
-                  <XIcon className="h-4 w-4" />
-                </button>
+          {!paymentScreenshot ? (
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-[#D4AF37] bg-[#FAFAFA] px-4 py-2.5 text-xs font-semibold text-[#1C1C1C] hover:bg-[#FFFFFF] transition-colors"
+            >
+              <UploadCloudIcon className="h-4 w-4 text-[#D4AF37]" />
+              <span>Attach Receipt Screenshot</span>
+            </button>
+          ) : (
+            <div className="flex items-center justify-between rounded-xl border border-emerald-300 bg-emerald-50/80 px-3 py-2 text-xs text-emerald-800">
+              <div className="flex items-center gap-2 truncate">
+                <FileImageIcon className="h-4 w-4 shrink-0 text-emerald-600" />
+                <span className="truncate font-mono">Screenshot attached</span>
               </div>
-            )}
+              <button
+                type="button"
+                onClick={handleRemoveScreenshot}
+                className="rounded-lg p-1 text-emerald-800 hover:bg-emerald-100"
+                title="Remove screenshot"
+              >
+                <XIcon className="h-3.5 w-3.5" />
+              </button>
+            </div>
+          )}
 
-            {uploadError && (
-              <p className="mt-1 text-[11px] text-red-600 font-medium">{uploadError}</p>
-            )}
-          </div>
+          {uploadError && <p className="mt-1 text-[11px] text-red-600">{uploadError}</p>}
         </div>
       </div>
     </div>

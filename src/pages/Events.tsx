@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { ShieldCheckIcon, AlertCircleIcon } from 'lucide-react';
+import { ShieldCheckIcon, AlertCircleIcon, SparklesIcon, TrophyIcon } from 'lucide-react';
 import { RegistrationForm } from '../components/RegistrationForm';
 import { StudentPassCard } from '../components/StudentPassCard';
 import { EVENTS } from '../data/events';
@@ -23,10 +23,12 @@ export function Events() {
     setSearchParams({ event: id }, { replace: true });
   }
 
+  const activeEvent = EVENTS.find((e) => e.id === activeEventId) || EVENTS[0];
+
   return (
     <div className="py-6 space-y-8">
       {/* Category Tabs */}
-      <div className="flex flex-wrap gap-2.5 border-b border-[#E5E4E2] pb-5">
+      <div className="flex flex-wrap gap-2.5 border-b border-[#EAE6DF] pb-5">
         {EVENTS.map((event) => {
           const isActive = event.id === activeEventId;
           return (
@@ -35,13 +37,13 @@ export function Events() {
               type="button"
               onClick={() => selectEvent(event.id)}
               aria-current={isActive ? 'true' : undefined}
-              className={`whitespace-nowrap rounded-xl px-4 py-2.5 font-mono text-xs font-bold uppercase tracking-wider transition-all duration-200 ${
+              className={`whitespace-nowrap rounded-xl px-4 py-3 font-serif text-xs font-bold uppercase tracking-wider transition-all duration-200 ${
                 isActive
-                  ? 'border border-[#2C2C2C] bg-[#2C2C2C] text-white shadow-md'
-                  : 'border border-[#E5E4E2] bg-[#F3F1ED] text-[#4A4A4A] hover:border-[#D8D7D5] hover:bg-[#FFFFFF] hover:text-[#1A1A1A]'
+                  ? 'border border-[#D4AF37] bg-[#1C1C1C] text-[#FFFFFF] shadow-md ring-2 ring-[#D4AF37]/30'
+                  : 'border border-[#EAE6DF] bg-[#FFFFFF] text-[#555555] hover:border-[#D4AF37] hover:bg-[#FAFAFA] hover:text-[#1C1C1C]'
               }`}
             >
-              <span className="text-[#C5A059] mr-1.5">{String(event.index).padStart(2, '0')}.</span>
+              <span className="text-[#D4AF37] mr-1.5 font-mono">0{event.index}.</span>
               {event.name}
             </button>
           );
@@ -51,7 +53,7 @@ export function Events() {
       {loadError && (
         <div
           role="alert"
-          className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm text-amber-900 shadow-sm"
+          className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-amber-300 bg-amber-50 px-5 py-4 text-sm text-amber-900 shadow-sm"
         >
           <div className="flex items-center gap-2">
             <AlertCircleIcon className="h-4 w-4 text-amber-600" />
@@ -60,7 +62,7 @@ export function Events() {
           <button
             type="button"
             onClick={() => void reload()}
-            className="rounded-lg border border-amber-300 bg-amber-100 px-3 py-1 text-xs font-semibold uppercase tracking-wider transition-colors hover:bg-amber-200"
+            className="rounded-lg border border-amber-400 bg-amber-100 px-3 py-1 text-xs font-semibold uppercase tracking-wider transition-colors hover:bg-amber-200"
           >
             Retry
           </button>
@@ -69,7 +71,7 @@ export function Events() {
 
       {/* Generated Receipt Pass View */}
       {receipt && (
-        <div className="rounded-3xl border border-[#D8D7D5] bg-[#FFFFFF] p-2 shadow-luxury-lg">
+        <div className="rounded-3xl border border-[#D4AF37] bg-[#FFFFFF] p-2 shadow-luxury-lg">
           <StudentPassCard
             registration={receipt}
             onClose={() => setReceipt(null)}
@@ -78,7 +80,7 @@ export function Events() {
       )}
 
       {/* Main Registration Layout */}
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-start">
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
         <div>
           <RegistrationForm
             key={activeEventId}
@@ -95,34 +97,47 @@ export function Events() {
         </div>
 
         {/* Sidebar Info Card */}
-        <aside className="space-y-4 rounded-2xl border border-[#E5E4E2] bg-[#FFFFFF] p-6 text-sm text-[#4A4A4A] shadow-luxury lg:sticky lg:top-28">
-          <div className="flex items-center gap-2 border-b border-[#E5E4E2] pb-3 font-display text-xs font-bold uppercase tracking-widest text-[#1A1A1A]">
-            <ShieldCheckIcon className="h-4 w-4 text-[#C5A059]" />
-            <span>Important Guidelines</span>
+        <aside className="space-y-4 rounded-2xl border border-[#EAE6DF] bg-[#FFFFFF] p-6 text-sm text-[#555555] shadow-luxury lg:sticky lg:top-28">
+          <div className="flex items-center gap-2 border-b border-[#EAE6DF] pb-3 font-serif text-sm font-bold uppercase tracking-wider text-[#1C1C1C]">
+            <ShieldCheckIcon className="h-4 w-4 text-[#D4AF37]" />
+            <span>Event Registration Guide</span>
           </div>
+
+          <div className="rounded-xl border border-[#D4AF37]/40 bg-[#FAFAFA] p-3.5 space-y-1">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#AA820A] block">
+              Active Module Code
+            </span>
+            <div className="font-mono text-base font-black text-[#1C1C1C]">
+              TI{activeEvent.code}###
+            </div>
+            <p className="text-xs text-[#555555]">
+              Sequential Participation IDs are assigned automatically upon submission.
+            </p>
+          </div>
+
           <ul className="space-y-3.5 text-xs leading-relaxed">
             <li className="flex items-start gap-2">
-              <span className="text-[#C5A059] font-bold">•</span>
+              <span className="text-[#D4AF37] font-bold">•</span>
               <span>
-                <strong className="text-[#1A1A1A]">One Entry per Email:</strong> Each participant email is verified and locked to prevent duplicate submissions.
+                <strong className="text-[#1C1C1C]">One Entry per Email:</strong> Each participant email is verified and locked to prevent duplicate submissions.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-[#C5A059] font-bold">•</span>
+              <span className="text-[#D4AF37] font-bold">•</span>
               <span>
-                <strong className="text-[#1A1A1A]">Official Payee:</strong> Send fees strictly to <code className="text-[#1A1A1A] font-mono font-bold bg-[#F3F1ED] px-1.5 py-0.5 rounded border border-[#E5E4E2]">{settings.upiId}</code> ({settings.payeeName}).
+                <strong className="text-[#1C1C1C]">Flat Team Fee:</strong> Flat entry fee of <code className="text-[#1C1C1C] font-mono font-bold bg-[#FAFAFA] px-1.5 py-0.5 rounded border border-[#EAE6DF]">₹300</code> per team.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-[#C5A059] font-bold">•</span>
+              <span className="text-[#D4AF37] font-bold">•</span>
               <span>
-                <strong className="text-[#1A1A1A]">Instant Digital Pass:</strong> Your squad gate pass and individual Student IDs are generated immediately upon verified submission.
+                <strong className="text-[#1C1C1C]">Official Payee:</strong> Send fees strictly to <code className="text-[#1C1C1C] font-mono font-bold bg-[#FAFAFA] px-1.5 py-0.5 rounded border border-[#EAE6DF]">{settings.upiId}</code> ({settings.payeeName}).
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-[#C5A059] font-bold">•</span>
+              <span className="text-[#D4AF37] font-bold">•</span>
               <span>
-                <strong className="text-[#1A1A1A]">Bring Physical ID:</strong> Carry your college ID cards on the event day (19 Sep 2026).
+                <strong className="text-[#1C1C1C]">Symposium Day:</strong> All competitions take place on <strong>19 September 2026</strong>.
               </span>
             </li>
           </ul>

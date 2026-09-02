@@ -1,5 +1,5 @@
 /* @import url() FONT IMPORTS MUST ALWAYS BE AT THE VERY TOP OF THIS FILE, ABOVE THE TAILWIND IMPORTS — DO NOT DELETE THIS COMMENT */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;0,900;1,600;1,700&display=swap');
 
 /* CRITICAL: THE FOLLOWING TAILWIND IMPORTS MUST NEVER BE DELETED OR REORDERED — DO NOT DELETE THIS COMMENT */
 @import 'tailwindcss/base';
@@ -9,83 +9,89 @@
 /* END TAILWIND IMPORTS — ALL OTHER CSS MUST GO BELOW THIS LINE */
 
 :root {
-  --background: #F9F8F6;
-  --card: #F3F1ED;
+  --background: #FAFAFA;
+  --card: #FFFFFF;
   --surface-elevated: #FFFFFF;
-  --border-subtle: #E5E4E2;
-  --border-accent: #D8D7D5;
-  --text-primary: #1A1A1A;
-  --text-secondary: #4A4A4A;
-  --text-muted: #8C8A85;
-  --accent-gold: #C5A059;
-  --luxury-noir: #2C2C2C;
+  --border-subtle: #EAE6DF;
+  --border-accent: #D4AF37;
+  --text-primary: #1C1C1C;
+  --text-secondary: #383838;
+  --text-muted: #767676;
+  --regal-gold: #D4AF37;
+  --regal-gold-light: #FFD700;
 }
 
 html {
-  background-color: #F9F8F6;
-  color: #1A1A1A;
+  background-color: #FAFAFA;
+  color: #1C1C1C;
   scroll-behavior: smooth;
 }
 
 body {
-  background-color: #F9F8F6;
-  color: #4A4A4A;
+  background-color: #FAFAFA;
+  color: #383838;
+  font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   background-image: 
-    radial-gradient(circle at 50% 0%, rgba(197, 160, 89, 0.05) 0%, transparent 60%),
-    radial-gradient(circle at 100% 50%, rgba(216, 215, 213, 0.08) 0%, transparent 50%),
-    linear-gradient(to right, rgba(229, 228, 226, 0.4) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(229, 228, 226, 0.4) 1px, transparent 1px);
+    radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.07) 0%, transparent 60%),
+    radial-gradient(circle at 100% 50%, rgba(234, 230, 223, 0.5) 0%, transparent 50%),
+    linear-gradient(to right, rgba(234, 230, 223, 0.4) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(234, 230, 223, 0.4) 1px, transparent 1px);
   background-size: 100% 100%, 100% 100%, 60px 60px, 60px 60px;
 }
 
 ::selection {
-  background-color: #C5A059;
+  background-color: #D4AF37;
   color: #FFFFFF;
 }
 
 *:focus-visible {
-  outline: 2px solid #C5A059;
+  outline: 2px solid #D4AF37;
   outline-offset: 2px;
 }
 
-/* Refined Luxury Scrollbar */
+/* Regal Gold Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #F9F8F6;
+  background: #FAFAFA;
 }
 ::-webkit-scrollbar-thumb {
-  background: #D8D7D5;
+  background: #D4AF37;
   border-radius: 4px;
-  border: 2px solid #F9F8F6;
+  border: 2px solid #FAFAFA;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #C5A059;
+  background: #B8860B;
 }
 
-/* Glassmorphism & Luxury Cards */
-.luxury-glass {
-  background: rgba(243, 241, 237, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(229, 228, 226, 0.9);
+/* Regal Gold Gradients & Glassmorphism */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #B8860B 0%, #D4AF37 50%, #AA820A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.luxury-card {
-  background: #F3F1ED;
-  border: 1px solid #E5E4E2;
-  box-shadow: 0 10px 30px -10px rgba(26, 26, 26, 0.05), 0 1px 3px 0 rgba(0, 0, 0, 0.02);
+.gold-border-glow {
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
 }
 
-.glow-platinum {
-  box-shadow: 0 0 20px -2px rgba(216, 215, 213, 0.6);
+.gold-border-glow:hover {
+  border-color: #D4AF37;
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
 }
 
-.glow-gold {
-  box-shadow: 0 0 25px rgba(197, 160, 89, 0.25);
+.regal-card {
+  background: #FFFFFF;
+  border: 1px solid #EAE6DF;
+  box-shadow: 0 10px 30px -10px rgba(28, 28, 28, 0.06), 0 1px 3px 0 rgba(0, 0, 0, 0.02);
+}
+
+.shadow-luxury {
+  box-shadow: 0 10px 30px -10px rgba(28, 28, 28, 0.06), 0 1px 3px 0 rgba(0, 0, 0, 0.02);
 }
 
 /* Print Optimization */
@@ -95,13 +101,13 @@ body {
     background-image: none !important;
     color: #000000 !important;
   }
-  header, footer, nav, aside, button, .print\:hidden {
+  header, footer, nav, aside, button, .print\:hidden, .floating-support-widget {
     display: none !important;
   }
   .student-pass-root {
-    border: 2px solid #2C2C2C !important;
+    border: 2px solid #1C1C1C !important;
     background: #FFFFFF !important;
-    color: #1A1A1A !important;
+    color: #1C1C1C !important;
     box-shadow: none !important;
     page-break-inside: avoid;
     break-inside: avoid;
@@ -109,7 +115,7 @@ body {
     margin: 0 auto !important;
   }
   .student-pass-root * {
-    color: #1A1A1A !important;
-    border-color: #E5E4E2 !important;
+    color: #1C1C1C !important;
+    border-color: #EAE6DF !important;
   }
 }

@@ -7,7 +7,10 @@ import {
   RefreshCwIcon,
   Trash2Icon,
   XIcon,
-  FileImageIcon
+  FileImageIcon,
+  SparklesIcon,
+  TrophyIcon,
+  LockIcon
 } from 'lucide-react';
 import { EVENTS, REGISTRATION_FEE } from '../data/events';
 import { useRegistrationsContext } from '../contexts/RegistrationsContext';
@@ -98,7 +101,7 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement('a');
     anchor.href = url;
-    anchor.download = 'ryvanta_registrations.csv';
+    anchor.download = 'ryvanta26_registrations_master.csv';
     anchor.click();
     URL.revokeObjectURL(url);
   }
@@ -110,19 +113,21 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
       aria-modal="true"
       aria-label="Admin panel"
     >
-      <div className="w-full max-w-6xl rounded-3xl border border-[#D8D7D5] bg-[#FFFFFF] shadow-luxury-lg text-[#1A1A1A]">
+      <div className="w-full max-w-6xl rounded-3xl border border-[#D4AF37] bg-[#FFFFFF] shadow-luxury-lg text-[#1C1C1C]">
         {/* Modal Header */}
-        <div className="flex items-center justify-between border-b border-[#E5E4E2] px-6 py-4">
+        <div className="flex items-center justify-between border-b border-[#EAE6DF] px-6 py-4">
           <div className="flex items-center gap-2">
-            <span className="flex h-2 w-2 rounded-full bg-[#C5A059] animate-ping" />
-            <h2 className="font-display text-lg font-bold text-[#1A1A1A] uppercase tracking-wider">
-              RYVANTA Organizer Console
+            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#FAFAFA] border border-[#D4AF37] text-[#D4AF37]">
+              <LockIcon className="h-4 w-4" />
+            </div>
+            <h2 className="font-serif text-lg font-bold text-[#1C1C1C] uppercase tracking-wider">
+              RYVANTA '26 Organizer Command Center
             </h2>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-xl p-1.5 text-[#8C8A85] transition-colors hover:bg-[#F3F1ED] hover:text-[#1A1A1A]"
+            className="rounded-xl p-1.5 text-[#767676] transition-colors hover:bg-[#FAFAFA] hover:text-[#1C1C1C]"
             aria-label="Close admin panel"
           >
             <XIcon className="h-5 w-5" />
@@ -131,8 +136,17 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
 
         {!isAuthenticated ? (
           <form onSubmit={handleAuth} className="mx-auto max-w-sm space-y-4 px-6 py-14">
+            <div className="text-center mb-4">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FAFAFA] border border-[#D4AF37] text-[#D4AF37] mb-3">
+                <LockIcon className="h-6 w-6" />
+              </div>
+              <h3 className="font-serif text-xl font-bold text-[#1C1C1C]">
+                Organizer Access Protected
+              </h3>
+              <p className="text-xs text-[#767676] mt-1">Enter your admin PIN to access the master registry.</p>
+            </div>
             <label
-              className="block text-xs font-semibold uppercase tracking-wider text-[#4A4A4A]"
+              className="block text-xs font-semibold uppercase tracking-wider text-[#555555]"
               htmlFor="passcode"
             >
               Organizer Access Passcode
@@ -144,39 +158,39 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
               value={passcode}
               onChange={(e) => setPasscode(e.target.value)}
               placeholder="Default: admin123"
-              className="w-full rounded-xl border border-[#E5E4E2] bg-[#F9F8F6] px-4 py-3 font-mono text-sm text-[#1A1A1A] placeholder:text-[#8C8A85] focus:border-[#2C2C2C] focus:bg-[#FFFFFF] focus:outline-none"
+              className="w-full rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] px-4 py-3 font-mono text-sm text-[#1C1C1C] placeholder:text-[#767676] focus:border-[#D4AF37] focus:bg-[#FFFFFF] focus:outline-none"
             />
             {authError && <p className="text-xs text-red-600 font-medium">{authError}</p>}
             <button
               type="submit"
               disabled={isAuthenticating || !passcode}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#2C2C2C] px-4 py-3 text-xs font-bold uppercase tracking-wider text-[#F9F8F6] hover:bg-[#1A1A1A] disabled:opacity-50 shadow-sm"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#B8860B] px-4 py-3 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] hover:from-[#B8860B] hover:to-[#8B6508] disabled:opacity-50 shadow-md"
             >
-              {isAuthenticating && <Loader2Icon className="h-4 w-4 animate-spin text-[#C5A059]" />}
-              <span>Enter Console</span>
+              {isAuthenticating && <Loader2Icon className="h-4 w-4 animate-spin text-[#FFD700]" />}
+              <span>Enter Command Center</span>
             </button>
           </form>
         ) : (
           <div className="space-y-6 p-6 sm:p-8">
             {/* Stats Overview */}
-            <div className="grid grid-cols-2 gap-4 rounded-2xl border border-[#E5E4E2] bg-[#F9F8F6] p-5 sm:grid-cols-4">
-              <Stat label="Total Squads" value={registrations.length.toString()} />
-              <Stat label="Verified Payments" value={collected.toString()} />
-              <Stat label="Total Revenue" value={`₹${(collected * REGISTRATION_FEE).toLocaleString('en-IN')}`} />
-              <Stat label="Available Tracks" value={EVENTS.length.toString()} />
+            <div className="grid grid-cols-2 gap-4 rounded-2xl border border-[#EAE6DF] bg-[#FAFAFA] p-5 sm:grid-cols-4">
+              <Stat label="Total Teams" value={registrations.length.toString()} />
+              <Stat label="Verified Admissions" value={collected.toString()} />
+              <Stat label="Total Fee Collections" value={`₹${(collected * REGISTRATION_FEE).toLocaleString('en-IN')}`} />
+              <Stat label="Technical Events" value={EVENTS.length.toString()} />
             </div>
 
             {/* Collection Account Configuration */}
             <PayeeSettings settings={settings} onSave={saveSettings} />
 
-            {/* Controls */}
-            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E5E4E2] pb-4">
+            {/* Controls & Search */}
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#EAE6DF] pb-4">
               <input
                 type="search"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search squad, leader, college, ID, or track..."
-                className="w-full sm:w-80 rounded-xl border border-[#E5E4E2] bg-[#F9F8F6] px-3.5 py-2 text-xs text-[#1A1A1A] placeholder:text-[#8C8A85] focus:border-[#2C2C2C] focus:bg-[#FFFFFF] focus:outline-none"
+                placeholder="Search team name, leader, ID (e.g. TIH001), college..."
+                className="w-full sm:w-80 rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] px-3.5 py-2 text-xs text-[#1C1C1C] placeholder:text-[#767676] focus:border-[#D4AF37] focus:bg-[#FFFFFF] focus:outline-none"
               />
 
               <div className="flex items-center gap-2">
@@ -184,7 +198,7 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
                   type="button"
                   onClick={() => void reload()}
                   disabled={isLoading}
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-[#E5E4E2] bg-[#F3F1ED] px-3.5 py-2 text-xs font-semibold text-[#1A1A1A] hover:bg-[#E5E4E2] disabled:opacity-50 shadow-sm"
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] px-3.5 py-2 text-xs font-semibold text-[#1C1C1C] hover:bg-[#FFFFFF] disabled:opacity-50 shadow-sm"
                 >
                   <RefreshCwIcon className={`h-3.5 w-3.5 ${isLoading ? 'animate-spin' : ''}`} />
                   <span>Refresh</span>
@@ -193,54 +207,62 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
                   type="button"
                   onClick={downloadCsv}
                   disabled={registrations.length === 0}
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-[#2C2C2C] bg-[#2C2C2C] px-3.5 py-2 text-xs font-semibold text-[#F9F8F6] hover:bg-[#1A1A1A] disabled:opacity-50 shadow-sm"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#B8860B] px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] hover:from-[#B8860B] hover:to-[#8B6508] disabled:opacity-50 shadow-md"
                 >
-                  <DownloadIcon className="h-3.5 w-3.5 text-[#C5A059]" />
-                  <span>Export CSV</span>
+                  <DownloadIcon className="h-3.5 w-3.5 text-[#FFD700]" />
+                  <span>Export to CSV / Excel</span>
                 </button>
               </div>
             </div>
 
-            {/* Registrations Table */}
+            {/* Registrations Master Table */}
             {isLoading && registrations.length === 0 ? (
-              <p className="py-12 text-center text-sm text-[#8C8A85]">Loading registrations from database...</p>
+              <p className="py-12 text-center text-sm text-[#767676]">Loading registrations...</p>
             ) : filtered.length === 0 ? (
-              <p className="py-12 text-center text-sm text-[#8C8A85]">
+              <p className="py-12 text-center text-sm text-[#767676]">
                 {registrations.length === 0
-                  ? 'No registrations in cloud database yet. Submissions will appear live here.'
-                  : 'No records match that search.'}
+                  ? 'No registrations recorded yet. New submissions will automatically appear live here.'
+                  : 'No team records match your search criteria.'}
               </p>
             ) : (
-              <div className="max-h-[52vh] overflow-auto rounded-2xl border border-[#E5E4E2] bg-[#FFFFFF]">
+              <div className="max-h-[52vh] overflow-auto rounded-2xl border border-[#EAE6DF] bg-[#FFFFFF]">
                 <table className="w-full min-w-[1100px] text-left text-xs">
-                  <thead className="sticky top-0 bg-[#F3F1ED] text-[#4A4A4A] font-mono border-b border-[#E5E4E2]">
+                  <thead className="sticky top-0 bg-[#FAFAFA] text-[#555555] font-serif border-b border-[#EAE6DF]">
                     <tr>
-                      <th className="px-4 py-3 font-semibold">ID</th>
-                      <th className="px-4 py-3 font-semibold">Event / Track</th>
-                      <th className="px-4 py-3 font-semibold">Squad &amp; Leader</th>
-                      <th className="px-4 py-3 font-semibold">Institution</th>
-                      <th className="px-4 py-3 font-semibold">Members</th>
-                      <th className="px-4 py-3 font-semibold">Payment / UTR</th>
-                      <th className="px-4 py-3 font-semibold text-right">Actions</th>
+                      <th className="px-4 py-3 font-bold">Participation ID</th>
+                      <th className="px-4 py-3 font-bold">Event &amp; Domain</th>
+                      <th className="px-4 py-3 font-bold">Team &amp; Leader</th>
+                      <th className="px-4 py-3 font-bold">Institution</th>
+                      <th className="px-4 py-3 font-bold">Members</th>
+                      <th className="px-4 py-3 font-bold">Payment / UTR</th>
+                      <th className="px-4 py-3 font-bold text-right">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[#E5E4E2]">
+                  <tbody className="divide-y divide-[#EAE6DF]">
                     {filtered.map((record) => (
-                      <tr key={record.id} className="align-top hover:bg-[#F9F8F6] transition-colors">
-                        <td className="px-4 py-3 font-mono font-bold text-[#1A1A1A]">{record.id}</td>
-                        <td className="px-4 py-3">
-                          <span className="font-semibold text-[#1A1A1A] block">{record.eventName}</span>
-                          <span className="text-[11px] text-[#C5A059] font-mono font-semibold">{record.track || record.domain || 'General'}</span>
+                      <tr key={record.id} className="align-top hover:bg-[#FAFAFA] transition-colors">
+                        <td className="px-4 py-3 font-mono font-black text-[#1C1C1C] text-sm">
+                          {record.id}
                         </td>
                         <td className="px-4 py-3">
-                          <span className="font-bold text-[#1A1A1A] block">{record.teamName}</span>
-                          <span className="text-[11px] text-[#4A4A4A] block">{record.leaderName || record.members[0]}</span>
-                          <span className="text-[10px] text-[#8C8A85] font-mono">{record.email} · {record.phone}</span>
+                          <span className="font-bold text-[#1C1C1C] block">{record.eventName}</span>
+                          <span className="text-[11px] text-[#AA820A] font-mono font-semibold">
+                            {record.track || record.domain || 'General'}
+                          </span>
                         </td>
-                        <td className="max-w-[180px] px-4 py-3 text-[#4A4A4A] truncate">
+                        <td className="px-4 py-3">
+                          <span className="font-bold text-[#1C1C1C] block">{record.teamName}</span>
+                          <span className="text-[11px] text-[#555555] block">
+                            Lead: {record.leaderName || record.members[0]}
+                          </span>
+                          <span className="text-[10px] text-[#767676] font-mono">
+                            {record.email} · {record.phone}
+                          </span>
+                        </td>
+                        <td className="max-w-[180px] px-4 py-3 text-[#555555] truncate">
                           {record.institution || '—'}
                         </td>
-                        <td className="max-w-[200px] px-4 py-3 text-[#4A4A4A]">
+                        <td className="max-w-[200px] px-4 py-3 text-[#555555]">
                           {record.members.join(', ')}
                         </td>
                         <td className="px-4 py-3 space-y-1">
@@ -248,7 +270,7 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
                             {record.paymentStatus}
                           </span>
                           {record.upiRef && (
-                            <span className="block font-mono text-[10px] text-[#8C8A85]">
+                            <span className="block font-mono text-[10px] text-[#767676]">
                               Ref: {record.upiRef}
                             </span>
                           )}
@@ -256,7 +278,7 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
                             <button
                               type="button"
                               onClick={() => setViewScreenshot(record.paymentScreenshot || null)}
-                              className="inline-flex items-center gap-1 text-[10px] text-[#C5A059] font-bold hover:underline font-mono"
+                              className="inline-flex items-center gap-1 text-[10px] text-[#AA820A] font-bold hover:underline font-mono"
                             >
                               <FileImageIcon className="h-3 w-3" />
                               <span>View Receipt</span>
@@ -268,10 +290,10 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
                             <button
                               type="button"
                               onClick={() => setSelectedRecord(record)}
-                              className="inline-flex items-center gap-1 rounded-lg border border-[#D8D7D5] bg-[#F3F1ED] px-2.5 py-1 text-xs text-[#1A1A1A] hover:bg-[#E5E4E2] transition-colors"
+                              className="inline-flex items-center gap-1 rounded-lg border border-[#D4AF37] bg-[#FFFFFF] px-2.5 py-1 text-xs text-[#1C1C1C] hover:bg-[#FAFAFA] transition-colors"
                               title="View Gate Pass"
                             >
-                              <IdCardIcon className="h-3.5 w-3.5 text-[#C5A059]" />
+                              <IdCardIcon className="h-3.5 w-3.5 text-[#D4AF37]" />
                               <span>Pass</span>
                             </button>
                             <button
@@ -285,7 +307,7 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
                                   )
                                 )
                               }
-                              className="rounded-lg border border-[#E5E4E2] bg-[#FFFFFF] px-2.5 py-1 text-xs text-[#4A4A4A] hover:border-[#D8D7D5] hover:text-[#1A1A1A] disabled:opacity-50"
+                              className="rounded-lg border border-[#EAE6DF] bg-[#FFFFFF] px-2.5 py-1 text-xs text-[#555555] hover:border-[#D4AF37] hover:text-[#1C1C1C] disabled:opacity-50"
                             >
                               {record.paymentStatus === 'verified' ? 'Unverify' : 'Verify'}
                             </button>
@@ -293,7 +315,7 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
                               type="button"
                               disabled={busyId === record.id}
                               onClick={() => void runAction(record.id, () => remove(record.id))}
-                              className="rounded-lg border border-[#E5E4E2] p-1.5 text-[#8C8A85] hover:border-red-300 hover:text-red-600 transition-colors"
+                              className="rounded-lg border border-[#EAE6DF] p-1.5 text-[#767676] hover:border-red-300 hover:text-red-600 transition-colors"
                               title="Delete registration"
                             >
                               <Trash2Icon className="h-3.5 w-3.5" />
@@ -326,21 +348,21 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
       {/* Screenshot Preview Modal */}
       {viewScreenshot && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-          <div className="relative max-w-lg rounded-2xl border border-[#D8D7D5] bg-[#FFFFFF] p-4 shadow-luxury-lg">
+          <div className="relative max-w-lg rounded-2xl border border-[#D4AF37] bg-[#FFFFFF] p-4 shadow-luxury-lg">
             <button
               type="button"
               onClick={() => setViewScreenshot(null)}
-              className="absolute right-3 top-3 rounded-lg bg-[#F3F1ED] p-1.5 text-[#8C8A85] hover:text-[#1A1A1A]"
+              className="absolute right-3 top-3 rounded-lg bg-[#FAFAFA] p-1.5 text-[#767676] hover:text-[#1C1C1C]"
             >
               <XIcon className="h-5 w-5" />
             </button>
-            <h3 className="font-display text-sm font-bold text-[#1A1A1A] mb-3">
+            <h3 className="font-serif text-sm font-bold text-[#1C1C1C] mb-3">
               Payment Screenshot Proof
             </h3>
             <img
               src={viewScreenshot}
               alt="Payment Proof"
-              className="max-h-[70vh] w-auto rounded-xl object-contain mx-auto border border-[#E5E4E2]"
+              className="max-h-[70vh] w-auto rounded-xl object-contain mx-auto border border-[#EAE6DF]"
             />
           </div>
         </div>
@@ -352,8 +374,8 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <div className="font-display text-2xl font-black text-[#1A1A1A]">{value}</div>
-      <div className="mt-0.5 text-[10px] font-mono uppercase tracking-widest text-[#8C8A85]">
+      <div className="font-serif text-2xl font-black text-[#1C1C1C]">{value}</div>
+      <div className="mt-0.5 text-[10px] font-mono uppercase tracking-widest text-[#767676]">
         {label}
       </div>
     </div>
@@ -397,14 +419,14 @@ function PayeeSettings({ settings, onSave }: PayeeSettingsProps) {
   return (
     <form
       onSubmit={handleSave}
-      className="rounded-2xl border border-[#E5E4E2] bg-[#F9F8F6] p-5 space-y-3"
+      className="rounded-2xl border border-[#EAE6DF] bg-[#FAFAFA] p-5 space-y-3"
     >
-      <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-[#E5E4E2] pb-2">
-        <h3 className="text-xs font-display font-bold uppercase tracking-widest text-[#1A1A1A]">
+      <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-[#EAE6DF] pb-2">
+        <h3 className="text-xs font-serif font-bold uppercase tracking-widest text-[#1C1C1C]">
           Official Collection Account
         </h3>
-        <p className="text-xs text-[#8C8A85]">
-          Changes update live across all registration payment QR codes and deep links.
+        <p className="text-xs text-[#767676]">
+          Updates live across all QR codes and deep links.
         </p>
       </div>
 
@@ -412,7 +434,7 @@ function PayeeSettings({ settings, onSave }: PayeeSettingsProps) {
         <div className="min-w-[220px] flex-1">
           <label
             htmlFor="settings-upi"
-            className="mb-1.5 block text-[10px] font-semibold uppercase tracking-widest text-[#4A4A4A]"
+            className="mb-1.5 block text-[10px] font-semibold uppercase tracking-widest text-[#555555]"
           >
             Official UPI ID
           </label>
@@ -421,13 +443,13 @@ function PayeeSettings({ settings, onSave }: PayeeSettingsProps) {
             value={upiId}
             onChange={(e) => setUpiId(e.target.value)}
             placeholder="alangaram1985@okicici"
-            className="w-full rounded-xl border border-[#E5E4E2] bg-[#FFFFFF] px-3.5 py-2 text-xs font-mono text-[#1A1A1A] focus:border-[#2C2C2C] focus:outline-none"
+            className="w-full rounded-xl border border-[#EAE6DF] bg-[#FFFFFF] px-3.5 py-2 text-xs font-mono text-[#1C1C1C] focus:border-[#D4AF37] focus:outline-none"
           />
         </div>
         <div className="min-w-[220px] flex-1">
           <label
             htmlFor="settings-payee"
-            className="mb-1.5 block text-[10px] font-semibold uppercase tracking-widest text-[#4A4A4A]"
+            className="mb-1.5 block text-[10px] font-semibold uppercase tracking-widest text-[#555555]"
           >
             Payee Display Name
           </label>
@@ -436,16 +458,16 @@ function PayeeSettings({ settings, onSave }: PayeeSettingsProps) {
             value={payeeName}
             onChange={(e) => setPayeeName(e.target.value)}
             placeholder="Alangaram Selvaraj"
-            className="w-full rounded-xl border border-[#E5E4E2] bg-[#FFFFFF] px-3.5 py-2 text-xs text-[#1A1A1A] focus:border-[#2C2C2C] focus:outline-none"
+            className="w-full rounded-xl border border-[#EAE6DF] bg-[#FFFFFF] px-3.5 py-2 text-xs text-[#1C1C1C] focus:border-[#D4AF37] focus:outline-none"
           />
         </div>
         <button
           type="submit"
           disabled={!isDirty || isSaving}
-          className="inline-flex items-center gap-1.5 rounded-xl bg-[#2C2C2C] px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#F9F8F6] hover:bg-[#1A1A1A] disabled:opacity-50 shadow-sm"
+          className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#B8860B] px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] hover:from-[#B8860B] hover:to-[#8B6508] disabled:opacity-50 shadow-sm"
         >
-          {isSaving && <Loader2Icon className="h-3.5 w-3.5 animate-spin text-[#C5A059]" />}
-          {saved && !isDirty && <CheckIcon className="h-3.5 w-3.5 text-emerald-400" />}
+          {isSaving && <Loader2Icon className="h-3.5 w-3.5 animate-spin text-[#FFD700]" />}
+          {saved && !isDirty && <CheckIcon className="h-3.5 w-3.5 text-emerald-300" />}
           {saved && !isDirty ? 'Saved' : 'Save'}
         </button>
       </div>

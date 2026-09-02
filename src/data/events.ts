@@ -1,8 +1,14 @@
 import type { EventId } from '../types/registration';
 
+export interface ScoringCriterion {
+  category: string;
+  marks: number;
+  description: string;
+}
+
 export interface EventConfig {
   id: EventId;
-  /** Single letter used in the participation ID (TI<code>001) */
+  /** Single letter used in the participation ID (TI<code-letter>001) */
   code: string;
   index: number;
   name: string;
@@ -10,14 +16,18 @@ export interface EventConfig {
   tagline: string;
   venue: string;
   memberCounts: number[];
+  fee: number;
   requiresDepartment: boolean;
   domains?: string[];
   trackList?: string[];
+  scoringMatrix?: ScoringCriterion[];
+  formatDetails?: string[];
 }
 
 export const REGISTRATION_FEE = 300;
 
-export const REGISTRATION_CLOSES_AT = '2026-09-15T23:59:59';
+// Exact target dates per specification
+export const REGISTRATION_CLOSES_AT = '2026-09-10T23:59:59';
 export const EVENT_STARTS_AT = '2026-09-19T08:30:00';
 
 export interface TimelineMilestone {
@@ -35,112 +45,204 @@ export interface TimelineMilestone {
 export const HACKATHON_TIMELINE: TimelineMilestone[] = [
   {
     phase: 'PHASE 01',
-    title: 'Squad Registration & Track Selection',
-    date: 'Active Now – 15 Sep 2026',
+    title: 'Squad Registration & Domain Claim',
+    date: 'Active Now – 10 Sep 2026',
     timeSlot: '11:59 PM IST Deadline',
-    venue: 'Online Innovation Portal',
-    description: 'Squad leaders submit team details, select innovation challenge track, and complete verified payment registration.',
+    venue: 'Online Registration Portal',
+    description: 'Squad leaders submit team details, choose department/domain, and generate sequential TI-Participation ID upon fee verification.',
     status: 'active',
     badge: 'ONLINE',
     milestones: [
-      'Squad identity & track submission',
-      'One-time email validation',
-      'Instant digital entry gate pass'
+      'Team & member identity verification',
+      'Department domain assignment',
+      'Unique Participation ID generation'
     ]
   },
   {
     phase: 'PHASE 02',
-    title: 'Shortlisting & Ideation Review',
-    date: '16 Sep 2026',
+    title: 'Shortlisting & Ideation Screening',
+    date: '12 Sep 2026',
     timeSlot: '10:00 AM – 04:00 PM',
-    venue: 'Jury Evaluation Room',
-    description: 'Technical evaluation of submitted problem statements and squad composition. Shortlisted squads receive digital confirmation.',
+    venue: 'Academic Review Board',
+    description: 'Technical evaluation of submitted problem statements and team composition. Shortlisted squads receive digital admission passes.',
     status: 'upcoming',
     badge: 'SCREENING',
     milestones: [
-      'Problem statement feasibility check',
-      'Domain expert initial scoring',
-      'Finalist squad confirmation emails'
+      'Feasibility evaluation',
+      'Slot allocation by jury',
+      'Digital gate pass issue'
     ]
   },
   {
     phase: 'PHASE 03',
-    title: 'Grand Kickoff & Keynote Briefing',
+    title: 'Grand Inauguration & Keynote Address',
     date: '19 Sep 2026',
     timeSlot: '08:30 AM – 09:30 AM',
-    venue: 'Main Tech Auditorium',
-    description: 'Inaugural ceremony, challenge track rules reveal, and orientation by top industry leaders and keynote speakers.',
+    venue: 'Main Auditorium',
+    description: 'Official opening ceremony, release of hackathon problem briefs, rules declaration, and keynote by distinguished guests.',
     status: 'upcoming',
     badge: 'ON-CAMPUS',
     milestones: [
-      'Physical reporting & badge badge check',
-      'Track rules & dataset release',
-      'Opening keynote address'
+      'Physical reporting & kit distribution',
+      'Dataset & problem reveal',
+      'Keynote & rubric brief'
     ]
   },
   {
     phase: 'PHASE 04',
-    title: 'The Build Sprint & Mentorship Rounds',
+    title: 'Live Build Sprint & Mentorship Checks',
     date: '19 Sep 2026',
-    timeSlot: '09:30 AM – 06:00 PM',
-    venue: 'Advanced Computing Center',
-    description: 'Non-stop hacking, prototype development, and mandatory mentor checkpoints (Mid-evaluation at 01:30 PM).',
+    timeSlot: '09:30 AM – 05:30 PM',
+    venue: 'Auditorium & Dedicated Tech Labs',
+    description: 'Continuous development sprint across all 5 event arenas with mentor reviews at designated checkpoints.',
     status: 'upcoming',
-    badge: 'HACKATHON SPRINT',
+    badge: 'LIVE SPRINT',
     milestones: [
-      'High-speed prototype development',
-      '1-on-1 mentor guidance check-ins',
-      'Mid-sprint progress review'
+      'Rapid prototype development',
+      'Mid-evaluation review (01:30 PM)',
+      'Mentorship refinements'
     ]
   },
   {
     phase: 'PHASE 05',
-    title: 'Final Code Freeze & Jury Live Demo',
+    title: 'Code Freeze & Live Jury Demonstration',
     date: '19 Sep 2026',
-    timeSlot: '06:00 PM – 07:30 PM',
-    venue: 'Demo Arena & Smart Labs',
-    description: 'Final repository commits lock and 5-minute live working prototype demonstration before the grand judging panel.',
+    timeSlot: '05:30 PM – 07:30 PM',
+    venue: 'IT Lab / FOSS Lab / Seminar Halls',
+    description: 'Repository commit freeze and 5-minute live working prototype demonstration with Q&A before the expert jury.',
     status: 'upcoming',
     badge: 'EVALUATION',
     milestones: [
-      'Hard code freeze & repo commit lock',
-      '5-Minute live project presentation',
-      'Jury Q&A and rubric evaluation'
+      'Git code freeze',
+      '5-minute working demo',
+      'Scoring matrix tabulation'
     ]
   },
   {
     phase: 'PHASE 06',
-    title: 'Grand Finale, Results & Awards Ceremony',
+    title: 'Valedictory & Grand Awards Ceremony',
     date: '19 Sep 2026',
     timeSlot: '08:00 PM – 09:30 PM',
-    venue: 'Main Stage Auditorium',
-    description: 'Announcement of winners, certificate distribution, internship offers, and grand prize pool presentation.',
+    venue: 'Main Auditorium',
+    description: 'Announcement of winners across all events, cash prize distribution, certificates, and valedictory felicitation.',
     status: 'upcoming',
     badge: 'AWARDS',
     milestones: [
-      'Winners announcement & trophy ceremony',
-      'Internship & seed grant offers',
-      'Official participation certificate release'
+      'Grand trophies & cash prizes',
+      'Internship opportunities',
+      'Official certificates of achievement'
     ]
   }
 ];
 
-export const CHALLENGE_TRACKS = [
-  'Artificial Intelligence & GenAI Innovations',
-  'Web3, Blockchain & Decentralized Governance',
-  'Cyber Defense, Threat Intelligence & CTF',
-  'Smart Automation, Robotics & IoT Ecosystems',
-  'CleanTech, Green Energy & Smart Mobility',
-  'HealthTech & Bio-Engineering Diagnostics',
-  'FinTech, Open Innovation & Next-Gen Consumer Apps'
+// Department-to-Domain Mapping for Event 1: Hackathon '26
+export const HACKATHON_DEPARTMENTS = [
+  'CSE',
+  'IT',
+  'ECE',
+  'EEE',
+  'Mechanical Engineering',
+  'Aeronautical Engineering',
+  'Interdisciplinary / Open Domain'
+] as const;
+
+export const HACKATHON_DEPARTMENT_DOMAINS: Record<string, string[]> = {
+  'CSE': [
+    'Artificial Intelligence & Machine Learning',
+    'Computer Vision & Intelligent Inspection',
+    'Cybersecurity & Digital Innovation',
+    'Advanced Software & Emerging Technologies'
+  ],
+  'IT': [
+    'Artificial Intelligence & Machine Learning',
+    'Computer Vision & Intelligent Inspection',
+    'Cybersecurity & Digital Innovation',
+    'Cloud Computing & Smart Applications'
+  ],
+  'ECE': [
+    'IoT, Embedded Systems & Smart Automation',
+    'Robotics & Autonomous Systems',
+    'Computer Vision & Intelligent Inspection',
+    'Smart Communication & Connected Systems'
+  ],
+  'EEE': [
+    'Smart Energy & Sustainable Engineering',
+    'IoT, Embedded Systems & Smart Automation',
+    'Robotics & Autonomous Systems',
+    'Smart Grid & Energy Management'
+  ],
+  'Mechanical Engineering': [
+    'Robotics & Autonomous Systems',
+    'Smart Manufacturing & Industrial Automation',
+    'Computer Vision & Intelligent Inspection',
+    'Advanced Engineering & Digital Innovation'
+  ],
+  'Aeronautical Engineering': [
+    'Smart Mobility, Transportation & Aerospace Technology',
+    'Robotics & Autonomous Systems',
+    'Drone & Autonomous Flight Technology',
+    'Computer Vision & Intelligent Inspection'
+  ],
+  'Interdisciplinary / Open Domain': [
+    'Advanced Engineering & Digital Innovation',
+    'AI-Based Engineering Solutions',
+    'Smart Systems & Automation',
+    'Emerging Technologies & Innovation'
+  ]
+};
+
+// 2D Games Domains & Scoring Matrix
+export const GAMES_2D_DOMAINS = [
+  'Cyber Detective',
+  'Disaster Resources',
+  'Puzzle',
+  'Endless Runner',
+  'Farming',
+  'Space Adventure',
+  'Logic',
+  'Racing',
+  '2D-Comebacks',
+  'Eco City'
 ];
 
-export const HACKATHON_RULES = [
-  'All squad members must be enrolled students carrying valid college/institution identity cards on the event day.',
-  'Teams must consist of 2 to 4 members. Interdisciplinary squads across different branches are highly encouraged.',
-  'All project codebase, models, and prototypes must be developed fresh during the hackathon timeline.',
-  'Open-source libraries, frameworks, and APIs are permitted provided they are declared during prototype submission.',
-  'Strict adherence to the Hackathon Code of Conduct and Anti-Harassment policies is mandatory for all attendees.'
+export const GAMES_2D_SCORING_MATRIX: ScoringCriterion[] = [
+  { category: 'Gameplay', marks: 25, description: 'Core mechanics, player engagement, and challenge progression.' },
+  { category: 'Creativity', marks: 25, description: 'Originality of story, theme execution, and unique mechanics.' },
+  { category: 'Visual / UI', marks: 15, description: '2D art aesthetic, sprite animation, and user interface clarity.' },
+  { category: 'Technical Implementation', marks: 15, description: 'Code architecture, physics simulation, and bug-free performance.' },
+  { category: 'Output', marks: 10, description: 'Functional working executable / browser build quality.' },
+  { category: 'Presentation', marks: 10, description: 'Demonstration clarity, narrative pitching, and jury Q&A.' }
+];
+
+// Capture The Flag (NEXVORA '26) Domains & Format
+export const CTF_DOMAINS = [
+  'Web Exploitation & Security Auditing',
+  'Cryptography & Steganography',
+  'Reverse Engineering & Binary Analysis',
+  'Network Forensics & Packet Analysis'
+];
+
+export const CTF_FORMAT_DETAILS = [
+  'Format: 2 Competitive Rounds, 2 Flags to capture',
+  'Round 1: Preliminary qualifying challenges (Crypto & Web forensics)',
+  'Round 2: Advanced live CTF offensive-defense flag submission',
+  'Live Dynamic Scoreboard with time-penalty multipliers'
+];
+
+// E-Games / E-Sports Domains
+export const EGAMES_DOMAINS = [
+  'BGMI Tactical Squad Championship',
+  'Free Fire Clash Squad Arena',
+  'Valorant Spike Rush Tournament',
+  'FIFA Competitive League'
+];
+
+// ELARIS SOZO '26 Domains
+export const ELARIS_SOZO_DOMAINS = [
+  'AI & Deep Tech Scientific Research',
+  'Sustainable CleanTech Innovations',
+  'Embedded IoT Hardware & Smart Devices',
+  'Open Domain Technical Innovation'
 ];
 
 export const EVENTS: EventConfig[] = [
@@ -149,124 +251,73 @@ export const EVENTS: EventConfig[] = [
     code: 'H',
     index: 1,
     name: "Hackathon '26",
-    fullName: "National Level Hackathon '26",
-    tagline: '8-hour intensive build sprint across premier innovation tracks.',
-    venue: 'Computing Hub, Main Block',
-    memberCounts: [2, 3, 4],
-    requiresDepartment: false,
-    trackList: CHALLENGE_TRACKS
-  },
-  {
-    id: 'tech-innovate',
-    code: 'T',
-    index: 2,
-    name: 'Tech Innovate',
-    fullName: 'Tech Innovate Prototype Expo',
-    tagline: 'Hardware and embedded systems live product showcase.',
-    venue: 'Innovation & Robotics Lab',
-    memberCounts: [2, 3, 4],
-    requiresDepartment: false,
-    trackList: [
-      'Edge AI & Embedded Intelligence',
-      'Autonomous Systems & Robotics',
-      'Smart City & Sustainable Hardware',
-      'Biomedical & Assistive Tech'
-    ]
-  },
-  {
-    id: 'paper-presentation',
-    code: 'P',
-    index: 3,
-    name: 'Paper Presentation',
-    fullName: 'National Technical Paper Presentation',
-    tagline: 'Research exposition, journal-ready papers, and peer review.',
-    venue: 'Seminar Hall 1',
-    memberCounts: [1, 2, 3],
+    fullName: "Hackathon '26 (Multi-Department Flagship)",
+    tagline: 'Premier 8-hour sprint solving department-specific and interdisciplinary engineering challenges.',
+    venue: 'Auditorium',
+    memberCounts: [3, 4],
+    fee: REGISTRATION_FEE,
     requiresDepartment: true
   },
   {
-    id: 'project-display',
+    id: '2d-games',
     code: 'D',
-    index: 4,
-    name: 'Project Display',
-    fullName: 'National Project & Venture Expo',
-    tagline: 'Working software/hardware demos, startup pitches, and jury evaluations.',
-    venue: 'Central Exhibition Hall',
-    memberCounts: [2, 3, 4],
-    requiresDepartment: true
+    index: 2,
+    name: '2D Games (SOZO)',
+    fullName: "2D Games (SOZO '26)",
+    tagline: 'Game development arena judged on gameplay, art, and technical brilliance.',
+    venue: 'IT Lab',
+    memberCounts: [2, 3],
+    fee: REGISTRATION_FEE,
+    requiresDepartment: false,
+    domains: GAMES_2D_DOMAINS,
+    scoringMatrix: GAMES_2D_SCORING_MATRIX
   },
   {
-    id: 'quiz',
-    code: 'Q',
-    index: 5,
-    name: 'Tech Quiz & Code Arena',
-    fullName: 'Tech Titans Quiz & Competitive Arena',
-    tagline: 'High-speed technical buzzer rounds, algorithm sprints, and CS trivia.',
-    venue: 'Auditorium 2',
-    memberCounts: [2],
+    id: 'ctf',
+    code: 'C',
+    index: 3,
+    name: 'Capture The Flag',
+    fullName: "Capture The Flag (NEXVORA '26)",
+    tagline: 'Elite cybersecurity hacking challenge across 2 intensive rounds with 2 flags to capture.',
+    venue: 'FOSS Lab',
+    memberCounts: [2, 3],
+    fee: REGISTRATION_FEE,
     requiresDepartment: false,
-    domains: ['Computer Science & Algorithms', 'AI & Machine Learning Trivia', 'Tech History & General Tech']
+    domains: CTF_DOMAINS,
+    formatDetails: CTF_FORMAT_DETAILS
+  },
+  {
+    id: 'e-games',
+    code: 'E',
+    index: 4,
+    name: 'E-Games / E-Sports',
+    fullName: "E-Games & E-Sports Championship '26",
+    tagline: 'Competitive multi-title gaming arena testing team strategy, reflexes, and tactical coordination.',
+    venue: 'Gaming Lab / Tech Hub',
+    memberCounts: [2, 3, 4],
+    fee: REGISTRATION_FEE,
+    requiresDepartment: false,
+    domains: EGAMES_DOMAINS
+  },
+  {
+    id: 'elaris-sozo',
+    code: 'P',
+    index: 5,
+    name: 'ELARIS SOZO',
+    fullName: "ELARIS SOZO '26 (Paper & Project Innovation)",
+    tagline: 'National technical paper presentation and prototype project exposition before academic jury.',
+    venue: 'Seminar Hall & Innovation Gallery',
+    memberCounts: [1, 2, 3],
+    fee: REGISTRATION_FEE,
+    requiresDepartment: false,
+    domains: ELARIS_SOZO_DOMAINS
   }
 ];
 
-export const DEPARTMENTS = [
-  'CSE / IT / AI / Data Science',
-  'ECE / Electronics & Communication',
-  'EEE / Electrical Engineering',
-  'Mechanical / Mechatronics',
-  'Civil & Environmental Engineering',
-  'Biotechnology & Bio-Engineering',
-  'Other Interdisciplinary'
-];
-
-export const DEPARTMENT_DOMAINS: Record<string, string[]> = {
-  'CSE / IT / AI / Data Science': [
-    'Deep Learning & Large Language Models',
-    'Distributed Systems & Cloud Computing',
-    'Quantum Computing & Cryptography',
-    'Computer Vision & Autonomous Perception'
-  ],
-  'ECE / Electronics & Communication': [
-    '5G/6G Wireless & RF Communications',
-    'VLSI Design & Embedded Systems',
-    'IoT Architectures & Sensor Networks',
-    'Signal & Image Processing'
-  ],
-  'EEE / Electrical Engineering': [
-    'Smart Grids & Renewable Energy Integration',
-    'Electric Vehicles & Battery Tech',
-    'Power Electronics & Drives',
-    'Industrial Automation & PLC'
-  ],
-  'Mechanical / Mechatronics': [
-    'Additive Manufacturing & 3D Printing',
-    'Robotics, Kinematics & Drone Dynamics',
-    'Thermodynamics & HVAC Innovations',
-    'Computational Fluid Dynamics'
-  ],
-  'Civil & Environmental Engineering': [
-    'Smart Infrastructure & BIM',
-    'Sustainable Construction Materials',
-    'Water Resource Engineering & Treatment',
-    'Geotechnical Seismic Analysis'
-  ],
-  'Biotechnology & Bio-Engineering': [
-    'Bioinformatics & Genomic Analysis',
-    'Biomedical Instrumentation',
-    'Synthetic Biology & Fermentation',
-    'Pharmaceutical Drug Delivery'
-  ],
-  'Other Interdisciplinary': [
-    'Open Innovation & Cross-Domain Research',
-    'Tech for Social Impact',
-    'SpaceTech & Geospatial Systems'
-  ]
-};
-
+// Official Helpline Numbers per specification
 export const SUPPORT_LINES = [
-  { label: 'Convenor & Registration Desk', number: '+91 98765 43210', tel: '+919876543210' },
-  { label: 'Technical & Challenge Tracks', number: '+91 98765 43211', tel: '+919876543211' },
-  { label: 'Payment & ID Helpdesk', number: '+91 98765 43212', tel: '+919876543212' }
+  { label: 'Convenor Helpline 1', number: '+91 95665 2006', tel: '+91956652006' },
+  { label: 'Registration Helpline 2', number: '+91 90030 18088', tel: '+919003018088' }
 ];
 
 export function getEvent(id: EventId): EventConfig {

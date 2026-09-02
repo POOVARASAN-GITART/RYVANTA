@@ -1,4 +1,9 @@
-export type EventId = 'hackathon' | 'games2d' | 'ctf' | 'egames' | 'elaris';
+export type EventId =
+  | 'hackathon'
+  | '2d-games'
+  | 'ctf'
+  | 'e-games'
+  | 'elaris-sozo';
 
 export type PaymentStatus = 'pending' | 'verified' | 'rejected';
 
@@ -6,19 +11,47 @@ export interface SquadMember {
   name: string;
   email?: string;
   phone?: string;
-  rollNo?: string;
   department?: string;
+  rollNo?: string;
   role?: string;
+}
+
+export interface Registration {
+  id: string; // e.g. TIH001, TID001, TIC001, TIE001, TIP001
+  eventId: EventId;
+  eventName: string;
+  teamName: string;
+  leaderName?: string;
+  leaderEmail?: string;
+  leaderPhone?: string;
+  institution?: string;
+  track?: string;
+  members: string[];
+  memberDetails?: SquadMember[];
+  email: string;
+  phone: string;
+  department?: string;
+  domain?: string;
+  memberCount: number;
+  paymentStatus: PaymentStatus;
+  paymentMethod: 'upi' | 'desk' | 'cash';
+  feeAmount: number;
+  upiRef?: string;
+  paymentScreenshot?: string;
+  termsAccepted?: boolean;
+  notes?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface RegistrationInput {
   eventId: EventId;
   teamName: string;
-  leaderName: string;
-  leaderPhone: string;
-  leaderEmail: string;
-  institution: string;
-  track: string;
+  leaderName?: string;
+  leaderEmail?: string;
+  leaderPhone?: string;
+  institution?: string;
+  track?: string;
   members: string[];
   memberDetails?: SquadMember[];
   email: string;
@@ -27,43 +60,17 @@ export interface RegistrationInput {
   domain?: string;
   upiRef?: string;
   paymentScreenshot?: string;
-  termsAccepted: boolean;
+  termsAccepted?: boolean;
   paymentStatus?: PaymentStatus;
 }
 
-export interface Registration extends RegistrationInput {
-  /** Server-assigned identifier, e.g. TIH001 */
-  id: string;
-  eventName: string;
-  eventCode: string;
-  memberCount: number;
-  feeAmount: number;
-  paymentStatus: PaymentStatus;
-  createdAt: string;
-  upiRef?: string;
-  paymentScreenshot?: string;
-}
-
-export interface ApiError {
-  message: string;
-  field?: keyof RegistrationInput;
-}
-
-/** Organizer-controlled settings, edited from the admin panel. */
 export interface EventSettings {
-  /** The UPI address teams pay the registration fee to. */
   upiId: string;
-  /** Display name shown beside the UPI address. */
   payeeName: string;
-  /** Optional Bank account number for direct IMPS/NEFT transfers. */
   accountNumber?: string;
-  /** Bank IFSC code. */
   ifscCode?: string;
-  /** Bank Name. */
   bankName?: string;
-  /** Branch Name. */
   branchName?: string;
 }
 
-/** Domains already claimed, keyed by event id. */
 export type TakenDomains = Record<string, string[]>;

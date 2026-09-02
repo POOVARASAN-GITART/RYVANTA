@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { AdminPanel } from './components/AdminPanel';
 import { CyberCursor } from './components/CyberCursor';
+import { FloatingSupportWidget } from './components/FloatingSupportWidget';
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
 import { RegistrationsProvider } from './contexts/RegistrationsContext';
@@ -25,21 +26,12 @@ export function App() {
   return (
     <BrowserRouter>
       <RegistrationsProvider>
-        <div className="relative min-h-screen w-full flex-col bg-[#F9F8F6] overflow-x-hidden text-[#4A4A4A] selection:bg-[#C5A059] selection:text-white">
-          {/* Interactive Luxury Champagne / Platinum Cursor */}
+        <div className="relative min-h-screen w-full flex-col bg-[#FAFAFA] overflow-x-hidden text-[#383838] selection:bg-[#D4AF37] selection:text-white">
+          {/* Interactive Regal Gold & White Cursor */}
           <CyberCursor />
 
-          {/* Ambient Luxury Particle Wave Background Layer with Soft Blend */}
-          <div
-            className="pointer-events-none fixed inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-[0.06] mix-blend-multiply"
-            style={{
-              backgroundImage: 'url(/cyber-bg.jpg)',
-              backgroundAttachment: 'fixed'
-            }}
-          />
-
-          {/* Warm ivory cream gradient glow */}
-          <div className="pointer-events-none fixed inset-0 z-0 bg-gradient-to-b from-transparent via-[#F9F8F6]/60 to-[#F9F8F6]" />
+          {/* Persistent Floating Support Widget */}
+          <FloatingSupportWidget />
 
           {/* Main App Content Layout */}
           <div className="relative z-10 flex min-h-screen flex-col">
@@ -50,6 +42,7 @@ export function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/events" element={<Events />} />
                 <Route path="/support" element={<Support />} />
+                <Route path="/admin" element={<AdminDirectView />} />
                 <Route path="*" element={<Home />} />
               </Routes>
             </main>
@@ -61,5 +54,14 @@ export function App() {
         </div>
       </RegistrationsProvider>
     </BrowserRouter>
+  );
+}
+
+function AdminDirectView() {
+  const [isModalOpen, setIsModalOpen] = useState(true);
+  return (
+    <div className="py-12 text-center">
+      <AdminPanel onClose={() => window.history.back()} />
+    </div>
   );
 }
