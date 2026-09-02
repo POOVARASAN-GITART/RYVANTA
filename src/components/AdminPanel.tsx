@@ -19,6 +19,7 @@ import {
 import { EVENTS, REGISTRATION_FEE } from '../data/events';
 import { useRegistrationsContext } from '../contexts/RegistrationsContext';
 import { authenticateAdmin, toCsv } from '../services/registrationApi';
+import { playPortalLoginSound } from '../services/portalSound';
 import {
   getNeonConnectionString,
   saveNeonConnectionString,
@@ -91,6 +92,7 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
     try {
       await authenticateAdmin(passcode);
       setIsAuthenticated(true);
+      playPortalLoginSound();
     } catch (error) {
       setAuthError(error instanceof Error ? error.message : 'Authentication failed.');
     } finally {
