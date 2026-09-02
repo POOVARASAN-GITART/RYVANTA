@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { SparklesIcon, Volume2Icon, VolumeXIcon, LogInIcon, ZapIcon } from 'lucide-react';
+import { SparklesIcon } from 'lucide-react';
 
 interface LetterConfig {
   char: string;
@@ -20,13 +20,40 @@ const LETTERS_CONFIG: LetterConfig[] = [
 ];
 
 /**
- * High-Tech Web Audio Synthesizer for Portal Entrance & Edge Slide Effects
+ * 100% Automated Web Audio Synthesizer for Portal Entrance & Edge Slide Effects
  */
-class PortalSoundEngine {
+class AutomatedPortalSoundEngine {
   private ctx: AudioContext | null = null;
-  public isMuted: boolean = false;
+  private isUnlocked: boolean = false;
 
-  private initCtx() {
+  constructor() {
+    this.setupAutoUnlock();
+  }
+
+  private setupAutoUnlock() {
+    if (typeof window === 'undefined') return;
+
+    const tryUnlock = () => {
+      this.initCtx();
+      if (this.ctx && this.ctx.state === 'running') {
+        this.isUnlocked = true;
+        // Remove listeners once running
+        window.removeEventListener('pointerdown', tryUnlock);
+        window.removeEventListener('touchstart', tryUnlock);
+        window.removeEventListener('mousemove', tryUnlock);
+        window.removeEventListener('keydown', tryUnlock);
+        window.removeEventListener('scroll', tryUnlock);
+      }
+    };
+
+    window.addEventListener('pointerdown', tryUnlock, { passive: true, once: true });
+    window.addEventListener('touchstart', tryUnlock, { passive: true, once: true });
+    window.addEventListener('mousemove', tryUnlock, { passive: true, once: true });
+    window.addEventListener('keydown', tryUnlock, { passive: true, once: true });
+    window.addEventListener('scroll', tryUnlock, { passive: true, once: true });
+  }
+
+  public initCtx() {
     if (!this.ctx && typeof window !== 'undefined') {
       const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
       if (AudioCtx) {
@@ -38,9 +65,8 @@ class PortalSoundEngine {
     }
   }
 
-  // Short harmonic frequencies as each letter swoops from edges
+  // Automatic letter slide swoop sound
   playLetterSwoop(index: number) {
-    if (this.isMuted) return;
     this.initCtx();
     if (!this.ctx) return;
 
@@ -55,13 +81,13 @@ class PortalSoundEngine {
 
       osc.type = 'sine';
       osc.frequency.setValueAtTime(baseFreq * 0.6, now);
-      osc.frequency.exponentialRampToValueAtTime(baseFreq * 1.4, now + 0.12);
+      osc.frequency.exponentialRampToValueAtTime(baseFreq * 1.5, now + 0.12);
 
       filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(3200, now);
+      filter.frequency.setValueAtTime(3600, now);
 
       gain.gain.setValueAtTime(0.001, now);
-      gain.gain.linearRampToValueAtTime(0.08, now + 0.02);
+      gain.gain.linearRampToValueAtTime(0.09, now + 0.02);
       gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.16);
 
       osc.connect(filter);
@@ -75,9 +101,8 @@ class PortalSoundEngine {
     }
   }
 
-  // '26 Detonation Shockwave & Laser Pulse
+  // Automatic '26 Detonation Shockwave & Laser Pulse
   playDetonation() {
-    if (this.isMuted) return;
     this.initCtx();
     if (!this.ctx) return;
 
@@ -91,21 +116,21 @@ class PortalSoundEngine {
       bassOsc.frequency.setValueAtTime(160, now);
       bassOsc.frequency.exponentialRampToValueAtTime(36, now + 0.45);
 
-      bassGain.gain.setValueAtTime(0.25, now);
-      bassGain.gain.exponentialRampToValueAtTime(0.001, now + 0.48);
+      bassGain.gain.setValueAtTime(0.28, now);
+      bassGain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
 
       bassOsc.connect(bassGain);
       bassGain.connect(this.ctx.destination);
       bassOsc.start(now);
-      bassOsc.stop(now + 0.5);
+      bassOsc.stop(now + 0.52);
 
       // High cyber zap
       const zapOsc = this.ctx.createOscillator();
       const zapGain = this.ctx.createGain();
       zapOsc.type = 'sine';
       zapOsc.frequency.setValueAtTime(1046.5, now);
-      zapOsc.frequency.exponentialRampToValueAtTime(2093.0, now + 0.2);
-      zapGain.gain.setValueAtTime(0.08, now);
+      zapOsc.frequency.exponentialRampToValueAtTime(2093.0, now + 0.22);
+      zapGain.gain.setValueAtTime(0.09, now);
       zapGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.28);
 
       zapOsc.connect(zapGain);
@@ -117,9 +142,8 @@ class PortalSoundEngine {
     }
   }
 
-  // Ethereal Sci-Fi Portal Login Sound when entering the portal
+  // Automatic Ethereal Sci-Fi Portal Login Sound when entering the portal
   playPortalLoginEntrance() {
-    if (this.isMuted) return;
     this.initCtx();
     if (!this.ctx) return;
 
@@ -133,7 +157,7 @@ class PortalSoundEngine {
       swellOsc.frequency.setValueAtTime(55, now);
       swellOsc.frequency.exponentialRampToValueAtTime(220, now + 0.35);
       swellGain.gain.setValueAtTime(0.01, now);
-      swellGain.gain.linearRampToValueAtTime(0.2, now + 0.25);
+      swellGain.gain.linearRampToValueAtTime(0.22, now + 0.25);
       swellGain.gain.exponentialRampToValueAtTime(0.001, now + 0.7);
 
       swellOsc.connect(swellGain);
@@ -155,7 +179,7 @@ class PortalSoundEngine {
         chordFilter.frequency.setValueAtTime(freq * 1.15, now);
 
         chordGain.gain.setValueAtTime(0.001, now + idx * 0.035);
-        chordGain.gain.linearRampToValueAtTime(0.09, now + 0.1 + idx * 0.035);
+        chordGain.gain.linearRampToValueAtTime(0.1, now + 0.1 + idx * 0.035);
         chordGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.95);
 
         chordOsc.connect(chordFilter);
@@ -171,21 +195,26 @@ class PortalSoundEngine {
   }
 }
 
-const soundEngine = new PortalSoundEngine();
+const autoSoundEngine = new AutomatedPortalSoundEngine();
 
 export function RyvantaIntroLoader({ onComplete }: { onComplete?: () => void }) {
   const [mounted, setMounted] = useState(false);
   const [stage, setStage] = useState<'sliding' | 'assembled' | 'subtitles' | 'closing' | 'done'>('sliding');
   const [progress, setProgress] = useState(0);
-  const [isMuted, setIsMuted] = useState(false);
   const hasTriggeredLoginSound = useRef(false);
 
   useEffect(() => {
-    // Attempt sound playback on edge letters
+    // Automatically initialize and resume AudioContext immediately
+    autoSoundEngine.initCtx();
+
+    // Automatically trigger letter swoop sounds in sync with edge sliding
+    const timers: NodeJS.Timeout[] = [];
+
     LETTERS_CONFIG.forEach((letter, i) => {
-      setTimeout(() => {
-        soundEngine.playLetterSwoop(i);
+      const t = setTimeout(() => {
+        autoSoundEngine.playLetterSwoop(i);
       }, letter.delay);
+      timers.push(t);
     });
 
     // Start sliding in immediately after mount
@@ -205,30 +234,34 @@ export function RyvantaIntroLoader({ onComplete }: { onComplete?: () => void }) 
       });
     }, 50);
 
-    // Timeline phases
+    // Phase 2: Assembled & '26 detonation sound automatically
     const assembledTimer = setTimeout(() => {
       setStage('assembled');
-      soundEngine.playDetonation();
+      autoSoundEngine.playDetonation();
     }, 950);
 
+    // Phase 3: Subtitles reveal
     const subtitlesTimer = setTimeout(() => {
       setStage('subtitles');
     }, 1400);
 
+    // Phase 4: Automatic Portal Entrance / Login Inside Sound
     const closingTimer = setTimeout(() => {
       setStage('closing');
       if (!hasTriggeredLoginSound.current) {
         hasTriggeredLoginSound.current = true;
-        soundEngine.playPortalLoginEntrance();
+        autoSoundEngine.playPortalLoginEntrance();
       }
     }, 2200);
 
+    // Phase 5: Portal entry complete
     const doneTimer = setTimeout(() => {
       setStage('done');
       onComplete?.();
     }, 2800);
 
     return () => {
+      timers.forEach((t) => clearTimeout(t));
       clearTimeout(mountTimer);
       clearInterval(progressInterval);
       clearTimeout(assembledTimer);
@@ -245,28 +278,14 @@ export function RyvantaIntroLoader({ onComplete }: { onComplete?: () => void }) 
   function handleSkip() {
     if (!hasTriggeredLoginSound.current) {
       hasTriggeredLoginSound.current = true;
-      soundEngine.playPortalLoginEntrance();
+      autoSoundEngine.playPortalLoginEntrance();
     }
     setStage('done');
     onComplete?.();
   }
 
-  function toggleSound() {
-    soundEngine.isMuted = !soundEngine.isMuted;
-    setIsMuted(soundEngine.isMuted);
-    if (!soundEngine.isMuted) {
-      soundEngine.playLetterSwoop(4);
-    }
-  }
-
   return (
     <div
-      onClick={() => {
-        // Wake audio context on user interaction
-        if (!hasTriggeredLoginSound.current && stage === 'subtitles') {
-          soundEngine.playLetterSwoop(3);
-        }
-      }}
       className={`fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[#000000] text-white select-none overflow-hidden transition-all duration-700 ease-out ${
         stage === 'closing' ? 'opacity-0 scale-105 pointer-events-none' : 'opacity-100 scale-100'
       }`}
@@ -303,38 +322,11 @@ export function RyvantaIntroLoader({ onComplete }: { onComplete?: () => void }) 
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-96 w-96 rounded-full bg-[#0EA5E9]/15 blur-3xl pointer-events-none" />
       </div>
 
-      {/* Top Controls: Sound Toggle & Skip */}
+      {/* Top Controls: Instant Enter / Skip */}
       <div className="absolute top-6 right-6 z-50 flex items-center gap-3">
-        {/* Sound FX Toggle Button */}
         <button
           type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            toggleSound();
-          }}
-          className="flex items-center gap-1.5 rounded-full border border-slate-800 bg-slate-950/80 px-3.5 py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest text-slate-400 hover:border-[#0EA5E9] hover:text-white transition-all backdrop-blur-sm"
-          title={isMuted ? 'Unmute Portal Sound' : 'Mute Portal Sound'}
-        >
-          {isMuted ? (
-            <>
-              <VolumeXIcon className="h-3.5 w-3.5 text-red-400" />
-              <span>Muted</span>
-            </>
-          ) : (
-            <>
-              <Volume2Icon className="h-3.5 w-3.5 text-[#0EA5E9] animate-pulse" />
-              <span>Audio FX</span>
-            </>
-          )}
-        </button>
-
-        {/* Skip / Enter Portal Button */}
-        <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            handleSkip();
-          }}
+          onClick={handleSkip}
           className="rounded-full border border-slate-800 bg-slate-950/80 px-4 py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest text-slate-400 hover:border-[#0EA5E9] hover:text-white transition-all backdrop-blur-sm"
         >
           Enter ➔
