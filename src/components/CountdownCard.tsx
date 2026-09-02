@@ -23,22 +23,22 @@ export function CountdownCard({
 
   return (
     <div
-      className={`relative z-10 overflow-hidden rounded-3xl border bg-[#FFFFFF] p-6 sm:p-7 shadow-sm transition-all duration-200 ${
+      className={`relative z-10 overflow-hidden rounded-3xl border bg-transparent backdrop-blur-sm p-6 sm:p-7 transition-all duration-200 ${
         emphasis
-          ? 'border-[#0EA5E9] shadow-md'
-          : 'border-[#E2E8F0]'
+          ? 'border-[#0EA5E9] shadow-sm ring-1 ring-[#0EA5E9]/20'
+          : 'border-[#CBD5E1]'
       }`}
     >
       <div className="flex items-center justify-between">
-        <h3 className="text-xs font-serif font-bold uppercase tracking-[0.2em] text-[#64748B]">
+        <h3 className="text-xs font-serif font-bold uppercase tracking-[0.2em] text-[#475569]">
           {label}
         </h3>
         {emphasis ? (
-          <span className="rounded-full bg-sky-50 border border-[#0EA5E9]/40 px-3 py-0.5 text-[10px] font-mono font-bold text-[#0284C7]">
+          <span className="rounded-full bg-sky-50/80 border border-[#0EA5E9] px-3 py-0.5 text-[10px] font-mono font-bold text-[#0284C7]">
             KEY DEADLINE
           </span>
         ) : (
-          <span className="rounded-full bg-slate-100 border border-slate-200 px-3 py-0.5 text-[10px] font-mono font-bold text-[#475569]">
+          <span className="rounded-full bg-slate-100/80 border border-slate-300 px-3 py-0.5 text-[10px] font-mono font-bold text-[#475569]">
             EVENT DAY
           </span>
         )}
@@ -63,8 +63,8 @@ export function CountdownCard({
         </div>
       )}
 
-      <div className="mt-5 border-t border-[#F1F5F9] pt-3.5">
-        <p className="text-xs text-[#475569] font-medium leading-relaxed">{caption}</p>
+      <div className="mt-5 border-t border-[#CBD5E1]/50 pt-3.5">
+        <p className="text-xs text-[#334155] font-medium leading-relaxed">{caption}</p>
       </div>
     </div>
   );
