@@ -23,10 +23,10 @@ export function CountdownCard({
 
   return (
     <div
-      className={`rounded-2xl border p-6 transition-all duration-200 ${
+      className={`relative z-10 overflow-hidden rounded-3xl border bg-[#FFFFFF] p-6 sm:p-7 shadow-sm transition-all duration-200 ${
         emphasis
-          ? 'border-[#0EA5E9] bg-[#FFFFFF] shadow-luxury-lg ring-2 ring-[#0EA5E9]/20'
-          : 'border-[#E2E8F0] bg-[#FFFFFF] shadow-luxury'
+          ? 'border-[#0EA5E9] shadow-md'
+          : 'border-[#E2E8F0]'
       }`}
     >
       <div className="flex items-center justify-between">
@@ -34,38 +34,28 @@ export function CountdownCard({
           {label}
         </h3>
         {emphasis ? (
-          <span className="rounded-full bg-sky-50 border border-[#0EA5E9] px-2.5 py-0.5 text-[10px] font-mono font-bold text-[#0284C7]">
+          <span className="rounded-full bg-sky-50 border border-[#0EA5E9]/40 px-3 py-0.5 text-[10px] font-mono font-bold text-[#0284C7]">
             KEY DEADLINE
           </span>
         ) : (
-          <span className="rounded-full bg-slate-100 border border-[#94A3B8] px-2.5 py-0.5 text-[10px] font-mono font-bold text-[#334155]">
+          <span className="rounded-full bg-slate-100 border border-slate-200 px-3 py-0.5 text-[10px] font-mono font-bold text-[#475569]">
             EVENT DAY
           </span>
         )}
       </div>
 
       {countdown.isComplete ? (
-        <p className="mt-4 font-serif text-2xl font-bold text-[#000000]">
+        <p className="mt-5 font-serif text-2xl font-bold text-[#000000]">
           {completeLabel}
         </p>
       ) : (
-        <div className="mt-4 flex items-end gap-3 sm:gap-4">
+        <div className="mt-5 flex items-center justify-between gap-2 sm:gap-4 text-center">
           {values.map((value, index) => (
-            <div key={UNITS[index]} className="flex-1 text-center rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] p-2.5">
-              <div
-                className={`font-mono font-black tabular-nums ${
-                  emphasis
-                    ? 'text-2xl sm:text-3xl text-[#000000]'
-                    : 'text-xl sm:text-2xl text-[#1E293B]'
-                }`}
-              >
+            <div key={UNITS[index]} className="flex-1 py-1">
+              <div className="font-mono text-3xl sm:text-4xl font-black tabular-nums text-[#000000] tracking-tight">
                 {String(value).padStart(2, '0')}
               </div>
-              <div
-                className={`mt-0.5 text-[9px] font-sans font-bold uppercase tracking-widest ${
-                  emphasis ? 'text-[#0EA5E9]' : 'text-[#64748B]'
-                }`}
-              >
+              <div className="mt-1 text-[10px] font-mono font-bold uppercase tracking-widest text-[#0EA5E9]">
                 {UNITS[index]}
               </div>
             </div>
@@ -73,7 +63,9 @@ export function CountdownCard({
         </div>
       )}
 
-      <p className="mt-4 text-xs font-medium text-[#475569]">{caption}</p>
+      <div className="mt-5 border-t border-[#F1F5F9] pt-3.5">
+        <p className="text-xs text-[#475569] font-medium leading-relaxed">{caption}</p>
+      </div>
     </div>
   );
 }
