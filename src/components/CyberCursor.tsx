@@ -1,112 +1,125 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 export function CyberCursor() {
-  const [position, setPosition] = useState({ x: -100, y: -100 });
-  const [trailingPos, setTrailingPos] = useState({ x: -100, y: -100 });
-  const [isHovering, setIsHovering] = useState(false);
-  const [isClicking, setIsClicking] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+  const ringRef = useRef<HTMLDivElement>(null);
+  const spotRef = useRef<HTMLDivElement>(null);
 
-  const requestRef = useRef<number | null>(null);
-  const mouseRef = useRef({ x: -100, y: -100 });
-  const trailRef = useRef({ x: -100, y: -100 });
+  const mousePos = useRef({ x: -100, y: -100 });
+  const ringPos = useRef({ x: -100, y: -100 });
+  const isHovered = useRef(false);
+  const isClicked = useRef(false);
 
   useEffect(() => {
-    // Only activate custom cursor on fine pointer devices (desktop/laptops with mouse/trackpad)
+    // Only activate on devices with fine pointer (mouse/trackpad)
     if (window.matchMedia('(pointer: coarse)').matches) {
       return;
     }
 
-    function handleMouseMove(e: MouseEvent) {
-      mouseRef.current = { x: e.clientX, y: e.clientY };
-      setPosition({ x: e.clientX, y: e.clientY });
-      if (!isVisible) setIsVisible(true);
+    let animationFrameId: number;
 
-      // Check if hovering over clickable element
+    function onMouseMove(e: MouseEvent) {
+      mousePos.current.x = e.clientX;
+      mousePos.current.y = e.clientY;
+
+      // Update ambient spotlight instantly without any lag
+      if (spotRef.current) {
+        spotRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
+      }
+
+      // Check for clickable elements under cursor
       const target = e.target as HTMLElement | null;
       if (target) {
         const isClickable = Boolean(
           target.closest('button, a, input, select, textarea, label, [role="button"], .clickable')
         );
-        setIsHovering(isClickable);
+        isHovered.current = isClickable;
       }
     }
 
-    function handleMouseDown() {
-      setIsClicking(true);
+    function onMouseDown() {
+      isClicked.current = true;
     }
 
-    function handleMouseUp() {
-      setIsClicking(false);
+    function onMouseUp() {
+      isClicked.current = false;
     }
 
-    function handleMouseLeave() {
-      setIsVisible(false);
+    function onMouseLeave() {
+      if (ringRef.current) ringRef.current.style.opacity = '0';
+      if (spotRef.current) spotRef.current.style.opacity = '0';
     }
 
-    function handleMouseEnter() {
-      setIsVisible(true);
+    function onMouseEnter() {
+      if (ringRef.current) ringRef.current.style.opacity = '1';
+      if (spotRef.current) spotRef.current.style.opacity = '1';
     }
 
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    window.addEventListener('mousedown', handleMouseDown);
-    window.addEventListener('mouseup', handleMouseUp);
-    document.addEventListener('mouseleave', handleMouseLeave);
-    document.addEventListener('mouseenter', handleMouseEnter);
+    window.addEventListener('mousemove', onMouseMove, { passive: true });
+    window.addEventListener('mousedown', onMouseDown);
+    window.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('mouseleave', onMouseLeave);
+    document.addEventListener('mouseenter', onMouseEnter);
 
-    // Smooth Lerp Animation Loop for Trailing Ring
-    function animate() {
-      trailRef.current.x += (mouseRef.current.x - trailRef.current.x) * 0.18;
-      trailRef.current.y += (mouseRef.current.y - trailRef.current.y) * 0.18;
-      setTrailingPos({ x: trailRef.current.x, y: trailRef.current.y });
-      requestRef.current = requestAnimationFrame(animate);
+    // High-performance direct RAF loop with fast 0.48 lerp response
+    function updateCursor() {
+      // Fast lerp interpolation (0.48 for near-instant snap tracking)
+      ringPos.current.x += (mousePos.current.x - ringPos.current.x) * 0.48;
+      ringPos.current.y += (mousePos.current.y - ringPos.current.y) * 0.48;
+
+      if (ringRef.current) {
+        const scale = isHovered.current ? 1.4 : isClicked.current ? 0.75 : 1;
+        ringRef.current.style.transform = `translate3d(${ringPos.current.x}px, ${ringPos.current.y}px, 0) translate(-50%, -50%) scale(${scale})`;
+
+        if (isHovered.current) {
+          ringRef.current.style.borderColor = '#00f0ff';
+          ringRef.current.style.backgroundColor = 'rgba(0, 240, 255, 0.15)';
+          ringRef.current.style.boxShadow = '0 0 20px #00f0ff';
+        } else if (isClicked.current) {
+          ringRef.current.style.borderColor = '#c084fc';
+          ringRef.current.style.backgroundColor = 'rgba(192, 132, 252, 0.25)';
+          ringRef.current.style.boxShadow = '0 0 15px #c084fc';
+        } else {
+          ringRef.current.style.borderColor = 'rgba(0, 240, 255, 0.7)';
+          ringRef.current.style.backgroundColor = 'rgba(0, 240, 255, 0.05)';
+          ringRef.current.style.boxShadow = '0 0 12px rgba(0, 240, 255, 0.3)';
+        }
+      }
+
+      animationFrameId = requestAnimationFrame(updateCursor);
     }
-    requestRef.current = requestAnimationFrame(animate);
+    animationFrameId = requestAnimationFrame(updateCursor);
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mousedown', handleMouseDown);
-      window.removeEventListener('mouseup', handleMouseUp);
-      document.removeEventListener('mouseleave', handleMouseLeave);
-      document.removeEventListener('mouseenter', handleMouseEnter);
-      if (requestRef.current) cancelAnimationFrame(requestRef.current);
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mousedown', onMouseDown);
+      window.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener('mouseleave', onMouseLeave);
+      document.removeEventListener('mouseenter', onMouseEnter);
+      cancelAnimationFrame(animationFrameId);
     };
-  }, [isVisible]);
-
-  if (!isVisible) return null;
+  }, []);
 
   return (
     <>
-      {/* Dynamic Ambient Spotlight that follows cursor */}
+      {/* Dynamic Ambient Spotlight (Instant Tracking) */}
       <div
-        className="pointer-events-none fixed z-30 transition-opacity duration-300"
+        ref={spotRef}
+        className="pointer-events-none fixed left-0 top-0 z-30 opacity-100 will-change-transform"
         style={{
-          left: `${position.x}px`,
-          top: `${position.y}px`,
-          transform: 'translate(-50%, -50%)',
-          width: '420px',
-          height: '420px',
-          background: 'radial-gradient(circle, rgba(0, 240, 255, 0.08) 0%, rgba(139, 92, 246, 0.04) 40%, transparent 70%)',
+          width: '380px',
+          height: '380px',
+          background: 'radial-gradient(circle, rgba(0, 240, 255, 0.09) 0%, rgba(139, 92, 246, 0.04) 40%, transparent 70%)',
           borderRadius: '50%'
         }}
       />
 
-      {/* Smooth Trailing Outer Ring */}
+      {/* Lightning-Fast Cyber Ring */}
       <div
-        className={`pointer-events-none fixed z-50 rounded-full border transition-transform duration-75 ease-out ${
-          isHovering
-            ? 'border-cyan-400 bg-cyan-400/15 shadow-[0_0_20px_#00f0ff] scale-150'
-            : isClicking
-            ? 'border-purple-400 bg-purple-500/30 scale-75'
-            : 'border-cyan-400/60 bg-cyan-400/5 shadow-[0_0_12px_rgba(0,240,255,0.25)]'
-        }`}
+        ref={ringRef}
+        className="pointer-events-none fixed left-0 top-0 z-50 rounded-full border opacity-100 will-change-transform transition-[border-color,background-color,box-shadow] duration-150 ease-out"
         style={{
-          left: `${trailingPos.x}px`,
-          top: `${trailingPos.y}px`,
-          transform: 'translate(-50%, -50%)',
-          width: isHovering ? '44px' : '32px',
-          height: isHovering ? '44px' : '32px',
-          transitionProperty: 'width, height, transform, border-color, background-color, box-shadow'
+          width: '34px',
+          height: '34px'
         }}
       />
     </>
