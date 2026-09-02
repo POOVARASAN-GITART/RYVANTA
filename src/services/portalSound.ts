@@ -1,10 +1,9 @@
 /**
- * RYVANTA '26 Technical Cybernetic Login Sound Synthesizer
- * Synthesizes multi-layered technical audio (biometric digital handshake,
- * quantum server core boot, high-voltage laser grid lock & access granted chime)
- * exclusively when logging into the portal.
+ * RYVANTA '26 Ultra-Modern Quantum Holographic Login Sound Synthesizer
+ * Generates an ultra-crisp, premium sci-fi portal login sound effect:
+ * (Sub-bass hydraulic power drop + airlock energy whoosh + crystal holographic bell arpeggio + positive cyber ping)
  */
-class TechnicalPortalSoundEngine {
+class HolographicPortalSoundEngine {
   private ctx: AudioContext | null = null;
 
   private initCtx() {
@@ -20,7 +19,7 @@ class TechnicalPortalSoundEngine {
   }
 
   /**
-   * Plays a high-tech, multi-layered cybernetic login sequence
+   * Plays the new Quantum Holographic Login Sound
    */
   public playLoginSound() {
     this.initCtx();
@@ -30,125 +29,127 @@ class TechnicalPortalSoundEngine {
       const now = this.ctx.currentTime;
 
       // ─────────────────────────────────────────────────────────────
-      // LAYER 1: Rapid Biometric Digital Data Stream (Micro-pulses)
-      // ─────────────────────────────────────────────────────────────
-      const pulseFreqs = [1850, 2200, 2750, 3300, 2400, 3600, 4200];
-      pulseFreqs.forEach((freq, idx) => {
-        const pulseOsc = this.ctx!.createOscillator();
-        const pulseGain = this.ctx!.createGain();
-        const pulseFilter = this.ctx!.createBiquadFilter();
-
-        const startTime = now + idx * 0.035;
-
-        pulseOsc.type = idx % 2 === 0 ? 'square' : 'triangle';
-        pulseOsc.frequency.setValueAtTime(freq, startTime);
-        pulseOsc.frequency.exponentialRampToValueAtTime(freq * 1.3, startTime + 0.03);
-
-        pulseFilter.type = 'bandpass';
-        pulseFilter.frequency.setValueAtTime(freq, startTime);
-        pulseFilter.Q.setValueAtTime(4.0, startTime);
-
-        pulseGain.gain.setValueAtTime(0.001, startTime);
-        pulseGain.gain.linearRampToValueAtTime(0.06, startTime + 0.008);
-        pulseGain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.035);
-
-        pulseOsc.connect(pulseFilter);
-        pulseFilter.connect(pulseGain);
-        pulseGain.connect(this.ctx!.destination);
-
-        pulseOsc.start(startTime);
-        pulseOsc.stop(startTime + 0.04);
-      });
-
-      // ─────────────────────────────────────────────────────────────
-      // LAYER 2: Quantum Server Sub-Bass Core Boot (Power Surge)
+      // 1. PUNCHY SUB-BASS HYDRAULIC IMPACT (808 Power Drop)
       // ─────────────────────────────────────────────────────────────
       const subOsc = this.ctx.createOscillator();
       const subGain = this.ctx.createGain();
-      const subFilter = this.ctx.createBiquadFilter();
 
-      subOsc.type = 'sawtooth';
-      subOsc.frequency.setValueAtTime(45, now + 0.1);
-      subOsc.frequency.exponentialRampToValueAtTime(190, now + 0.55);
+      subOsc.type = 'sine';
+      subOsc.frequency.setValueAtTime(125, now);
+      subOsc.frequency.exponentialRampToValueAtTime(28, now + 0.42);
 
-      subFilter.type = 'lowpass';
-      subFilter.frequency.setValueAtTime(180, now + 0.1);
-      subFilter.frequency.exponentialRampToValueAtTime(800, now + 0.5);
+      subGain.gain.setValueAtTime(0.35, now);
+      subGain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
 
-      subGain.gain.setValueAtTime(0.001, now + 0.1);
-      subGain.gain.linearRampToValueAtTime(0.25, now + 0.3);
-      subGain.gain.exponentialRampToValueAtTime(0.001, now + 0.85);
-
-      subOsc.connect(subFilter);
-      subFilter.connect(subGain);
+      subOsc.connect(subGain);
       subGain.connect(this.ctx.destination);
 
-      subOsc.start(now + 0.1);
-      subOsc.stop(now + 0.9);
+      subOsc.start(now);
+      subOsc.stop(now + 0.48);
 
       // ─────────────────────────────────────────────────────────────
-      // LAYER 3: High-Voltage Grid Lock Laser Shimmer (FM modulation)
+      // 2. SILKY AIRLOCK ENERGY WHOOSH (Noise Particle Sweep)
       // ─────────────────────────────────────────────────────────────
-      const carrier = this.ctx.createOscillator();
-      const modulator = this.ctx.createOscillator();
-      const modGain = this.ctx.createGain();
-      const carrierGain = this.ctx.createGain();
+      const bufferSize = this.ctx.sampleRate * 0.5;
+      const noiseBuffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+      const output = noiseBuffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        output[i] = Math.random() * 2 - 1;
+      }
 
-      carrier.type = 'sine';
-      carrier.frequency.setValueAtTime(750, now + 0.25);
-      carrier.frequency.exponentialRampToValueAtTime(1600, now + 0.6);
+      const whiteNoise = this.ctx.createBufferSource();
+      whiteNoise.buffer = noiseBuffer;
 
-      modulator.type = 'sawtooth';
-      modulator.frequency.setValueAtTime(80, now + 0.25);
-      modulator.frequency.linearRampToValueAtTime(30, now + 0.6);
+      const noiseFilter = this.ctx.createBiquadFilter();
+      noiseFilter.type = 'bandpass';
+      noiseFilter.frequency.setValueAtTime(900, now);
+      noiseFilter.frequency.exponentialRampToValueAtTime(5400, now + 0.35);
+      noiseFilter.Q.setValueAtTime(3.0, now);
 
-      modGain.gain.setValueAtTime(400, now + 0.25);
-      modGain.gain.exponentialRampToValueAtTime(10, now + 0.6);
+      const noiseGain = this.ctx.createGain();
+      noiseGain.gain.setValueAtTime(0.001, now);
+      noiseGain.gain.linearRampToValueAtTime(0.12, now + 0.08);
+      noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.45);
 
-      carrierGain.gain.setValueAtTime(0.001, now + 0.25);
-      carrierGain.gain.linearRampToValueAtTime(0.08, now + 0.35);
-      carrierGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.75);
+      whiteNoise.connect(noiseFilter);
+      noiseFilter.connect(noiseGain);
+      noiseGain.connect(this.ctx.destination);
 
-      modulator.connect(modGain);
-      modGain.connect(carrier.frequency);
-      carrier.connect(carrierGain);
-      carrierGain.connect(this.ctx.destination);
-
-      modulator.start(now + 0.25);
-      carrier.start(now + 0.25);
-      modulator.stop(now + 0.8);
-      carrier.stop(now + 0.8);
+      whiteNoise.start(now);
+      whiteNoise.stop(now + 0.48);
 
       // ─────────────────────────────────────────────────────────────
-      // LAYER 4: Access Granted Technical Confirmation Chimes
+      // 3. CRYSTAL HOLOGRAPHIC BELL ARPEGGIO (E Major 9 Celestial Tones)
       // ─────────────────────────────────────────────────────────────
-      const chimeTones = [880, 1174.66, 1760, 2093];
-      chimeTones.forEach((freq, idx) => {
-        const chimeOsc = this.ctx!.createOscillator();
-        const chimeGain = this.ctx!.createGain();
+      const crystalNotes = [
+        659.25,  // E5
+        830.61,  // G#5
+        987.77,  // B5
+        1244.51, // D#6
+        1318.51, // E6
+        1661.22, // G#6
+        1975.53  // B6
+      ];
 
-        const chimeStart = now + 0.45 + idx * 0.055;
+      crystalNotes.forEach((freq, idx) => {
+        const bellOsc = this.ctx!.createOscillator();
+        const bellGain = this.ctx!.createGain();
+        const bellFilter = this.ctx!.createBiquadFilter();
 
-        chimeOsc.type = 'sine';
-        chimeOsc.frequency.setValueAtTime(freq, chimeStart);
+        const noteStart = now + 0.05 + idx * 0.04;
 
-        chimeGain.gain.setValueAtTime(0.001, chimeStart);
-        chimeGain.gain.linearRampToValueAtTime(0.12, chimeStart + 0.02);
-        chimeGain.gain.exponentialRampToValueAtTime(0.0001, chimeStart + 0.8);
+        bellOsc.type = 'sine';
+        bellOsc.frequency.setValueAtTime(freq, noteStart);
 
-        chimeOsc.connect(chimeGain);
-        chimeGain.connect(this.ctx!.destination);
+        bellFilter.type = 'bandpass';
+        bellFilter.frequency.setValueAtTime(freq * 1.05, noteStart);
+        bellFilter.Q.setValueAtTime(5.0, noteStart);
 
-        chimeOsc.start(chimeStart);
-        chimeOsc.stop(chimeStart + 0.85);
+        bellGain.gain.setValueAtTime(0.001, noteStart);
+        bellGain.gain.linearRampToValueAtTime(0.14, noteStart + 0.015);
+        bellGain.gain.exponentialRampToValueAtTime(0.0001, noteStart + 0.85);
+
+        bellOsc.connect(bellFilter);
+        bellFilter.connect(bellGain);
+        bellGain.connect(this.ctx!.destination);
+
+        bellOsc.start(noteStart);
+        bellOsc.stop(noteStart + 0.9);
       });
+
+      // ─────────────────────────────────────────────────────────────
+      // 4. POSITIVE CONFIRMATION CYBER PING (Dual High Resonance)
+      // ─────────────────────────────────────────────────────────────
+      const pingOsc1 = this.ctx.createOscillator();
+      const pingOsc2 = this.ctx.createOscillator();
+      const pingGain = this.ctx.createGain();
+
+      const pingStart = now + 0.32;
+
+      pingOsc1.type = 'sine';
+      pingOsc1.frequency.setValueAtTime(2637.02, pingStart); // E7
+      pingOsc2.type = 'sine';
+      pingOsc2.frequency.setValueAtTime(3135.96, pingStart); // G7
+
+      pingGain.gain.setValueAtTime(0.001, pingStart);
+      pingGain.gain.linearRampToValueAtTime(0.09, pingStart + 0.015);
+      pingGain.gain.exponentialRampToValueAtTime(0.0001, pingStart + 0.55);
+
+      pingOsc1.connect(pingGain);
+      pingOsc2.connect(pingGain);
+      pingGain.connect(this.ctx.destination);
+
+      pingOsc1.start(pingStart);
+      pingOsc2.start(pingStart);
+      pingOsc1.stop(pingStart + 0.6);
+      pingOsc2.stop(pingStart + 0.6);
     } catch {
       // Audio fallback
     }
   }
 }
 
-export const portalSound = new TechnicalPortalSoundEngine();
+export const portalSound = new HolographicPortalSoundEngine();
 
 export function playPortalLoginSound() {
   portalSound.playLoginSound();
