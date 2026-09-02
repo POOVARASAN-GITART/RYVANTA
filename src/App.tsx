@@ -5,6 +5,7 @@ import { AdminPanel } from './components/AdminPanel';
 import { CyberCursor } from './components/CyberCursor';
 import { FloatingSupportWidget } from './components/FloatingSupportWidget';
 import { TechConstellationBackground } from './components/TechConstellationBackground';
+import { RyvantaIntroLoader } from './components/RyvantaIntroLoader';
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
 import { RegistrationsProvider } from './contexts/RegistrationsContext';
@@ -14,6 +15,7 @@ import { Support } from './pages/Support';
 
 export function App() {
   const [isAdminOpen, setIsAdminOpen] = useState(false);
+  const [isLoadingIntro, setIsLoadingIntro] = useState(true);
 
   useEffect(() => {
     if (!isAdminOpen) return;
@@ -27,11 +29,16 @@ export function App() {
   return (
     <BrowserRouter>
       <RegistrationsProvider>
-        <div className="relative min-h-screen w-full flex-col bg-[#FAFAFA] overflow-x-hidden text-[#383838] selection:bg-[#D4AF37] selection:text-white">
+        {/* Full-Screen Unique Edge-Slide Intro Loading Animation */}
+        {isLoadingIntro && (
+          <RyvantaIntroLoader onComplete={() => setIsLoadingIntro(false)} />
+        )}
+
+        <div className="relative min-h-screen w-full flex-col bg-[#FFFFFF] overflow-x-hidden text-[#1E293B] selection:bg-[#0EA5E9] selection:text-white">
           {/* Interactive Living Tech Constellation Canvas Background */}
           <TechConstellationBackground />
 
-          {/* Interactive Regal Gold & White Dual-Ring Cursor */}
+          {/* Interactive Cyber Blue & Silver Dual-Ring Cursor */}
           <CyberCursor />
 
           {/* Persistent Floating Support Widget */}
