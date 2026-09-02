@@ -555,7 +555,7 @@ export function RegistrationForm({
                 required
                 value={leaderName}
                 onChange={(e) => setLeaderName(e.target.value)}
-                placeholder="e.g. Poovarasasn A"
+                placeholder="e.g. John"
                 className="w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-sm text-[#000000] placeholder:text-[#64748B] focus:border-[#0EA5E9] focus:bg-[#FFFFFF] focus:outline-none shadow-sm"
               />
             </div>
