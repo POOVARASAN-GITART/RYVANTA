@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import { LockIcon, SparklesIcon, ZapIcon, TrophyIcon } from 'lucide-react';
+import { LockIcon, TrophyIcon, SparklesIcon } from 'lucide-react';
 
 const NAV_ITEMS = [
   { to: '/', label: 'Home' },
@@ -16,9 +16,9 @@ export function Header({ onOpenAdmin }: HeaderProps) {
   return (
     <header className="sticky top-0 z-40 border-b border-[#EAE6DF] bg-[#FFFFFF]/95 backdrop-blur-md shadow-sm">
       <div className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between gap-6 px-4 sm:px-6 lg:px-8">
-        {/* Brand Logo */}
+        {/* Brand Logo & College Title */}
         <NavLink to="/" className="flex items-center gap-3 group">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#D4AF37] to-[#AA820A] text-[#FFFFFF] font-serif font-black text-base shadow-md transition-transform duration-200 group-hover:scale-105">
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#D4AF37] to-[#AA820A] text-[#FFFFFF] font-serif font-black text-lg shadow-md transition-transform duration-200 group-hover:scale-105">
             R
           </div>
           <div className="flex flex-col">
@@ -28,8 +28,8 @@ export function Header({ onOpenAdmin }: HeaderProps) {
               </span>
               <span className="font-mono text-xs font-bold text-[#D4AF37]">'26</span>
             </div>
-            <span className="text-[10px] font-sans font-semibold tracking-widest text-[#767676] uppercase">
-              National Technical Symposium &amp; Hackathon
+            <span className="text-[10px] font-sans font-semibold tracking-wider text-[#767676] uppercase line-clamp-1">
+              Jaya Engineering College · National Level Symposium &amp; Hackathon
             </span>
           </div>
         </NavLink>

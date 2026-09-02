@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AdminPanel } from './components/AdminPanel';
 import { CyberCursor } from './components/CyberCursor';
 import { FloatingSupportWidget } from './components/FloatingSupportWidget';
+import { TechConstellationBackground } from './components/TechConstellationBackground';
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
 import { RegistrationsProvider } from './contexts/RegistrationsContext';
@@ -27,7 +28,10 @@ export function App() {
     <BrowserRouter>
       <RegistrationsProvider>
         <div className="relative min-h-screen w-full flex-col bg-[#FAFAFA] overflow-x-hidden text-[#383838] selection:bg-[#D4AF37] selection:text-white">
-          {/* Interactive Regal Gold & White Cursor */}
+          {/* Interactive Living Tech Constellation Canvas Background */}
+          <TechConstellationBackground />
+
+          {/* Interactive Regal Gold & White Dual-Ring Cursor */}
           <CyberCursor />
 
           {/* Persistent Floating Support Widget */}
@@ -58,7 +62,6 @@ export function App() {
 }
 
 function AdminDirectView() {
-  const [isModalOpen, setIsModalOpen] = useState(true);
   return (
     <div className="py-12 text-center">
       <AdminPanel onClose={() => window.history.back()} />

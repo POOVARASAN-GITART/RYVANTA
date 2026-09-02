@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models, transaction
 from django.core.validators import RegexValidator
 
 class Registration(models.Model):
@@ -28,7 +28,7 @@ class Registration(models.Model):
         max_length=10,
         choices=EVENT_CHOICES,
         verbose_name="Event Code",
-        help_text="Single or two-letter event code (CH, D, C)"
+        help_text="Event code (CH for Hackathon, D for 2D Games, C for CTF)"
     )
 
     event_name = models.CharField(
@@ -77,13 +77,14 @@ class Registration(models.Model):
     participation_id = models.CharField(
         max_length=30,
         unique=True,
+        blank=True,
         verbose_name="Participation ID",
         help_text="Unique formatted ID (e.g., TICH1001, TID1001, TIC1001)"
     )
 
     institution = models.CharField(
         max_length=150,
-        default="College / Institution",
+        default="Jaya Engineering College",
         blank=True,
         verbose_name="College / University"
     )
@@ -120,6 +121,26 @@ class Registration(models.Model):
         ordering = ['-created_at']
         verbose_name = "Event Registration"
         verbose_name_plural = "Event Registrations"
+
+    def save(self, *args, **kwargs):
+        if not self.participation_id:
+            code = self.event_code.upper()
+            if code == 'H':
+                code = 'CH'
+            
+            with transaction.atomic():
+                count = Registration.objects.filter(event_code__in=[code, 'H' if code == 'CH' else code]).count()
+                start_num = 1001
+                seq_num = start_num + count
+                pid = f"TI{code}{seq_num}"
+
+                while Registration.objects.filter(participation_id=pid).exists():
+                    seq_num += 1
+                    pid = f"TI{code}{seq_num}"
+
+                self.participation_id = pid
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.participation_id} - {self.team_name} ({self.event_name})"

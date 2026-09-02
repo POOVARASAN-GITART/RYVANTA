@@ -1,39 +1,38 @@
 import csv
-from django.http import HttpResponse
-from django.db import transaction
-from django.db.models import Count
+import json
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from django.db.models import Count, Q
 from rest_framework import status, views
 from rest_framework.response import Response
 
 from .models import Registration
 from .serializers import RegistrationSerializer
 
-def generate_participation_id(event_code: str) -> str:
+@csrf_exempt
+def api_register_endpoint(request):
     """
-    Computes the next unique sequential participation ID starting from 1001:
-    Format: TI[EventLetter][SequentialNumber]
-    e.g. TICH1001, TID1001, TIC1001
+    Direct csrf-exempt endpoint for registering squads via POST /api/register/
     """
-    # Normalize event code
-    code = event_code.upper()
-    if code == 'H':
-        code = 'CH'
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body.decode('utf-8'))
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON body payload."}, status=400)
 
-    with transaction.atomic():
-        # Count existing registrations for this specific event code
-        count = Registration.objects.filter(event_code__in=[code, 'H' if code == 'CH' else code]).count()
-        start_number = 1001
-        seq_num = start_number + count
-        participation_id = f"TI{code}{seq_num}"
-
-        # Guarantee uniqueness in case of race conditions
-        while Registration.objects.filter(participation_id=participation_id).exists():
-            seq_num += 1
-            participation_id = f"TI{code}{seq_num}"
-
-        return participation_id
+        serializer = RegistrationSerializer(data=data)
+        if serializer.is_valid():
+            registration = serializer.save()
+            return JsonResponse(RegistrationSerializer(registration).data, status=201)
+        return JsonResponse(serializer.errors, status=400)
+    elif request.method == 'GET':
+        registrations = Registration.objects.all()
+        return JsonResponse(RegistrationSerializer(registrations, many=True).data, safe=False)
+    return JsonResponse({"error": "Method not allowed"}, status=405)
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class RegistrationListCreateAPIView(views.APIView):
     """
     List all registrations or create a new registration with unique sequential participation ID.
@@ -50,11 +49,11 @@ class RegistrationListCreateAPIView(views.APIView):
         search = request.query_params.get('search')
         if search:
             registrations = registrations.filter(
-                models.Q(team_name__icontains=search) |
-                models.Q(participation_id__icontains=search) |
-                models.Q(email__icontains=search) |
-                models.Q(mobile_number__icontains=search) |
-                models.Q(institution__icontains=search)
+                Q(team_name__icontains=search) |
+                Q(participation_id__icontains=search) |
+                Q(email__icontains=search) |
+                Q(mobile_number__icontains=search) |
+                Q(institution__icontains=search)
             )
 
         serializer = RegistrationSerializer(registrations, many=True)
@@ -63,11 +62,7 @@ class RegistrationListCreateAPIView(views.APIView):
     def post(self, request):
         serializer = RegistrationSerializer(data=request.data)
         if serializer.is_valid():
-            event_code = serializer.validated_data.get('event_code', 'CH')
-            unique_pid = generate_participation_id(event_code)
-
-            # Save with computed unique Participation ID
-            registration = serializer.save(participation_id=unique_pid)
+            registration = serializer.save()
             return Response(
                 RegistrationSerializer(registration).data,
                 status=status.HTTP_201_CREATED
@@ -100,7 +95,7 @@ class ExportRegistrationsCsvAPIView(views.APIView):
     """
     def get(self, request):
         response = HttpResponse(content_type='text/csv; charset=utf-8')
-        response['Content-Disposition'] = 'attachment; filename="ryvanta_26_registrations_master.csv"'
+        response['Content-Disposition'] = 'attachment; filename="jec_ryvanta_26_registrations.csv"'
 
         writer = csv.writer(response)
         writer.writerow([

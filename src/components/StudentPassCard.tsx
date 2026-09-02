@@ -10,7 +10,8 @@ import {
   ClockIcon,
   Share2Icon,
   XIcon,
-  SparklesIcon
+  SparklesIcon,
+  BuildingIcon
 } from 'lucide-react';
 import type { Registration } from '../types/registration';
 import { QrCodeView } from './QrCodeView';
@@ -37,12 +38,12 @@ export function StudentPassCard({
       {/* Action Bar */}
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#EAE6DF] pb-4 print:hidden">
         <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-[#D4AF37] to-[#AA820A] text-white font-serif font-bold">
+          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-[#D4AF37] to-[#AA820A] text-white font-serif font-bold text-xs">
             TI
           </div>
           <div>
             <h3 className="font-serif text-base font-bold text-[#1C1C1C]">
-              Official Participation ID &amp; Pass
+              Official Participation Pass &amp; Entry Badge
             </h3>
             <span className="font-mono text-xs text-[#AA820A] font-bold">
               ID: {registration.id}
@@ -85,7 +86,7 @@ export function StudentPassCard({
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37] bg-[#FAFAFA] px-3.5 py-1 text-xs font-mono font-bold uppercase tracking-widest text-[#AA820A]">
               <SparklesIcon className="h-3 w-3 text-[#D4AF37]" />
-              <span>RYVANTA '26 Official Entry Pass</span>
+              <span>Jaya Engineering College · RYVANTA '26 Pass</span>
             </div>
             <h2 className="mt-3 font-serif text-2xl sm:text-3xl font-black text-[#1C1C1C]">
               {registration.eventName}
@@ -163,7 +164,7 @@ export function StudentPassCard({
           <div className="flex flex-col items-center justify-center rounded-2xl border border-[#EAE6DF] bg-[#FAFAFA] p-4 text-center">
             <div className="rounded-xl border border-[#D4AF37] bg-[#FFFFFF] p-2.5 shadow-sm">
               <QrCodeView
-                value={`RYVANTA-PASS:${registration.id}|TEAM:${registration.teamName}|EVENT:${registration.eventId}`}
+                value={`JEC-RYVANTA:${registration.id}|TEAM:${registration.teamName}|EVENT:${registration.eventId}`}
                 size={128}
               />
             </div>
@@ -188,7 +189,7 @@ export function StudentPassCard({
               08:30 AM IST
             </span>
           </div>
-          <span>Carry physical college ID cards to campus.</span>
+          <span>Jaya Engineering College · Carry physical college ID cards to campus.</span>
         </div>
       </div>
     </div>

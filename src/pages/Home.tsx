@@ -9,8 +9,8 @@ import {
   TrophyIcon,
   Gamepad2Icon,
   TerminalIcon,
-  FileCodeIcon,
-  SparklesIcon
+  SparklesIcon,
+  BuildingIcon
 } from 'lucide-react';
 import { CountdownCard } from '../components/CountdownCard';
 import { ScheduleTimeline } from '../components/ScheduleTimeline';
@@ -24,9 +24,7 @@ import {
 const EVENT_ICONS: Record<string, typeof TrophyIcon> = {
   hackathon: TrophyIcon,
   '2d-games': Gamepad2Icon,
-  ctf: TerminalIcon,
-  'e-games': ZapIcon,
-  'elaris-sozo': FileCodeIcon
+  ctf: TerminalIcon
 };
 
 export function Home() {
@@ -39,7 +37,7 @@ export function Home() {
         <div className="relative z-10">
           <div className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37] bg-[#FFFFFF] px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-widest text-[#AA820A] shadow-sm">
             <SparklesIcon className="h-3.5 w-3.5 text-[#D4AF37]" />
-            <span>National Technical Symposium &amp; Hackathon</span>
+            <span>Jaya Engineering College · National Level Symposium &amp; Hackathon</span>
           </div>
 
           <h1 className="mt-5 font-serif text-5xl font-black leading-[1.08] tracking-tight text-[#1C1C1C] sm:text-6xl lg:text-7xl">
@@ -51,17 +49,17 @@ export function Home() {
           </h1>
 
           <p className="mt-6 max-w-xl text-base leading-relaxed text-[#555555] sm:text-lg">
-            Five premier national technical competitions, one prestigious university campus, one defining day.
+            Three premier national technical arenas, one prestigious campus, one defining day.
             RYVANTA '26 takes off on{' '}
-            <span className="font-bold text-[#1C1C1C]">19 September 2026</span> — a flat entry fee of{' '}
-            <span className="font-bold text-[#D4AF37]">₹{REGISTRATION_FEE}</span> per team grants full access to compete and claim prizes.
+            <span className="font-bold text-[#1C1C1C]">19 September 2026</span> at Jaya Engineering College — a flat entry fee of{' '}
+            <span className="font-bold text-[#D4AF37]">₹{REGISTRATION_FEE}</span> per team grants full access to compete and win prizes.
           </p>
 
           {/* Key Value Badges */}
           <div className="mt-6 flex flex-wrap gap-2.5 text-xs font-mono">
             <span className="rounded-xl border border-[#EAE6DF] bg-[#FFFFFF] px-3.5 py-2 text-[#1C1C1C] font-semibold flex items-center gap-2 shadow-sm">
               <TrophyIcon className="h-3.5 w-3.5 text-[#D4AF37]" />
-              National Flagship Events
+              3 Technical Arenas
             </span>
             <span className="rounded-xl border border-[#EAE6DF] bg-[#FFFFFF] px-3.5 py-2 text-[#1C1C1C] font-semibold flex items-center gap-2 shadow-sm">
               <ZapIcon className="h-3.5 w-3.5 text-[#D4AF37]" />
@@ -69,7 +67,7 @@ export function Home() {
             </span>
             <span className="rounded-xl border border-[#EAE6DF] bg-[#FFFFFF] px-3.5 py-2 text-[#1C1C1C] font-semibold flex items-center gap-2 shadow-sm">
               <ShieldCheckIcon className="h-3.5 w-3.5 text-emerald-600" />
-              Instant TI Participation ID
+              Instant Participation ID (TICH/TID/TIC)
             </span>
           </div>
 
@@ -117,13 +115,13 @@ export function Home() {
       <ScheduleTimeline />
 
       {/* ───────────────────────────────────────────────────────────── */}
-      {/* 3. DIGITAL POSTER CARDS FOR ALL 5 TECHNICAL EVENTS */}
+      {/* 3. DIGITAL POSTER CARDS FOR THE 3 TECHNICAL EVENTS */}
       {/* ───────────────────────────────────────────────────────────── */}
       <section aria-labelledby="lineup-heading" className="space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b border-[#EAE6DF] pb-4">
           <div>
             <span className="font-mono text-xs font-bold uppercase tracking-widest text-[#D4AF37]">
-              Technical Arena &amp; Competitions
+              Jaya Engineering College Technical Arenas
             </span>
             <h2
               id="lineup-heading"
@@ -133,7 +131,7 @@ export function Home() {
             </h2>
           </div>
           <span className="rounded-xl border border-[#D4AF37] bg-[#FFFFFF] px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-widest text-[#1C1C1C] shadow-sm">
-            {EVENTS.length} National Events
+            {EVENTS.length} Flagship Events
           </span>
         </div>
 
@@ -149,10 +147,10 @@ export function Home() {
                 <div>
                   <div className="flex items-center justify-between border-b border-[#EAE6DF] pb-3">
                     <span className="font-mono text-xs font-bold tracking-widest text-[#D4AF37]">
-                      CODE: TI{event.code}###
+                      CODE: TI{event.code}1001
                     </span>
                     <span className="rounded-md border border-[#EAE6DF] bg-[#FAFAFA] px-2.5 py-1 text-[10px] font-mono font-semibold text-[#555555]">
-                      {event.memberCounts.join('–')} Members
+                      {event.minMembers}–{event.maxMembers} Members
                     </span>
                   </div>
 
@@ -184,7 +182,7 @@ export function Home() {
 
                   {event.requiresDepartment && (
                     <div className="mt-4 inline-flex items-center gap-1.5 rounded-lg border border-[#D4AF37]/40 bg-[#FAFAFA] px-2.5 py-1 text-[10px] font-mono font-bold text-[#AA820A]">
-                      <span>Department Domain Mapping</span>
+                      <span>Dynamic Department Selector (7 Depts)</span>
                     </div>
                   )}
                 </div>
