@@ -29,6 +29,7 @@ export interface TimelineMilestone {
   description: string;
   status: 'upcoming' | 'active' | 'completed';
   badge: string;
+  milestones?: string[];
 }
 
 export const HACKATHON_TIMELINE: TimelineMilestone[] = [
@@ -37,10 +38,15 @@ export const HACKATHON_TIMELINE: TimelineMilestone[] = [
     title: 'Squad Registration & Track Selection',
     date: 'Active Now – 15 Sep 2026',
     timeSlot: '11:59 PM IST Deadline',
-    venue: 'Online Cyber Portal',
+    venue: 'Online Innovation Portal',
     description: 'Squad leaders submit team details, select innovation challenge track, and complete verified payment registration.',
     status: 'active',
-    badge: 'ONLINE'
+    badge: 'ONLINE',
+    milestones: [
+      'Squad identity & track submission',
+      'One-time email validation',
+      'Instant digital entry gate pass'
+    ]
   },
   {
     phase: 'PHASE 02',
@@ -50,7 +56,12 @@ export const HACKATHON_TIMELINE: TimelineMilestone[] = [
     venue: 'Jury Evaluation Room',
     description: 'Technical evaluation of submitted problem statements and squad composition. Shortlisted squads receive digital confirmation.',
     status: 'upcoming',
-    badge: 'SCREENING'
+    badge: 'SCREENING',
+    milestones: [
+      'Problem statement feasibility check',
+      'Domain expert initial scoring',
+      'Finalist squad confirmation emails'
+    ]
   },
   {
     phase: 'PHASE 03',
@@ -60,7 +71,12 @@ export const HACKATHON_TIMELINE: TimelineMilestone[] = [
     venue: 'Main Tech Auditorium',
     description: 'Inaugural ceremony, challenge track rules reveal, and orientation by top industry leaders and keynote speakers.',
     status: 'upcoming',
-    badge: 'ON-CAMPUS'
+    badge: 'ON-CAMPUS',
+    milestones: [
+      'Physical reporting & badge badge check',
+      'Track rules & dataset release',
+      'Opening keynote address'
+    ]
   },
   {
     phase: 'PHASE 04',
@@ -70,7 +86,12 @@ export const HACKATHON_TIMELINE: TimelineMilestone[] = [
     venue: 'Advanced Computing Center',
     description: 'Non-stop hacking, prototype development, and mandatory mentor checkpoints (Mid-evaluation at 01:30 PM).',
     status: 'upcoming',
-    badge: 'HACKATHON SPRINT'
+    badge: 'HACKATHON SPRINT',
+    milestones: [
+      'High-speed prototype development',
+      '1-on-1 mentor guidance check-ins',
+      'Mid-sprint progress review'
+    ]
   },
   {
     phase: 'PHASE 05',
@@ -80,7 +101,12 @@ export const HACKATHON_TIMELINE: TimelineMilestone[] = [
     venue: 'Demo Arena & Smart Labs',
     description: 'Final repository commits lock and 5-minute live working prototype demonstration before the grand judging panel.',
     status: 'upcoming',
-    badge: 'EVALUATION'
+    badge: 'EVALUATION',
+    milestones: [
+      'Hard code freeze & repo commit lock',
+      '5-Minute live project presentation',
+      'Jury Q&A and rubric evaluation'
+    ]
   },
   {
     phase: 'PHASE 06',
@@ -90,7 +116,12 @@ export const HACKATHON_TIMELINE: TimelineMilestone[] = [
     venue: 'Main Stage Auditorium',
     description: 'Announcement of winners, certificate distribution, internship offers, and grand prize pool presentation.',
     status: 'upcoming',
-    badge: 'AWARDS'
+    badge: 'AWARDS',
+    milestones: [
+      'Winners announcement & trophy ceremony',
+      'Internship & seed grant offers',
+      'Official participation certificate release'
+    ]
   }
 ];
 
@@ -118,138 +149,127 @@ export const EVENTS: EventConfig[] = [
     code: 'H',
     index: 1,
     name: "Hackathon '26",
-    fullName: "National Level Tech Innovation Challenge",
-    tagline: '8-Hour intense build sprint: prototype, iterate, and pitch to industry judges.',
-    venue: 'Tech Auditorium & Innovation Labs',
+    fullName: "National Level Hackathon '26",
+    tagline: '8-hour intensive build sprint across premier innovation tracks.',
+    venue: 'Computing Hub, Main Block',
     memberCounts: [2, 3, 4],
-    requiresDepartment: true,
+    requiresDepartment: false,
     trackList: CHALLENGE_TRACKS
   },
   {
-    id: 'games2d',
-    code: 'D',
+    id: 'tech-innovate',
+    code: 'T',
     index: 2,
-    name: '2D Games',
-    fullName: '2D Game Dev Championship',
-    tagline: 'Design and ship a playable 2D game engine prototype from scratch.',
-    venue: 'IT Lab',
-    memberCounts: [2, 3],
+    name: 'Tech Innovate',
+    fullName: 'Tech Innovate Prototype Expo',
+    tagline: 'Hardware and embedded systems live product showcase.',
+    venue: 'Innovation & Robotics Lab',
+    memberCounts: [2, 3, 4],
     requiresDepartment: false,
-    domains: [
-      'Cyber Detective',
-      'Disaster Resources',
-      'Puzzle & Physics',
-      'Endless Runner',
-      'Farming & Economy',
-      'Space Adventure',
-      'Logic Simulation',
-      'Arcade Racing',
-      '2D-Comebacks',
-      'Eco City Defense'
+    trackList: [
+      'Edge AI & Embedded Intelligence',
+      'Autonomous Systems & Robotics',
+      'Smart City & Sustainable Hardware',
+      'Biomedical & Assistive Tech'
     ]
   },
   {
-    id: 'ctf',
-    code: 'C',
-    index: 3,
-    name: 'Capture The Flag',
-    fullName: 'Capture The Flag — CTF Defense',
-    tagline: 'Jeopardy-style offensive and defensive security challenge across web, pwn, and crypto.',
-    venue: 'FOSS Security Lab',
-    memberCounts: [2, 3],
-    requiresDepartment: false
-  },
-  {
-    id: 'egames',
-    code: 'E',
-    index: 4,
-    name: 'E-Sports Showdown',
-    fullName: 'E-Sports Tactical Showdown',
-    tagline: 'Battle Royale squad tournament bracket with live streaming on big screens.',
-    venue: 'Network Arena',
-    memberCounts: [1, 2, 3, 4],
-    requiresDepartment: false
-  },
-  {
-    id: 'elaris',
+    id: 'paper-presentation',
     code: 'P',
+    index: 3,
+    name: 'Paper Presentation',
+    fullName: 'National Technical Paper Presentation',
+    tagline: 'Research exposition, journal-ready papers, and peer review.',
+    venue: 'Seminar Hall 1',
+    memberCounts: [1, 2, 3],
+    requiresDepartment: true
+  },
+  {
+    id: 'project-display',
+    code: 'D',
+    index: 4,
+    name: 'Project Display',
+    fullName: 'National Project & Venture Expo',
+    tagline: 'Working software/hardware demos, startup pitches, and jury evaluations.',
+    venue: 'Central Exhibition Hall',
+    memberCounts: [2, 3, 4],
+    requiresDepartment: true
+  },
+  {
+    id: 'quiz',
+    code: 'Q',
     index: 5,
-    name: 'ELARIS SOZO',
-    fullName: "ELARIS SOZO '26 — Research Pitch",
-    tagline: 'Paper presentation, deep-tech research, and venture pitch before investors.',
-    venue: 'Smart Seminar Hall',
-    memberCounts: [2, 3],
-    requiresDepartment: false
+    name: 'Tech Quiz & Code Arena',
+    fullName: 'Tech Titans Quiz & Competitive Arena',
+    tagline: 'High-speed technical buzzer rounds, algorithm sprints, and CS trivia.',
+    venue: 'Auditorium 2',
+    memberCounts: [2],
+    requiresDepartment: false,
+    domains: ['Computer Science & Algorithms', 'AI & Machine Learning Trivia', 'Tech History & General Tech']
   }
 ];
 
-export function getEvent(id: EventId): EventConfig {
-  return EVENTS.find((event) => event.id === id) ?? EVENTS[0];
-}
-
 export const DEPARTMENTS = [
-  'Computer Science & Engineering (CSE)',
-  'Information Technology (IT)',
-  'Artificial Intelligence & Data Science (AI&DS)',
-  'Electronics & Communication (ECE)',
-  'Electrical & Electronics (EEE)',
-  'Mechanical & Automation Engineering',
-  'Aeronautical & Aerospace Engineering',
-  'Interdisciplinary / Multi-Department Squad'
-] as const;
+  'CSE / IT / AI / Data Science',
+  'ECE / Electronics & Communication',
+  'EEE / Electrical Engineering',
+  'Mechanical / Mechatronics',
+  'Civil & Environmental Engineering',
+  'Biotechnology & Bio-Engineering',
+  'Other Interdisciplinary'
+];
 
 export const DEPARTMENT_DOMAINS: Record<string, string[]> = {
-  'Computer Science & Engineering (CSE)': [
-    'Artificial Intelligence & Machine Learning',
-    'Computer Vision & Intelligent Inspection',
-    'Cybersecurity & Digital Innovation',
-    'Advanced Software & Emerging Technologies'
+  'CSE / IT / AI / Data Science': [
+    'Deep Learning & Large Language Models',
+    'Distributed Systems & Cloud Computing',
+    'Quantum Computing & Cryptography',
+    'Computer Vision & Autonomous Perception'
   ],
-  'Information Technology (IT)': [
-    'Artificial Intelligence & Machine Learning',
-    'Computer Vision & Intelligent Inspection',
-    'Cybersecurity & Digital Innovation',
-    'Cloud Computing & Smart Applications'
+  'ECE / Electronics & Communication': [
+    '5G/6G Wireless & RF Communications',
+    'VLSI Design & Embedded Systems',
+    'IoT Architectures & Sensor Networks',
+    'Signal & Image Processing'
   ],
-  'Artificial Intelligence & Data Science (AI&DS)': [
-    'Generative AI & LLM Systems',
-    'Autonomous Intelligence & Agents',
-    'Big Data Analytics & Predictive Engines',
-    'Deep Learning & Neural Vision'
+  'EEE / Electrical Engineering': [
+    'Smart Grids & Renewable Energy Integration',
+    'Electric Vehicles & Battery Tech',
+    'Power Electronics & Drives',
+    'Industrial Automation & PLC'
   ],
-  'Electronics & Communication (ECE)': [
-    'IoT, Embedded Systems & Smart Automation',
-    'Robotics & Autonomous Systems',
-    'Computer Vision & Intelligent Inspection',
-    'Smart Communication & Connected Systems'
+  'Mechanical / Mechatronics': [
+    'Additive Manufacturing & 3D Printing',
+    'Robotics, Kinematics & Drone Dynamics',
+    'Thermodynamics & HVAC Innovations',
+    'Computational Fluid Dynamics'
   ],
-  'Electrical & Electronics (EEE)': [
-    'Smart Energy & Sustainable Engineering',
-    'IoT, Embedded Systems & Smart Automation',
-    'Robotics & Autonomous Systems',
-    'Smart Grid & Energy Management'
+  'Civil & Environmental Engineering': [
+    'Smart Infrastructure & BIM',
+    'Sustainable Construction Materials',
+    'Water Resource Engineering & Treatment',
+    'Geotechnical Seismic Analysis'
   ],
-  'Mechanical & Automation Engineering': [
-    'Robotics & Autonomous Systems',
-    'Smart Manufacturing & Industrial Automation',
-    'Computer Vision & Intelligent Inspection',
-    'Advanced Engineering & Digital Innovation'
+  'Biotechnology & Bio-Engineering': [
+    'Bioinformatics & Genomic Analysis',
+    'Biomedical Instrumentation',
+    'Synthetic Biology & Fermentation',
+    'Pharmaceutical Drug Delivery'
   ],
-  'Aeronautical & Aerospace Engineering': [
-    'Smart Mobility, Transportation & Aerospace Technology',
-    'Robotics & Autonomous Systems',
-    'Drone & Autonomous Flight Technology',
-    'Computer Vision & Intelligent Inspection'
-  ],
-  'Interdisciplinary / Multi-Department Squad': [
-    'Advanced Engineering & Digital Innovation',
-    'AI-Based Engineering Solutions',
-    'Smart Systems & Automation',
-    'Emerging Technologies & Innovation'
+  'Other Interdisciplinary': [
+    'Open Innovation & Cross-Domain Research',
+    'Tech for Social Impact',
+    'SpaceTech & Geospatial Systems'
   ]
 };
 
 export const SUPPORT_LINES = [
-  { label: 'Registration Desk', number: '+91 95665 20060', tel: '+919566520060' },
-  { label: 'Event Coordination', number: '+91 90030 18088', tel: '+919003018088' }
+  { label: 'Convenor & Registration Desk', number: '+91 98765 43210', tel: '+919876543210' },
+  { label: 'Technical & Challenge Tracks', number: '+91 98765 43211', tel: '+919876543211' },
+  { label: 'Payment & ID Helpdesk', number: '+91 98765 43212', tel: '+919876543212' }
 ];
+
+export function getEvent(id: EventId): EventConfig {
+  const match = EVENTS.find((e) => e.id === id);
+  return match || EVENTS[0];
+}

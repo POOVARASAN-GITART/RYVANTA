@@ -83,6 +83,7 @@ export function ScheduleTimeline() {
       <div className="relative z-10 mt-6 rounded-2xl border border-[#D8D7D5] bg-[#FFFFFF] p-6 sm:p-8 shadow-luxury">
         {(() => {
           const current = HACKATHON_TIMELINE[activePhaseIndex];
+          const milestones = current.milestones || [];
           return (
             <div className="grid gap-6 lg:grid-cols-[1fr_auto]">
               <div className="space-y-4">
@@ -110,22 +111,24 @@ export function ScheduleTimeline() {
                 </p>
 
                 {/* Key Deliverables / Milestones */}
-                <div className="border-t border-[#E5E4E2] pt-4">
-                  <span className="font-mono text-xs font-bold uppercase tracking-widest text-[#8C8A85]">
-                    Stage Deliverables &amp; Protocol:
-                  </span>
-                  <div className="mt-3 grid gap-2.5 sm:grid-cols-3">
-                    {current.milestones.map((ms, msIdx) => (
-                      <div
-                        key={msIdx}
-                        className="flex items-center gap-2 rounded-xl border border-[#E5E4E2] bg-[#F9F8F6] p-3 text-xs text-[#1A1A1A]"
-                      >
-                        <CheckCircle2Icon className="h-4 w-4 shrink-0 text-[#C5A059]" />
-                        <span className="font-medium">{ms}</span>
-                      </div>
-                    ))}
+                {milestones.length > 0 && (
+                  <div className="border-t border-[#E5E4E2] pt-4">
+                    <span className="font-mono text-xs font-bold uppercase tracking-widest text-[#8C8A85]">
+                      Stage Deliverables &amp; Protocol:
+                    </span>
+                    <div className="mt-3 grid gap-2.5 sm:grid-cols-3">
+                      {milestones.map((ms, msIdx) => (
+                        <div
+                          key={msIdx}
+                          className="flex items-center gap-2 rounded-xl border border-[#E5E4E2] bg-[#F9F8F6] p-3 text-xs text-[#1A1A1A]"
+                        >
+                          <CheckCircle2Icon className="h-4 w-4 shrink-0 text-[#C5A059]" />
+                          <span className="font-medium">{ms}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
 
               {/* Timing and Venue Sidebox */}
@@ -147,7 +150,7 @@ export function ScheduleTimeline() {
                       Time Slot
                     </span>
                     <p className="mt-1 font-display text-sm font-bold text-[#1A1A1A]">
-                      {current.time}
+                      {current.timeSlot}
                     </p>
                   </div>
 
@@ -157,7 +160,7 @@ export function ScheduleTimeline() {
                       Venue &amp; Location
                     </span>
                     <p className="mt-1 font-display text-sm font-bold text-[#1A1A1A]">
-                      {current.location}
+                      {current.venue}
                     </p>
                   </div>
                 </div>
