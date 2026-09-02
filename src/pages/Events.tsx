@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-
+import { ShieldCheckIcon, SparklesIcon, ZapIcon, AlertCircleIcon } from 'lucide-react';
 import { RegistrationForm } from '../components/RegistrationForm';
 import { StudentPassCard } from '../components/StudentPassCard';
 import { EVENTS } from '../data/events';
@@ -24,10 +24,9 @@ export function Events() {
   }
 
   return (
-    <div className="py-8">
-      <h1 className="sr-only">Events and registration</h1>
-
-      <div className="flex flex-wrap gap-2 border-b border-line pb-5">
+    <div className="py-6 space-y-8">
+      {/* Category Tabs */}
+      <div className="flex flex-wrap gap-2.5 border-b border-cyan-500/20 pb-5">
         {EVENTS.map((event) => {
           const isActive = event.id === activeEventId;
           return (
@@ -36,37 +35,41 @@ export function Events() {
               type="button"
               onClick={() => selectEvent(event.id)}
               aria-current={isActive ? 'true' : undefined}
-              className={[
-              'whitespace-nowrap rounded-lg px-4 py-2 text-xs font-semibold transition-colors duration-150 ease-smooth',
-              isActive ?
-              'bg-highlight text-gunmetal' :
-              'bg-surface text-metallic hover:text-highlight'].
-              join(' ')}>
-              
-              {String(event.index).padStart(2, '0')} · {event.name}
-            </button>);
-
+              className={`whitespace-nowrap rounded-xl px-4 py-2.5 font-mono text-xs font-bold uppercase tracking-wider transition-all duration-200 ${
+                isActive
+                  ? 'border border-cyan-400 bg-cyan-950/70 text-cyan-300 shadow-[0_0_15px_rgba(0,240,255,0.25)]'
+                  : 'border border-slate-800 bg-slate-900/60 text-slate-400 hover:border-slate-700 hover:text-white'
+              }`}
+            >
+              <span className="text-cyan-400 mr-1.5">{String(event.index).padStart(2, '0')}.</span>
+              {event.name}
+            </button>
+          );
         })}
       </div>
 
-      {loadError &&
-      <div
-        role="alert"
-        className="mt-6 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-amber-500/40 bg-amber-950/30 px-4 py-3 text-sm text-amber-200">
-        
-          <span>{loadError}</span>
+      {loadError && (
+        <div
+          role="alert"
+          className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-amber-500/40 bg-amber-950/30 px-5 py-4 text-sm text-amber-200"
+        >
+          <div className="flex items-center gap-2">
+            <AlertCircleIcon className="h-4 w-4 text-amber-400" />
+            <span>{loadError}</span>
+          </div>
           <button
-          type="button"
-          onClick={() => void reload()}
-          className="rounded-md border border-amber-400/50 px-3 py-1 text-xs font-semibold uppercase tracking-wider transition-colors duration-150 ease-smooth hover:bg-amber-400/10">
-          
+            type="button"
+            onClick={() => void reload()}
+            className="rounded-lg border border-amber-400/50 bg-amber-900/40 px-3 py-1 text-xs font-semibold uppercase tracking-wider transition-colors hover:bg-amber-400/20"
+          >
             Retry
           </button>
         </div>
-      }
+      )}
 
+      {/* Generated Receipt Pass View */}
       {receipt && (
-        <div className="mt-6">
+        <div className="rounded-3xl border border-cyan-400 bg-cyan-950/30 p-2 shadow-[0_0_30px_rgba(0,240,255,0.2)]">
           <StudentPassCard
             registration={receipt}
             onClose={() => setReceipt(null)}
@@ -74,8 +77,9 @@ export function Events() {
         </div>
       )}
 
-      <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_260px] lg:items-start">
-        <div className="rounded-2xl border border-line bg-surface p-6 sm:p-8">
+      {/* Main Registration Layout */}
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-start">
+        <div>
           <RegistrationForm
             key={activeEventId}
             eventId={activeEventId}
@@ -86,28 +90,44 @@ export function Events() {
             onRegistered={(record) => {
               setReceipt(record);
               window.scrollTo({ top: 0, behavior: 'smooth' });
-            }} />
-          
+            }}
+          />
         </div>
 
-        <aside className="rounded-2xl border border-line bg-surface p-6 text-sm text-metallic lg:sticky lg:top-28">
-          <h2 className="text-xs font-semibold uppercase tracking-widest text-highlight">
-            Before you submit
-          </h2>
-          <ul className="mt-4 space-y-3 text-xs leading-relaxed">
-            <li>
-              <span className="text-highlight">One team per domain.</span> Domains are
-              first come, first served and lock once claimed.
+        {/* Sidebar Info Card */}
+        <aside className="space-y-4 rounded-2xl border border-cyan-500/20 bg-[#070d1e]/80 p-6 text-sm text-slate-400 shadow-xl lg:sticky lg:top-28 backdrop-blur-xl">
+          <div className="flex items-center gap-2 border-b border-cyan-500/20 pb-3 font-display text-xs font-bold uppercase tracking-widest text-white">
+            <ShieldCheckIcon className="h-4 w-4 text-cyan-400" />
+            <span>Important Guidelines</span>
+          </div>
+          <ul className="space-y-3.5 text-xs leading-relaxed">
+            <li className="flex items-start gap-2">
+              <span className="text-cyan-400 font-bold">•</span>
+              <span>
+                <strong className="text-white">One Entry per Email:</strong> Each participant email is verified and locked to prevent duplicate submissions.
+              </span>
             </li>
-            <li>Scan the official QR code to pay the registration fee directly.</li>
-            <li>
-              Pay only to <code className="text-highlight">{settings.upiId}</code>. The
-              desk never asks for money anywhere else.
+            <li className="flex items-start gap-2">
+              <span className="text-cyan-400 font-bold">•</span>
+              <span>
+                <strong className="text-white">Official Payee:</strong> Send fees strictly to <code className="text-cyan-300 font-mono font-bold">{settings.upiId}</code> ({settings.payeeName}).
+              </span>
             </li>
-            <li>Your student participation ID & scannable gate pass are issued instantly on submission.</li>
+            <li className="flex items-start gap-2">
+              <span className="text-cyan-400 font-bold">•</span>
+              <span>
+                <strong className="text-white">Instant Digital Pass:</strong> Your squad gate pass and individual Student IDs are generated immediately upon verified submission.
+              </span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-cyan-400 font-bold">•</span>
+              <span>
+                <strong className="text-white">Bring Physical ID:</strong> Carry your college ID cards on the event day (19 Sep 2026).
+              </span>
+            </li>
           </ul>
         </aside>
       </div>
-    </div>);
-
+    </div>
+  );
 }

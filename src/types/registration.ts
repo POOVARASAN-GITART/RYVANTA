@@ -2,15 +2,32 @@ export type EventId = 'hackathon' | 'games2d' | 'ctf' | 'egames' | 'elaris';
 
 export type PaymentStatus = 'pending' | 'verified' | 'rejected';
 
+export interface SquadMember {
+  name: string;
+  email?: string;
+  phone?: string;
+  rollNo?: string;
+  department?: string;
+  role?: string;
+}
+
 export interface RegistrationInput {
   eventId: EventId;
   teamName: string;
+  leaderName: string;
+  leaderPhone: string;
+  leaderEmail: string;
+  institution: string;
+  track: string;
   members: string[];
+  memberDetails?: SquadMember[];
   email: string;
   phone: string;
-  department: string;
-  domain: string;
+  department?: string;
+  domain?: string;
   upiRef?: string;
+  paymentScreenshot?: string;
+  termsAccepted: boolean;
   paymentStatus?: PaymentStatus;
 }
 
@@ -24,6 +41,7 @@ export interface Registration extends RegistrationInput {
   paymentStatus: PaymentStatus;
   createdAt: string;
   upiRef?: string;
+  paymentScreenshot?: string;
 }
 
 export interface ApiError {

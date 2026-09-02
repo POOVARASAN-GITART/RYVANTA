@@ -6,35 +6,19 @@ import type {
   PaymentStatus,
   Registration,
   RegistrationInput,
-  TakenDomains } from
-'../types/registration';
+  TakenDomains
+} from '../types/registration';
 
-/**
- * ── BACKEND WIRING ────────────────────────────────────────────────────────────
- * Point `API_BASE_URL` at your server and every call below switches from the
- * local persistence adapter to real HTTP. No UI code changes required.
- *
- * Expected contract:
- *   GET    {base}/registrations                -> Registration[]
- *   POST   {base}/registrations                -> Registration   (server assigns `id`)
- *   PATCH  {base}/registrations/:id/payment    -> Registration   ({ paymentStatus })
- *   DELETE {base}/registrations/:id            -> 204
- *   GET    {base}/domains/taken                -> TakenDomains
- *   GET    {base}/settings                     -> EventSettings
- *   PUT    {base}/settings                     -> EventSettings
- *   POST   {base}/admin/session                -> { token: string }
- */
 export const API_BASE_URL: string | null = null;
-
 export const IS_REMOTE_BACKEND = Boolean(API_BASE_URL);
 
-const STORAGE_KEY = 'ryvanta_registrations_v3';
-const SETTINGS_KEY = 'ryvanta_settings_v2';
-const NETWORK_DELAY = 320;
+const STORAGE_KEY = 'ryvanta_registrations_v4';
+const SETTINGS_KEY = 'ryvanta_settings_v3';
+const NETWORK_DELAY = 280;
 
 export const DEFAULT_SETTINGS: EventSettings = {
-  upiId: 'poosiju1@okaxis',
-  payeeName: 'RYVANTA Event'
+  upiId: 'alangaram1985@okicici',
+  payeeName: 'Alangaram Selvaraj'
 };
 
 export class ApiRequestError extends Error {
@@ -54,7 +38,7 @@ function wait(ms: number): Promise<void> {
 function readStore(): Registration[] {
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) as Registration[] : [];
+    return raw ? (JSON.parse(raw) as Registration[]) : [];
   } catch {
     return [];
   }
@@ -64,16 +48,16 @@ function writeStore(records: Registration[]): void {
   try {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
   } catch {
-
-    /* storage unavailable — records stay in memory for this session */}
+    /* storage fallback */
+  }
 }
 
 function readSettings(): EventSettings {
   try {
     const raw = window.localStorage.getItem(SETTINGS_KEY);
-    return raw ?
-    { ...DEFAULT_SETTINGS, ...(JSON.parse(raw) as Partial<EventSettings>) } :
-    DEFAULT_SETTINGS;
+    return raw
+      ? { ...DEFAULT_SETTINGS, ...(JSON.parse(raw) as Partial<EventSettings>) }
+      : DEFAULT_SETTINGS;
   } catch {
     return DEFAULT_SETTINGS;
   }
@@ -83,8 +67,8 @@ function writeSettings(settings: EventSettings): void {
   try {
     window.localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
   } catch {
-
-    /* storage unavailable */}
+    /* storage fallback */
+  }
 }
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
@@ -95,61 +79,114 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   if (!response.ok) {
     const detail = await response.json().catch(() => null);
     throw new ApiRequestError(
-      (detail as {message?: string;} | null)?.message ??
-      `Request failed (${response.status})`
+      (detail as { message?: string } | null)?.message ??
+        `Request failed (${response.status})`
     );
   }
   if (response.status === 204) return undefined as T;
   return (await response.json()) as T;
 }
 
+/**
+ * Check if an email address is already registered in any squad (One-Time Email Constraint)
+ */
+export async function checkEmailExists(email: string): Promise<boolean> {
+  const normalized = email.trim().toLowerCase();
+  if (!normalized) return false;
+  const records = readStore();
+  return records.some((r) => {
+    const leaderMatch =
+      r.email?.toLowerCase() === normalized ||
+      r.leaderEmail?.toLowerCase() === normalized;
+    const memberMatch = r.memberDetails?.some(
+      (m) => m.email?.toLowerCase() === normalized
+    );
+    return leaderMatch || memberMatch;
+  });
+}
+
 function validate(input: RegistrationInput, existing: Registration[]): void {
   const event = getEvent(input.eventId);
 
   if (input.teamName.trim().length < 3) {
-    throw new ApiRequestError('Team name needs at least 3 characters.', 'teamName');
+    throw new ApiRequestError('Squad/Team name needs at least 3 characters.', 'teamName');
   }
+
+  if (input.leaderName && input.leaderName.trim().length < 2) {
+    throw new ApiRequestError('Leader full name is required.', 'leaderName');
+  }
+
+  const effectiveEmail = (input.leaderEmail || input.email || '').trim().toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(effectiveEmail)) {
+    throw new ApiRequestError('Enter a valid reachable email address.', 'email');
+  }
+
+  const effectivePhone = (input.leaderPhone || input.phone || '').trim();
+  if (!/^[0-9+\s-]{10,15}$/.test(effectivePhone)) {
+    throw new ApiRequestError('Enter a valid 10-digit WhatsApp phone number.', 'phone');
+  }
+
   if (input.members.some((name) => name.trim().length < 2)) {
-    throw new ApiRequestError('Every member needs a full name.', 'members');
+    throw new ApiRequestError('Every squad member needs a valid full name.', 'members');
   }
+
   if (!event.memberCounts.includes(input.members.length)) {
     throw new ApiRequestError(
       `${event.name} accepts ${event.memberCounts.join(' or ')} members.`,
       'members'
     );
   }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(input.email.trim())) {
-    throw new ApiRequestError('Enter a reachable email address.', 'email');
+
+  // Strict One-Time Email Validation Constraint
+  const allParticipantEmails = [
+    effectiveEmail,
+    ...(input.memberDetails?.map((m) => (m.email || '').trim().toLowerCase()).filter(Boolean) || [])
+  ];
+
+  for (const checkEmail of allParticipantEmails) {
+    if (!checkEmail) continue;
+    const alreadyRegistered = existing.some((r) => {
+      const leaderMatch =
+        (r.email || '').toLowerCase() === checkEmail ||
+        (r.leaderEmail || '').toLowerCase() === checkEmail;
+      const memberMatch = r.memberDetails?.some(
+        (m) => (m.email || '').toLowerCase() === checkEmail
+      );
+      return leaderMatch || memberMatch;
+    });
+
+    if (alreadyRegistered) {
+      throw new ApiRequestError(
+        `Registration Error: Email "${checkEmail}" has already been used to register. Only one registration is allowed per email address.`,
+        'email'
+      );
+    }
   }
-  if (!/^[0-9+\s-]{10,15}$/.test(input.phone.trim())) {
-    throw new ApiRequestError('Enter a 10-digit contact number.', 'phone');
-  }
-  if (event.requiresDepartment && !input.department) {
-    throw new ApiRequestError('Select your department.', 'department');
-  }
-  if ((event.requiresDepartment || event.domains) && !input.domain) {
-    throw new ApiRequestError('Select a domain to compete in.', 'domain');
-  }
+
+  // Duplicate team name check
   if (
-  existing.some(
-    (record) =>
-    record.eventId === input.eventId &&
-    record.teamName.trim().toLowerCase() === input.teamName.trim().toLowerCase()
-  ))
-  {
-    throw new ApiRequestError('A team with this name is already registered.', 'teamName');
+    existing.some(
+      (record) =>
+        record.eventId === input.eventId &&
+        record.teamName.trim().toLowerCase() === input.teamName.trim().toLowerCase()
+    )
+  ) {
+    throw new ApiRequestError('A squad with this name is already registered for this event.', 'teamName');
   }
-  // One team per domain, per event — domains are claimed first come, first served.
+
+  // One team per domain/track lock
+  const selectedTrack = input.track || input.domain;
   if (
-  input.domain &&
-  existing.some(
-    (record) =>
-    record.eventId === input.eventId &&
-    record.domain.trim().toLowerCase() === input.domain.trim().toLowerCase()
-  ))
-  {
+    selectedTrack &&
+    existing.some(
+      (record) =>
+        record.eventId === input.eventId &&
+        (record.track?.trim().toLowerCase() === selectedTrack.trim().toLowerCase() ||
+          record.domain?.trim().toLowerCase() === selectedTrack.trim().toLowerCase())
+    )
+  ) {
     throw new ApiRequestError(
-      `"${input.domain}" was just claimed by another team. Pick a different domain.`,
+      `"${selectedTrack}" was just claimed by another squad. Please pick another challenge track.`,
       'domain'
     );
   }
@@ -158,7 +195,8 @@ function validate(input: RegistrationInput, existing: Registration[]): void {
 function nextId(eventId: RegistrationInput['eventId'], existing: Registration[]): string {
   const event = getEvent(eventId);
   const count = existing.filter((record) => record.eventId === eventId).length;
-  return `TI${event.code}${String(count + 1).padStart(3, '0')}`;
+  const index = (count + 1).toString().padStart(3, '0');
+  return `TI${event.code}${index}`;
 }
 
 export async function listRegistrations(): Promise<Registration[]> {
@@ -168,8 +206,8 @@ export async function listRegistrations(): Promise<Registration[]> {
 }
 
 export async function createRegistration(
-input: RegistrationInput)
-: Promise<Registration> {
+  input: RegistrationInput
+): Promise<Registration> {
   if (API_BASE_URL) {
     return request<Registration>('/registrations', {
       method: 'POST',
@@ -177,7 +215,7 @@ input: RegistrationInput)
     });
   }
 
-  await wait(NETWORK_DELAY + 260);
+  await wait(NETWORK_DELAY + 100);
   const existing = readStore();
   validate(input, existing);
 
@@ -185,10 +223,18 @@ input: RegistrationInput)
   const record: Registration = {
     ...input,
     teamName: input.teamName.trim(),
+    leaderName: (input.leaderName || input.members[0] || '').trim(),
+    leaderPhone: (input.leaderPhone || input.phone || '').trim(),
+    leaderEmail: (input.leaderEmail || input.email || '').trim(),
+    institution: (input.institution || 'College / Institution').trim(),
+    track: (input.track || input.domain || 'General Tech Innovation').trim(),
     members: input.members.map((name) => name.trim()),
-    email: input.email.trim(),
-    phone: input.phone.trim(),
+    memberDetails: input.memberDetails || [],
+    email: (input.leaderEmail || input.email || '').trim(),
+    phone: (input.leaderPhone || input.phone || '').trim(),
     upiRef: input.upiRef ? input.upiRef.trim() : '',
+    paymentScreenshot: input.paymentScreenshot,
+    termsAccepted: input.termsAccepted ?? true,
     id: nextId(input.eventId, existing),
     eventName: event.fullName,
     eventCode: event.code,
@@ -205,9 +251,9 @@ input: RegistrationInput)
 }
 
 export async function updatePaymentStatus(
-id: string,
-paymentStatus: PaymentStatus)
-: Promise<Registration> {
+  id: string,
+  paymentStatus: PaymentStatus
+): Promise<Registration> {
   if (API_BASE_URL) {
     return request<Registration>(`/registrations/${id}/payment`, {
       method: 'PATCH',
@@ -241,9 +287,10 @@ export async function listTakenDomains(): Promise<TakenDomains> {
 
   await wait(NETWORK_DELAY);
   return readStore().reduce<TakenDomains>((taken, record) => {
-    if (!record.domain) return taken;
+    const claim = record.track || record.domain;
+    if (!claim) return taken;
     const claimed = taken[record.eventId] ?? [];
-    return { ...taken, [record.eventId]: [...claimed, record.domain] };
+    return { ...taken, [record.eventId]: [...claimed, claim] };
   }, {});
 }
 
@@ -254,8 +301,8 @@ export async function getSettings(): Promise<EventSettings> {
 }
 
 export async function updateSettings(
-patch: Partial<EventSettings>)
-: Promise<EventSettings> {
+  patch: Partial<EventSettings>
+): Promise<EventSettings> {
   const next = { ...readSettings(), ...patch };
 
   if (next.upiId && !/^[\w.\-]{3,}@[a-zA-Z]{2,}$/.test(next.upiId.trim())) {
@@ -283,7 +330,7 @@ patch: Partial<EventSettings>)
 
 export async function authenticateAdmin(passcode: string): Promise<string> {
   if (API_BASE_URL) {
-    const result = await request<{token: string;}>('/admin/session', {
+    const result = await request<{ token: string }>('/admin/session', {
       method: 'POST',
       body: JSON.stringify({ passcode })
     });
@@ -294,42 +341,46 @@ export async function authenticateAdmin(passcode: string): Promise<string> {
   if (passcode !== 'admin123') {
     throw new ApiRequestError('Incorrect passcode.');
   }
-  return 'local-session-token';
+  return 'local-admin-token';
 }
 
 export function toCsv(records: Registration[]): string {
-  const header = [
-  'ID',
-  'Event',
-  'Team Name',
-  'Members',
-  'Email',
-  'Phone',
-  'Department',
-  'Domain',
-  'Fee',
-  'Payment Status',
-  'Registered At'];
+  const headers = [
+    'ID',
+    'Event',
+    'Squad Name',
+    'Leader Name',
+    'Leader Email',
+    'Leader Phone',
+    'Institution',
+    'Challenge Track',
+    'Member Count',
+    'All Members',
+    'Payment Status',
+    'UTR Reference',
+    'Registered At'
+  ];
 
-  const escape = (value: string) => `"${value.replace(/"/g, '""')}"`;
-  const rows = records.map((record) =>
-  [
-  record.id,
-  record.eventName,
-  record.teamName,
-  record.members.join('; '),
-  record.email,
-  record.phone,
-  record.department || 'N/A',
-  record.domain || 'N/A',
-  `INR ${record.feeAmount}`,
-  record.paymentStatus,
-  new Date(record.createdAt).toLocaleString()].
+  const escapeField = (val: unknown) => {
+    const str = String(val ?? '').replace(/"/g, '""');
+    return `"${str}"`;
+  };
 
-  map(escape).
-  join(',')
-  );
-  return [header.map(escape).join(','), ...rows].join('\n');
+  const rows = records.map((r) => [
+    escapeField(r.id),
+    escapeField(r.eventName),
+    escapeField(r.teamName),
+    escapeField(r.leaderName || r.members[0] || ''),
+    escapeField(r.leaderEmail || r.email || ''),
+    escapeField(r.leaderPhone || r.phone || ''),
+    escapeField(r.institution || ''),
+    escapeField(r.track || r.domain || ''),
+    escapeField(r.memberCount),
+    escapeField(r.members.join('; ')),
+    escapeField(r.paymentStatus),
+    escapeField(r.upiRef || ''),
+    escapeField(r.createdAt)
+  ].join(','));
+
+  return [headers.join(','), ...rows].join('\n');
 }
-
-export const EVENT_IDS = EVENTS.map((event) => event.id);

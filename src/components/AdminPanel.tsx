@@ -6,9 +6,12 @@ import {
   Loader2Icon,
   RefreshCwIcon,
   Trash2Icon,
-  XIcon } from
-'lucide-react';
-
+  XIcon,
+  FileImageIcon,
+  ReceiptIcon,
+  ShieldCheckIcon,
+  BuildingIcon
+} from 'lucide-react';
 import { EVENTS, REGISTRATION_FEE } from '../data/events';
 import { useRegistrationsContext } from '../contexts/RegistrationsContext';
 import { authenticateAdmin, toCsv } from '../services/registrationApi';
@@ -16,9 +19,9 @@ import type { EventSettings, PaymentStatus, Registration } from '../types/regist
 import { StudentPassCard } from './StudentPassCard';
 
 const STATUS_STYLES: Record<PaymentStatus, string> = {
-  pending: 'border-amber-500/40 text-amber-300',
-  verified: 'border-accent/40 text-accent',
-  rejected: 'border-red-500/40 text-red-300'
+  pending: 'border-amber-500/40 text-amber-300 bg-amber-950/20',
+  verified: 'border-cyan-400/40 text-cyan-300 bg-cyan-950/20 shadow-[0_0_8px_rgba(0,240,255,0.2)]',
+  rejected: 'border-red-500/40 text-red-300 bg-red-950/20'
 };
 
 interface AdminPanelProps {
@@ -44,15 +47,27 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
   const [query, setQuery] = useState('');
   const [busyId, setBusyId] = useState<string | null>(null);
   const [selectedRecord, setSelectedRecord] = useState<Registration | null>(null);
+  const [viewScreenshot, setViewScreenshot] = useState<string | null>(null);
 
   const filtered = useMemo(() => {
     const term = query.trim().toLowerCase();
     if (!term) return registrations;
     return registrations.filter((record) =>
-    [record.id, record.teamName, record.eventName, record.email, record.department, record.domain].
-    join(' ').
-    toLowerCase().
-    includes(term)
+      [
+        record.id,
+        record.teamName,
+        record.eventName,
+        record.email,
+        record.leaderName,
+        record.institution,
+        record.track,
+        record.domain,
+        record.upiRef
+      ]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase()
+        .includes(term)
     );
   }, [query, registrations]);
 
@@ -93,168 +108,171 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/80 p-4 backdrop-blur-sm sm:p-8"
+      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/85 p-4 backdrop-blur-md sm:p-8"
       role="dialog"
       aria-modal="true"
-      aria-label="Admin panel">
-      
-      <div className="w-full max-w-6xl rounded-2xl border border-line bg-surface">
-        <div className="flex items-center justify-between border-b border-line px-6 py-4">
-          <h2 className="font-display text-lg font-bold text-highlight">Admin panel</h2>
+      aria-label="Admin panel"
+    >
+      <div className="w-full max-w-6xl rounded-3xl border border-cyan-500/30 bg-[#060c1c] shadow-2xl shadow-cyan-950/60 text-slate-200">
+        {/* Modal Header */}
+        <div className="flex items-center justify-between border-b border-cyan-500/20 px-6 py-4">
+          <div className="flex items-center gap-2">
+            <span className="flex h-2 w-2 rounded-full bg-cyan-400 animate-ping" />
+            <h2 className="font-display text-lg font-bold text-white uppercase tracking-wider">
+              RYVANTA Organizer Console
+            </h2>
+          </div>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-md p-1 text-metallic transition-colors duration-150 ease-smooth hover:text-highlight"
-            aria-label="Close admin panel">
-            
-            <XIcon className="h-5 w-5" aria-hidden="true" />
+            className="rounded-xl p-1.5 text-slate-400 transition-colors hover:bg-slate-800 hover:text-white"
+            aria-label="Close admin panel"
+          >
+            <XIcon className="h-5 w-5" />
           </button>
         </div>
 
-        {!isAuthenticated ?
-        <form onSubmit={handleAuth} className="mx-auto max-w-sm space-y-4 px-6 py-14">
+        {!isAuthenticated ? (
+          <form onSubmit={handleAuth} className="mx-auto max-w-sm space-y-4 px-6 py-14">
             <label
-            className="block text-xs font-medium uppercase tracking-wider text-metallic"
-            htmlFor="passcode">
-            
-              Organizer passcode
+              className="block text-xs font-semibold uppercase tracking-wider text-slate-400"
+              htmlFor="passcode"
+            >
+              Organizer Access Passcode
             </label>
             <input
-            id="passcode"
-            type="password"
-            autoFocus
-            value={passcode}
-            onChange={(e) => setPasscode(e.target.value)}
-            className="w-full rounded-lg border border-line bg-gunmetal px-3 py-2.5 text-sm text-highlight transition-colors duration-150 ease-smooth focus:border-metallic focus:outline-none"
-            placeholder="••••••••" />
-          
-            {authError &&
-          <p role="alert" className="text-xs text-red-300">
-                {authError}
-              </p>
-          }
+              id="passcode"
+              type="password"
+              autoFocus
+              value={passcode}
+              onChange={(e) => setPasscode(e.target.value)}
+              placeholder="Default: admin123"
+              className="w-full rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 font-mono text-sm text-white placeholder:text-slate-600 focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400"
+            />
+            {authError && <p className="text-xs text-red-400">{authError}</p>}
             <button
-            type="submit"
-            disabled={isAuthenticating}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-highlight px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-gunmetal transition-colors duration-150 ease-smooth hover:bg-white disabled:bg-metallic/40">
-            
-              {isAuthenticating &&
-            <Loader2Icon className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />
-            }
-              Access
+              type="submit"
+              disabled={isAuthenticating || !passcode}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-cyan-400 px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-950 hover:bg-cyan-300 disabled:opacity-50"
+            >
+              {isAuthenticating && <Loader2Icon className="h-4 w-4 animate-spin" />}
+              <span>Enter Console</span>
             </button>
-          </form> :
+          </form>
+        ) : (
+          <div className="space-y-6 p-6 sm:p-8">
+            {/* Stats Overview */}
+            <div className="grid grid-cols-2 gap-4 rounded-2xl border border-slate-800 bg-slate-900/60 p-5 sm:grid-cols-4">
+              <Stat label="Total Squads" value={registrations.length.toString()} />
+              <Stat label="Verified Payments" value={collected.toString()} />
+              <Stat label="Total Revenue" value={`₹${(collected * REGISTRATION_FEE).toLocaleString('en-IN')}`} />
+              <Stat label="Available Tracks" value={EVENTS.length.toString()} />
+            </div>
 
-        <div className="space-y-5 px-6 py-6">
+            {/* Collection Account Configuration */}
             <PayeeSettings settings={settings} onSave={saveSettings} />
 
-            <div className="flex flex-wrap items-end justify-between gap-4">
-              <div className="flex flex-wrap gap-8">
-                <Stat label="Registrations" value={String(registrations.length)} />
-                <Stat label="Payments verified" value={`${collected}`} />
-                <Stat
-                label="Fees collected"
-                value={`₹${(collected * REGISTRATION_FEE).toLocaleString('en-IN')}`} />
-              
-              </div>
+            {/* Controls */}
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4">
+              <input
+                type="search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search squad, leader, college, ID, or track..."
+                className="w-full sm:w-80 rounded-xl border border-slate-700 bg-slate-900/90 px-3.5 py-2 text-xs text-white placeholder:text-slate-600 focus:border-cyan-400 focus:outline-none"
+              />
+
               <div className="flex items-center gap-2">
                 <button
-                type="button"
-                onClick={() => void reload()}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-line px-3 py-2 text-xs text-metallic transition-colors duration-150 ease-smooth hover:border-metallic hover:text-highlight">
-                
-                  <RefreshCwIcon
-                  className={`h-3.5 w-3.5 ${isLoading ? 'animate-spin' : ''}`}
-                  aria-hidden="true" />
-                
-                  Refresh
+                  type="button"
+                  onClick={() => void reload()}
+                  disabled={isLoading}
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 text-xs font-semibold text-slate-300 hover:border-cyan-400 hover:text-white disabled:opacity-50"
+                >
+                  <RefreshCwIcon className={`h-3.5 w-3.5 ${isLoading ? 'animate-spin' : ''}`} />
+                  <span>Refresh</span>
                 </button>
                 <button
-                type="button"
-                onClick={downloadCsv}
-                disabled={registrations.length === 0}
-                className="inline-flex items-center gap-1.5 rounded-lg bg-highlight px-3 py-2 text-xs font-semibold text-gunmetal transition-colors duration-150 ease-smooth hover:bg-white disabled:bg-metallic/40">
-                
-                  <DownloadIcon className="h-3.5 w-3.5" aria-hidden="true" />
-                  Export CSV
+                  type="button"
+                  onClick={downloadCsv}
+                  disabled={registrations.length === 0}
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-cyan-500/40 bg-cyan-950/40 px-3.5 py-2 text-xs font-semibold text-cyan-300 hover:bg-cyan-400 hover:text-slate-950 disabled:opacity-50"
+                >
+                  <DownloadIcon className="h-3.5 w-3.5" />
+                  <span>Export CSV</span>
                 </button>
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-3">
-              <input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search ID, team, event, email, department"
-              aria-label="Search registrations"
-              className="w-full max-w-sm rounded-lg border border-line bg-gunmetal px-3 py-2 text-sm text-highlight placeholder:text-metallic/50 transition-colors duration-150 ease-smooth focus:border-metallic focus:outline-none" />
-            
-              <span className="text-xs text-metallic">
-                {filtered.length} of {registrations.length}
-              </span>
-            </div>
-
-            {loadError &&
-          <p role="alert" className="text-sm text-red-300">
-                {loadError}
+            {/* Registrations Table */}
+            {isLoading && registrations.length === 0 ? (
+              <p className="py-12 text-center text-sm text-slate-500">Loading registrations from database...</p>
+            ) : filtered.length === 0 ? (
+              <p className="py-12 text-center text-sm text-slate-500">
+                {registrations.length === 0
+                  ? 'No registrations in cloud database yet. Submissions will appear live here.'
+                  : 'No records match that search.'}
               </p>
-          }
-
-            {isLoading && registrations.length === 0 ?
-          <p className="py-12 text-center text-sm text-metallic">
-                Loading registrations…
-              </p> :
-          filtered.length === 0 ?
-          <p className="py-12 text-center text-sm text-metallic">
-                {registrations.length === 0 ?
-            'No registrations yet. The first submission will appear here.' :
-            'No records match that search.'}
-              </p> :
-
-          <div className="max-h-[52vh] overflow-auto rounded-xl border border-line">
-                <table className="w-full min-w-[1040px] text-left text-xs">
-                  <thead className="sticky top-0 bg-elevated text-metallic">
+            ) : (
+              <div className="max-h-[52vh] overflow-auto rounded-2xl border border-slate-800 bg-slate-950/60">
+                <table className="w-full min-w-[1100px] text-left text-xs">
+                  <thead className="sticky top-0 bg-slate-900 text-slate-400 font-mono">
                     <tr>
-                      <th scope="col" className="px-4 py-3 font-medium">ID</th>
-                      <th scope="col" className="px-4 py-3 font-medium">Event</th>
-                      <th scope="col" className="px-4 py-3 font-medium">Team</th>
-                      <th scope="col" className="px-4 py-3 font-medium">Domain</th>
-                      <th scope="col" className="px-4 py-3 font-medium">Members</th>
-                      <th scope="col" className="px-4 py-3 font-medium">Department</th>
-                      <th scope="col" className="px-4 py-3 font-medium">Payment</th>
-                      <th scope="col" className="px-4 py-3 font-medium text-right">Actions</th>
+                      <th className="px-4 py-3 font-semibold">ID</th>
+                      <th className="px-4 py-3 font-semibold">Event / Track</th>
+                      <th className="px-4 py-3 font-semibold">Squad &amp; Leader</th>
+                      <th className="px-4 py-3 font-semibold">Institution</th>
+                      <th className="px-4 py-3 font-semibold">Members</th>
+                      <th className="px-4 py-3 font-semibold">Payment / UTR</th>
+                      <th className="px-4 py-3 font-semibold text-right">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-line/70">
-                    {filtered.map((record) =>
-                <tr key={record.id} className="align-top text-highlight">
-                        <td className="px-4 py-3 font-display font-bold">{record.id}</td>
-                        <td className="px-4 py-3 text-metallic">{record.eventName}</td>
+                  <tbody className="divide-y divide-slate-800">
+                    {filtered.map((record) => (
+                      <tr key={record.id} className="align-top hover:bg-slate-900/40 transition-colors">
+                        <td className="px-4 py-3 font-mono font-bold text-cyan-400">{record.id}</td>
                         <td className="px-4 py-3">
-                          {record.teamName}
-                          <span className="mt-0.5 block text-metallic">{record.email}</span>
+                          <span className="font-semibold text-white block">{record.eventName}</span>
+                          <span className="text-[11px] text-cyan-300/80 font-mono">{record.track || record.domain || 'General'}</span>
                         </td>
-                        <td className="max-w-[200px] px-4 py-3 text-metallic">
-                          {record.domain || '—'}
+                        <td className="px-4 py-3">
+                          <span className="font-bold text-white block">{record.teamName}</span>
+                          <span className="text-[11px] text-slate-400 block">{record.leaderName || record.members[0]}</span>
+                          <span className="text-[10px] text-slate-500 font-mono">{record.email} · {record.phone}</span>
                         </td>
-                        <td className="max-w-[200px] px-4 py-3 text-metallic">
+                        <td className="max-w-[180px] px-4 py-3 text-slate-300 truncate">
+                          {record.institution || '—'}
+                        </td>
+                        <td className="max-w-[200px] px-4 py-3 text-slate-300">
                           {record.members.join(', ')}
                         </td>
-                        <td className="px-4 py-3 text-metallic">{record.department || '—'}</td>
-                        <td className="px-4 py-3">
-                          <span
-                      className={`inline-block rounded-full border px-2 py-0.5 capitalize ${STATUS_STYLES[record.paymentStatus]}`}>
-                      
+                        <td className="px-4 py-3 space-y-1">
+                          <span className={`inline-block rounded-full border px-2 py-0.5 text-[10px] uppercase font-mono font-bold ${STATUS_STYLES[record.paymentStatus]}`}>
                             {record.paymentStatus}
                           </span>
+                          {record.upiRef && (
+                            <span className="block font-mono text-[10px] text-slate-400">
+                              Ref: {record.upiRef}
+                            </span>
+                          )}
+                          {record.paymentScreenshot && (
+                            <button
+                              type="button"
+                              onClick={() => setViewScreenshot(record.paymentScreenshot || null)}
+                              className="inline-flex items-center gap-1 text-[10px] text-cyan-400 hover:underline font-mono"
+                            >
+                              <FileImageIcon className="h-3 w-3" />
+                              <span>View Receipt</span>
+                            </button>
+                          )}
                         </td>
                         <td className="px-4 py-3">
                           <div className="flex items-center justify-end gap-2">
                             <button
                               type="button"
                               onClick={() => setSelectedRecord(record)}
-                              className="inline-flex items-center gap-1 rounded-md border border-accent/40 bg-accent/10 px-2 py-1 text-xs text-accent transition-colors duration-150 ease-smooth hover:bg-accent hover:text-gunmetal"
-                              title="View Student Pass & QR"
+                              className="inline-flex items-center gap-1 rounded-lg border border-cyan-400/40 bg-cyan-950/40 px-2.5 py-1 text-xs text-cyan-300 hover:bg-cyan-400 hover:text-slate-950 transition-colors"
+                              title="View Gate Pass"
                             >
                               <IdCardIcon className="h-3.5 w-3.5" />
                               <span>Pass</span>
@@ -266,13 +284,11 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
                                 void runAction(record.id, () =>
                                   setPaymentStatus(
                                     record.id,
-                                    record.paymentStatus === 'verified' ?
-                                      'pending' :
-                                      'verified'
+                                    record.paymentStatus === 'verified' ? 'pending' : 'verified'
                                   )
                                 )
                               }
-                              className="rounded-md border border-line px-2.5 py-1 text-xs text-metallic transition-colors duration-150 ease-smooth hover:border-metallic hover:text-highlight disabled:opacity-50"
+                              className="rounded-lg border border-slate-700 bg-slate-800 px-2.5 py-1 text-xs text-slate-300 hover:border-slate-500 hover:text-white disabled:opacity-50"
                             >
                               {record.paymentStatus === 'verified' ? 'Unverify' : 'Verify'}
                             </button>
@@ -280,54 +296,71 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
                               type="button"
                               disabled={busyId === record.id}
                               onClick={() => void runAction(record.id, () => remove(record.id))}
-                              className="rounded-md border border-line p-1.5 text-metallic transition-colors duration-150 ease-smooth hover:border-red-500/50 hover:text-red-300 disabled:opacity-50"
-                              aria-label={`Delete registration ${record.id}`}
+                              className="rounded-lg border border-slate-700 p-1.5 text-slate-400 hover:border-red-500 hover:text-red-400 transition-colors"
+                              title="Delete registration"
                             >
-                              <Trash2Icon className="h-3.5 w-3.5" aria-hidden="true" />
+                              <Trash2Icon className="h-3.5 w-3.5" />
                             </button>
                           </div>
                         </td>
                       </tr>
-                )}
+                    ))}
                   </tbody>
                 </table>
               </div>
-          }
-
-            <p className="text-xs text-metallic">
-              Event codes:{' '}
-              {EVENTS.map((event) => `${event.name} → TI${event.code}###`).join(' · ')}
-            </p>
+            )}
           </div>
-        }
+        )}
       </div>
 
+      {/* Pass View Modal */}
       {selectedRecord && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/85 p-4 backdrop-blur-md"
-          role="dialog"
-          aria-modal="true"
-        >
-          <StudentPassCard
-            registration={selectedRecord}
-            onClose={() => setSelectedRecord(null)}
-            isModal={true}
-          />
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4">
+          <div className="w-full max-w-2xl">
+            <StudentPassCard
+              registration={selectedRecord}
+              onClose={() => setSelectedRecord(null)}
+              isModal
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Screenshot Preview Modal */}
+      {viewScreenshot && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4">
+          <div className="relative max-w-lg rounded-2xl border border-cyan-500/30 bg-slate-900 p-4">
+            <button
+              type="button"
+              onClick={() => setViewScreenshot(null)}
+              className="absolute right-3 top-3 rounded-lg bg-slate-800 p-1.5 text-slate-400 hover:text-white"
+            >
+              <XIcon className="h-5 w-5" />
+            </button>
+            <h3 className="font-display text-sm font-bold text-white mb-3">
+              Payment Screenshot Proof
+            </h3>
+            <img
+              src={viewScreenshot}
+              alt="Payment Proof"
+              className="max-h-[70vh] w-auto rounded-xl object-contain mx-auto"
+            />
+          </div>
         </div>
       )}
     </div>
   );
 }
 
-function Stat({ label, value }: {label: string;value: string;}) {
+function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <div className="font-display text-2xl font-black text-highlight">{value}</div>
-      <div className="mt-0.5 text-[10px] uppercase tracking-widest text-metallic">
+      <div className="font-display text-2xl font-black text-cyan-300">{value}</div>
+      <div className="mt-0.5 text-[10px] font-mono uppercase tracking-widest text-slate-400">
         {label}
       </div>
-    </div>);
-
+    </div>
+  );
 }
 
 interface PayeeSettingsProps {
@@ -367,66 +400,60 @@ function PayeeSettings({ settings, onSave }: PayeeSettingsProps) {
   return (
     <form
       onSubmit={handleSave}
-      className="rounded-xl border border-line bg-gunmetal/60 p-5">
-      
-      <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <h3 className="text-xs font-semibold uppercase tracking-widest text-highlight">
-          Collection account
+      className="rounded-2xl border border-cyan-500/20 bg-[#070d1e]/80 p-5 space-y-3"
+    >
+      <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-slate-800 pb-2">
+        <h3 className="text-xs font-display font-bold uppercase tracking-widest text-cyan-300">
+          Official Collection Account
         </h3>
-        <p className="text-xs text-metallic">
-          Every team is told to pay here. Changes apply to new registrations immediately.
+        <p className="text-xs text-slate-400">
+          Changes update live across all registration payment QR codes and deep links.
         </p>
       </div>
 
-      <div className="mt-4 flex flex-wrap items-end gap-3">
+      <div className="mt-3 flex flex-wrap items-end gap-3">
         <div className="min-w-[220px] flex-1">
           <label
             htmlFor="settings-upi"
-            className="mb-1.5 block text-[10px] font-medium uppercase tracking-widest text-metallic">
-            
-            UPI ID
+            className="mb-1.5 block text-[10px] font-semibold uppercase tracking-widest text-slate-400"
+          >
+            Official UPI ID
           </label>
           <input
             id="settings-upi"
             value={upiId}
             onChange={(e) => setUpiId(e.target.value)}
-            placeholder="poosiju1@okaxis"
-            className="w-full rounded-lg border border-line bg-surface px-3 py-2 text-sm text-highlight transition-colors duration-150 ease-smooth focus:border-metallic focus:outline-none" />
-          
+            placeholder="alangaram1985@okicici"
+            className="w-full rounded-xl border border-slate-700 bg-slate-900 px-3.5 py-2 text-xs font-mono text-white focus:border-cyan-400 focus:outline-none"
+          />
         </div>
         <div className="min-w-[220px] flex-1">
           <label
             htmlFor="settings-payee"
-            className="mb-1.5 block text-[10px] font-medium uppercase tracking-widest text-metallic">
-            
-            Payee name
+            className="mb-1.5 block text-[10px] font-semibold uppercase tracking-widest text-slate-400"
+          >
+            Payee Display Name
           </label>
           <input
             id="settings-payee"
             value={payeeName}
             onChange={(e) => setPayeeName(e.target.value)}
-            placeholder="RYVANTA Organizing Committee"
-            className="w-full rounded-lg border border-line bg-surface px-3 py-2 text-sm text-highlight transition-colors duration-150 ease-smooth focus:border-metallic focus:outline-none" />
-          
+            placeholder="Alangaram Selvaraj"
+            className="w-full rounded-xl border border-slate-700 bg-slate-900 px-3.5 py-2 text-xs text-white focus:border-cyan-400 focus:outline-none"
+          />
         </div>
         <button
           type="submit"
           disabled={!isDirty || isSaving}
-          className="inline-flex items-center gap-1.5 rounded-lg bg-highlight px-4 py-2 text-xs font-semibold uppercase tracking-wider text-gunmetal transition-colors duration-150 ease-smooth hover:bg-white disabled:bg-metallic/30 disabled:text-gunmetal/60">
-          
-          {isSaving && <Loader2Icon className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />}
-          {saved && !isDirty &&
-          <CheckIcon className="h-3.5 w-3.5" aria-hidden="true" />
-          }
+          className="inline-flex items-center gap-1.5 rounded-xl bg-cyan-400 px-4 py-2 text-xs font-bold uppercase tracking-wider text-slate-950 hover:bg-cyan-300 disabled:opacity-50"
+        >
+          {isSaving && <Loader2Icon className="h-3.5 w-3.5 animate-spin" />}
+          {saved && !isDirty && <CheckIcon className="h-3.5 w-3.5" />}
           {saved && !isDirty ? 'Saved' : 'Save'}
         </button>
       </div>
 
-      {error &&
-      <p role="alert" className="mt-3 text-xs text-red-300">
-          {error}
-        </p>
-      }
-    </form>);
-
+      {error && <p className="text-xs text-red-400 mt-2">{error}</p>}
+    </form>
+  );
 }
