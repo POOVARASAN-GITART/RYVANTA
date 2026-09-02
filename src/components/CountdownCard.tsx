@@ -25,7 +25,7 @@ export function CountdownCard({
     <div
       className={`rounded-2xl border p-6 transition-all duration-200 ${
         emphasis
-          ? 'border-[#FF6B00] bg-[#FFFFFF] shadow-luxury-lg ring-2 ring-[#FF6B00]/20'
+          ? 'border-[#0EA5E9] bg-[#FFFFFF] shadow-luxury-lg ring-2 ring-[#0EA5E9]/20'
           : 'border-[#E2E8F0] bg-[#FFFFFF] shadow-luxury'
       }`}
     >
@@ -34,18 +34,18 @@ export function CountdownCard({
           {label}
         </h3>
         {emphasis ? (
-          <span className="rounded-full bg-orange-50 border border-[#FF6B00] px-2.5 py-0.5 text-[10px] font-mono font-bold text-[#EA580C]">
+          <span className="rounded-full bg-sky-50 border border-[#0EA5E9] px-2.5 py-0.5 text-[10px] font-mono font-bold text-[#0284C7]">
             KEY DEADLINE
           </span>
         ) : (
-          <span className="rounded-full bg-emerald-50 border border-[#10B981] px-2.5 py-0.5 text-[10px] font-mono font-bold text-[#059669]">
+          <span className="rounded-full bg-slate-100 border border-[#94A3B8] px-2.5 py-0.5 text-[10px] font-mono font-bold text-[#334155]">
             EVENT DAY
           </span>
         )}
       </div>
 
       {countdown.isComplete ? (
-        <p className="mt-4 font-serif text-2xl font-bold text-[#0F172A]">
+        <p className="mt-4 font-serif text-2xl font-bold text-[#000000]">
           {completeLabel}
         </p>
       ) : (
@@ -55,15 +55,15 @@ export function CountdownCard({
               <div
                 className={`font-mono font-black tabular-nums ${
                   emphasis
-                    ? 'text-2xl sm:text-3xl text-[#0F172A]'
-                    : 'text-xl sm:text-2xl text-[#334155]'
+                    ? 'text-2xl sm:text-3xl text-[#000000]'
+                    : 'text-xl sm:text-2xl text-[#1E293B]'
                 }`}
               >
                 {String(value).padStart(2, '0')}
               </div>
               <div
                 className={`mt-0.5 text-[9px] font-sans font-bold uppercase tracking-widest ${
-                  emphasis ? 'text-[#FF6B00]' : 'text-[#10B981]'
+                  emphasis ? 'text-[#0EA5E9]' : 'text-[#64748B]'
                 }`}
               >
                 {UNITS[index]}

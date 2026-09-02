@@ -7,7 +7,7 @@ interface Point {
   vy: number;
   radius: number;
   baseAlpha: number;
-  colorType: 'cyan' | 'electricBlue' | 'skyBlue' | 'accentOrange' | 'accentGreen';
+  colorType: 'cyan' | 'electricBlue' | 'skyBlue' | 'silver' | 'platinum';
 }
 
 export function TechConstellationBackground() {
@@ -53,21 +53,20 @@ export function TechConstellationBackground() {
         'electricBlue',
         'skyBlue',
         'cyan',
-        'electricBlue',
-        'accentOrange',
-        'accentGreen'
+        'silver',
+        'platinum'
       ];
 
       for (let i = 0; i < count; i++) {
         const colorType = colorOptions[Math.floor(Math.random() * colorOptions.length)];
-        const isAccent = colorType === 'accentOrange' || colorType === 'accentGreen';
+        const isSilver = colorType === 'silver' || colorType === 'platinum';
 
         points.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          vx: (Math.random() - 0.5) * 0.55,
-          vy: (Math.random() - 0.5) * 0.55,
-          radius: isAccent ? Math.random() * 1.8 + 1.2 : Math.random() * 1.5 + 0.9,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: (Math.random() - 0.5) * 0.5,
+          radius: isSilver ? Math.random() * 1.6 + 1.1 : Math.random() * 1.5 + 0.9,
           baseAlpha: Math.random() * 0.55 + 0.35,
           colorType
         });
@@ -103,7 +102,7 @@ export function TechConstellationBackground() {
 
       // Draw undulating glowing blue wave lines in background
       ctx.beginPath();
-      ctx.strokeStyle = 'rgba(14, 165, 233, 0.08)';
+      ctx.strokeStyle = 'rgba(14, 165, 233, 0.09)';
       ctx.lineWidth = 2;
       for (let x = 0; x < width; x += 30) {
         const y = height * 0.65 + Math.sin(x * 0.005 + waveTime) * 35 + Math.cos(x * 0.008 + waveTime * 1.2) * 20;
@@ -113,7 +112,7 @@ export function TechConstellationBackground() {
       ctx.stroke();
 
       ctx.beginPath();
-      ctx.strokeStyle = 'rgba(37, 99, 235, 0.06)';
+      ctx.strokeStyle = 'rgba(37, 99, 235, 0.07)';
       ctx.lineWidth = 1.5;
       for (let x = 0; x < width; x += 30) {
         const y = height * 0.45 + Math.cos(x * 0.006 - waveTime * 0.8) * 30 + Math.sin(x * 0.004 + waveTime) * 15;
@@ -122,7 +121,7 @@ export function TechConstellationBackground() {
       }
       ctx.stroke();
 
-      // Render living blue particle constellation
+      // Render living blue & silver particle constellation
       for (let i = 0; i < len; i++) {
         const p = points[i];
 
@@ -147,7 +146,7 @@ export function TechConstellationBackground() {
           }
         }
 
-        // Draw connecting electric blue lines
+        // Draw connecting electric blue / silver lines
         for (let j = i + 1; j < len; j++) {
           const p2 = points[j];
           const dx = p.x - p2.x;
@@ -181,14 +180,14 @@ export function TechConstellationBackground() {
           ctx.fillStyle = `rgba(59, 130, 246, ${p.baseAlpha})`;
           ctx.shadowColor = 'rgba(59, 130, 246, 0.5)';
           ctx.shadowBlur = 5;
-        } else if (p.colorType === 'accentOrange') {
-          ctx.fillStyle = `rgba(255, 107, 0, ${p.baseAlpha * 1.1})`;
-          ctx.shadowColor = 'rgba(255, 107, 0, 0.6)';
-          ctx.shadowBlur = 6;
+        } else if (p.colorType === 'silver') {
+          ctx.fillStyle = `rgba(148, 163, 184, ${p.baseAlpha * 1.1})`;
+          ctx.shadowColor = 'rgba(148, 163, 184, 0.5)';
+          ctx.shadowBlur = 5;
         } else {
-          ctx.fillStyle = `rgba(16, 185, 129, ${p.baseAlpha * 1.1})`;
-          ctx.shadowColor = 'rgba(16, 185, 129, 0.6)';
-          ctx.shadowBlur = 6;
+          ctx.fillStyle = `rgba(203, 213, 225, ${p.baseAlpha * 1.1})`;
+          ctx.shadowColor = 'rgba(203, 213, 225, 0.5)';
+          ctx.shadowBlur = 5;
         }
 
         ctx.fill();
@@ -212,7 +211,7 @@ export function TechConstellationBackground() {
     <canvas
       ref={canvasRef}
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 z-0 h-full w-full opacity-80"
+      className="pointer-events-none fixed inset-0 z-0 h-full w-full opacity-85"
     />
   );
 }

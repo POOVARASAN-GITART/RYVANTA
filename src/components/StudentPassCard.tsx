@@ -38,14 +38,14 @@ export function StudentPassCard({
       {/* Action Bar */}
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E2E8F0] pb-4 print:hidden">
         <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-[#FF6B00] to-[#10B981] text-white font-serif font-bold text-xs">
+          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-[#0EA5E9] to-[#2563EB] text-white font-serif font-bold text-xs">
             TI
           </div>
           <div>
-            <h3 className="font-serif text-base font-bold text-[#0F172A]">
+            <h3 className="font-serif text-base font-bold text-[#000000]">
               Official Participation Pass &amp; Entry Badge
             </h3>
-            <span className="font-mono text-xs text-[#FF6B00] font-bold">
+            <span className="font-mono text-xs text-[#0EA5E9] font-bold">
               ID: {registration.id}
             </span>
           </div>
@@ -55,9 +55,9 @@ export function StudentPassCard({
           <button
             type="button"
             onClick={handlePrint}
-            className="inline-flex items-center gap-1.5 rounded-xl border border-[#FF6B00] bg-[#FFFFFF] px-4 py-2 text-xs font-semibold text-[#0F172A] hover:bg-[#F8FAFC] transition-colors shadow-sm"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-[#0EA5E9] bg-[#FFFFFF] px-4 py-2 text-xs font-semibold text-[#000000] hover:bg-[#F8FAFC] transition-colors shadow-sm"
           >
-            <PrinterIcon className="h-3.5 w-3.5 text-[#FF6B00]" />
+            <PrinterIcon className="h-3.5 w-3.5 text-[#0EA5E9]" />
             <span>Print Pass</span>
           </button>
 
@@ -65,7 +65,7 @@ export function StudentPassCard({
             <button
               type="button"
               onClick={onClose}
-              className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-2 text-[#64748B] hover:text-[#0F172A]"
+              className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-2 text-[#64748B] hover:text-[#000000]"
             >
               <XIcon className="h-4 w-4" />
             </button>
@@ -73,36 +73,36 @@ export function StudentPassCard({
         </div>
       </div>
 
-      {/* Cyber Orange & Green Digital Entry Pass Card */}
+      {/* Cyber Blue & Silver Digital Entry Pass Card */}
       <div
         ref={cardRef}
-        className="student-pass-root relative overflow-hidden rounded-3xl border-2 border-[#FF6B00] bg-[#FFFFFF] p-6 sm:p-8 shadow-luxury-lg text-[#0F172A]"
+        className="student-pass-root relative overflow-hidden rounded-3xl border-2 border-[#0EA5E9] bg-[#FFFFFF] p-6 sm:p-8 shadow-luxury-lg text-[#000000]"
       >
         {/* Decorative Corner Glow */}
-        <div className="absolute -top-12 -right-12 h-32 w-32 rounded-full bg-gradient-to-br from-orange-400/20 to-emerald-400/20 blur-xl pointer-events-none" />
+        <div className="absolute -top-12 -right-12 h-32 w-32 rounded-full bg-gradient-to-br from-sky-400/20 to-slate-400/20 blur-xl pointer-events-none" />
 
         {/* Header Ribbon */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b-2 border-[#E2E8F0] pb-6">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#FF6B00] bg-[#F8FAFC] px-3.5 py-1 text-xs font-mono font-bold uppercase tracking-widest text-[#FF6B00]">
-              <SparklesIcon className="h-3 w-3 text-[#10B981]" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#0EA5E9] bg-[#F8FAFC] px-3.5 py-1 text-xs font-mono font-bold uppercase tracking-widest text-[#0284C7]">
+              <SparklesIcon className="h-3 w-3 text-[#0EA5E9]" />
               <span>Jaya Engineering College · RYVANTA '26 Pass</span>
             </div>
-            <h2 className="mt-3 font-serif text-2xl sm:text-3xl font-black text-[#0F172A]">
+            <h2 className="mt-3 font-serif text-2xl sm:text-3xl font-black text-[#000000]">
               {registration.eventName}
             </h2>
             <p className="text-xs text-[#475569] mt-1">{registration.institution}</p>
           </div>
 
           {/* Sequential Participation ID Badge */}
-          <div className="rounded-2xl border-2 border-[#10B981] bg-[#F8FAFC] p-4 text-center sm:text-right shadow-sm">
+          <div className="rounded-2xl border-2 border-[#0EA5E9] bg-[#F8FAFC] p-4 text-center sm:text-right shadow-sm">
             <span className="block font-mono text-[10px] font-bold uppercase tracking-widest text-[#64748B]">
               Participation ID
             </span>
-            <span className="font-mono text-2xl sm:text-3xl font-black text-[#0F172A] tracking-wider">
+            <span className="font-mono text-2xl sm:text-3xl font-black text-[#000000] tracking-wider">
               {registration.id}
             </span>
-            <span className="mt-1 block font-mono text-[10px] text-emerald-700 font-bold uppercase">
+            <span className="mt-1 block font-mono text-[10px] text-[#0284C7] font-bold uppercase">
               ● Verified Admission
             </span>
           </div>
@@ -117,7 +117,7 @@ export function StudentPassCard({
                 <span className="font-mono text-[10px] uppercase font-bold tracking-widest text-[#64748B]">
                   Team Name
                 </span>
-                <p className="font-serif text-base font-bold text-[#0F172A] mt-0.5">
+                <p className="font-serif text-base font-bold text-[#000000] mt-0.5">
                   {registration.teamName}
                 </p>
               </div>
@@ -126,18 +126,18 @@ export function StudentPassCard({
                 <span className="font-mono text-[10px] uppercase font-bold tracking-widest text-[#64748B]">
                   Team Leader
                 </span>
-                <p className="font-serif text-base font-bold text-[#0F172A] mt-0.5">
+                <p className="font-serif text-base font-bold text-[#000000] mt-0.5">
                   {registration.leaderName || registration.members[0]}
                 </p>
               </div>
             </div>
 
             {/* Track / Domain */}
-            <div className="rounded-xl border border-[#FF6B00]/40 bg-[#F8FAFC] p-3.5">
-              <span className="font-mono text-[10px] uppercase font-bold tracking-widest text-[#FF6B00]">
+            <div className="rounded-xl border border-[#0EA5E9]/40 bg-[#F8FAFC] p-3.5">
+              <span className="font-mono text-[10px] uppercase font-bold tracking-widest text-[#0284C7]">
                 Assigned Problem Domain / Track
               </span>
-              <p className="font-mono text-sm font-bold text-[#0F172A] mt-0.5">
+              <p className="font-mono text-sm font-bold text-[#000000] mt-0.5">
                 {registration.track || registration.domain || 'General Track'}
               </p>
             </div>
@@ -150,10 +150,10 @@ export function StudentPassCard({
               <div className="grid gap-2 sm:grid-cols-2 text-xs">
                 {registration.members.map((name, i) => (
                   <div key={i} className="flex items-center gap-2 rounded-lg bg-[#FFFFFF] border border-[#E2E8F0] p-2">
-                    <span className="flex h-5 w-5 items-center justify-center rounded bg-[#F8FAFC] font-mono text-[10px] font-bold text-[#FF6B00]">
+                    <span className="flex h-5 w-5 items-center justify-center rounded bg-[#F8FAFC] font-mono text-[10px] font-bold text-[#0EA5E9]">
                       {String(i + 1).padStart(2, '0')}
                     </span>
-                    <span className="font-medium text-[#0F172A] truncate">{name}</span>
+                    <span className="font-medium text-[#000000] truncate">{name}</span>
                   </div>
                 ))}
               </div>
@@ -171,7 +171,7 @@ export function StudentPassCard({
             <span className="mt-2 font-mono text-[9px] font-bold uppercase tracking-wider text-[#64748B]">
               Gate Scanner QR
             </span>
-            <span className="font-mono text-[10px] text-[#0F172A] font-bold mt-0.5">
+            <span className="font-mono text-[10px] text-[#000000] font-bold mt-0.5">
               19-09-2026
             </span>
           </div>
@@ -180,12 +180,12 @@ export function StudentPassCard({
         {/* Footer Notes */}
         <div className="mt-6 border-t-2 border-[#E2E8F0] pt-4 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-[#64748B]">
           <div className="flex items-center gap-4">
-            <span className="inline-flex items-center gap-1.5 text-[#0F172A] font-semibold">
-              <CalendarIcon className="h-3.5 w-3.5 text-[#FF6B00]" />
+            <span className="inline-flex items-center gap-1.5 text-[#000000] font-semibold">
+              <CalendarIcon className="h-3.5 w-3.5 text-[#0EA5E9]" />
               19 Sep 2026
             </span>
-            <span className="inline-flex items-center gap-1.5 text-[#0F172A] font-semibold">
-              <ClockIcon className="h-3.5 w-3.5 text-[#10B981]" />
+            <span className="inline-flex items-center gap-1.5 text-[#000000] font-semibold">
+              <ClockIcon className="h-3.5 w-3.5 text-[#0EA5E9]" />
               08:30 AM IST
             </span>
           </div>

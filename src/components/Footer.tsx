@@ -9,10 +9,10 @@ export function Footer() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 border-b border-[#E2E8F0] pb-8">
           <div>
             <div className="flex items-center gap-2">
-              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-[#FF6B00] to-[#10B981] text-white font-serif font-black text-xs">
+              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-[#0EA5E9] to-[#2563EB] text-white font-serif font-black text-xs">
                 R
               </div>
-              <span className="font-serif text-xl font-bold tracking-wider text-[#0F172A]">
+              <span className="font-serif text-xl font-bold tracking-wider text-[#000000]">
                 RYVANTA '26
               </span>
             </div>
@@ -23,7 +23,7 @@ export function Footer() {
           </div>
 
           <div className="flex flex-col sm:items-end gap-2 text-xs font-mono">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-[#FF6B00]">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-[#0EA5E9]">
               Official Helplines
             </span>
             <div className="flex flex-wrap gap-3">
@@ -31,7 +31,7 @@ export function Footer() {
                 <a
                   key={i}
                   href={`tel:${l.tel}`}
-                  className="inline-flex items-center gap-1.5 text-[#0F172A] font-bold hover:text-[#10B981] transition-colors"
+                  className="inline-flex items-center gap-1.5 text-[#000000] font-bold hover:text-[#0EA5E9] transition-colors"
                 >
                   <PhoneIcon className="h-3.5 w-3.5 text-[#0EA5E9]" />
                   <span>{l.number}</span>
@@ -43,7 +43,7 @@ export function Footer() {
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-[#64748B]">
           <div className="flex items-center gap-2">
-            <ShieldCheckIcon className="h-4 w-4 text-[#10B981]" />
+            <ShieldCheckIcon className="h-4 w-4 text-[#0EA5E9]" />
             <span>Secure Automated Registration &amp; Sequential ID Engine</span>
           </div>
 

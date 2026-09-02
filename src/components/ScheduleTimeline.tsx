@@ -17,19 +17,19 @@ export function ScheduleTimeline() {
       {/* Header */}
       <div className="relative z-10 flex flex-col items-start justify-between gap-4 border-b border-[#E2E8F0] pb-6 md:flex-row md:items-end">
         <div>
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#FF6B00]/40 bg-[#F8FAFC] px-3.5 py-1 text-xs font-mono font-bold uppercase tracking-widest text-[#FF6B00]">
-            <SparklesIcon className="h-3.5 w-3.5 text-[#FF6B00]" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#0EA5E9]/40 bg-[#F8FAFC] px-3.5 py-1 text-xs font-mono font-bold uppercase tracking-widest text-[#0284C7]">
+            <SparklesIcon className="h-3.5 w-3.5 text-[#0EA5E9]" />
             <span>Symposium Day Schedule</span>
           </div>
-          <h2 className="mt-3 font-serif text-2xl font-bold tracking-tight text-[#0F172A] sm:text-3xl lg:text-4xl">
-            Event <span className="text-orange-gradient">Timeline</span> &amp; Schedule
+          <h2 className="mt-3 font-serif text-2xl font-bold tracking-tight text-[#000000] sm:text-3xl lg:text-4xl">
+            Event <span className="text-blue-gradient">Timeline</span> &amp; Schedule
           </h2>
           <p className="mt-2 max-w-xl text-xs sm:text-sm text-[#475569]">
             Complete milestone breakdown from online team registration (deadline 10-09-2026) to the Grand Awards Ceremony on 19-09-2026.
           </p>
         </div>
 
-        <div className="flex items-center gap-2 rounded-2xl border border-[#10B981] bg-emerald-50/50 px-4 py-2.5 text-xs font-mono font-bold text-[#059669] shadow-sm">
+        <div className="flex items-center gap-2 rounded-2xl border border-[#0EA5E9] bg-sky-50/70 px-4 py-2.5 text-xs font-mono font-bold text-[#0284C7] shadow-sm">
           <CalendarIcon className="h-4 w-4 text-[#0EA5E9]" />
           <span>SYMPOSIUM DAY: 19 SEPTEMBER 2026</span>
         </div>
@@ -46,27 +46,27 @@ export function ScheduleTimeline() {
               onClick={() => setActivePhaseIndex(idx)}
               className={`group relative flex flex-col items-start justify-between rounded-xl border p-3.5 text-left transition-all duration-200 ${
                 isSelected
-                  ? 'border-[#FF6B00] bg-[#0F172A] text-[#FFFFFF] shadow-md ring-2 ring-[#FF6B00]/40'
-                  : 'border-[#E2E8F0] bg-[#F8FAFC] text-[#334155] hover:border-[#10B981] hover:bg-[#FFFFFF]'
+                  ? 'border-[#0EA5E9] bg-[#000000] text-[#FFFFFF] shadow-md ring-2 ring-[#0EA5E9]/40'
+                  : 'border-[#E2E8F0] bg-[#F8FAFC] text-[#334155] hover:border-[#0EA5E9] hover:bg-[#FFFFFF]'
               }`}
             >
               <div className="flex w-full items-center justify-between">
                 <span
                   className={`font-mono text-[10px] font-bold tracking-wider ${
-                    isSelected ? 'text-[#FF6B00]' : 'text-[#64748B]'
+                    isSelected ? 'text-[#38BDF8]' : 'text-[#64748B]'
                   }`}
                 >
                   {item.phase}
                 </span>
                 {item.status === 'active' ? (
-                  <span className="flex h-2 w-2 rounded-full bg-[#10B981] animate-ping" />
+                  <span className="flex h-2 w-2 rounded-full bg-[#0EA5E9] animate-ping" />
                 ) : (
-                  <span className={`h-1.5 w-1.5 rounded-full ${isSelected ? 'bg-white/40' : 'bg-[#E2E8F0]'}`} />
+                  <span className={`h-1.5 w-1.5 rounded-full ${isSelected ? 'bg-white/40' : 'bg-[#CBD5E1]'}`} />
                 )}
               </div>
               <span
                 className={`mt-2 line-clamp-1 font-serif text-xs font-bold ${
-                  isSelected ? 'text-[#FFFFFF]' : 'text-[#0F172A]'
+                  isSelected ? 'text-[#FFFFFF]' : 'text-[#000000]'
                 }`}
               >
                 {item.title}
@@ -88,21 +88,21 @@ export function ScheduleTimeline() {
             <div className="grid gap-6 lg:grid-cols-[1fr_auto]">
               <div className="space-y-4">
                 <div className="flex flex-wrap items-center gap-3">
-                  <span className="rounded-lg border border-[#FF6B00] bg-[#FFFFFF] px-3 py-1 font-mono text-xs font-bold uppercase tracking-wider text-[#FF6B00]">
+                  <span className="rounded-lg border border-[#0EA5E9] bg-[#FFFFFF] px-3 py-1 font-mono text-xs font-bold uppercase tracking-wider text-[#0284C7]">
                     {current.phase}
                   </span>
-                  <span className="inline-flex items-center gap-1.5 rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#0F172A]">
+                  <span className="inline-flex items-center gap-1.5 rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#000000]">
                     <TrophyIcon className="h-3.5 w-3.5 text-[#0EA5E9]" />
                     {current.badge}
                   </span>
                   {current.status === 'active' && (
-                    <span className="rounded-full bg-emerald-50 border border-emerald-300 px-2.5 py-0.5 font-mono text-[10px] font-bold text-emerald-800">
+                    <span className="rounded-full bg-sky-50 border border-sky-300 px-2.5 py-0.5 font-mono text-[10px] font-bold text-[#0284C7]">
                       CURRENT STAGE
                     </span>
                   )}
                 </div>
 
-                <h3 className="font-serif text-2xl font-bold text-[#0F172A]">
+                <h3 className="font-serif text-2xl font-bold text-[#000000]">
                   {current.title}
                 </h3>
 
@@ -120,9 +120,9 @@ export function ScheduleTimeline() {
                       {milestones.map((ms, msIdx) => (
                         <div
                           key={msIdx}
-                          className="flex items-center gap-2 rounded-xl border border-[#E2E8F0] bg-[#FFFFFF] p-3 text-xs text-[#0F172A]"
+                          className="flex items-center gap-2 rounded-xl border border-[#E2E8F0] bg-[#FFFFFF] p-3 text-xs text-[#000000]"
                         >
-                          <CheckCircle2Icon className="h-4 w-4 shrink-0 text-[#10B981]" />
+                          <CheckCircle2Icon className="h-4 w-4 shrink-0 text-[#0EA5E9]" />
                           <span className="font-medium">{ms}</span>
                         </div>
                       ))}
@@ -139,37 +139,37 @@ export function ScheduleTimeline() {
                       <CalendarIcon className="h-3.5 w-3.5 text-[#0EA5E9]" />
                       Date
                     </span>
-                    <p className="mt-1 font-serif text-sm font-bold text-[#0F172A]">
+                    <p className="mt-1 font-serif text-sm font-bold text-[#000000]">
                       {current.date}
                     </p>
                   </div>
 
                   <div>
                     <span className="flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase tracking-widest text-[#64748B]">
-                      <ClockIcon className="h-3.5 w-3.5 text-[#FF6B00]" />
+                      <ClockIcon className="h-3.5 w-3.5 text-[#0EA5E9]" />
                       Time Slot
                     </span>
-                    <p className="mt-1 font-serif text-sm font-bold text-[#0F172A]">
+                    <p className="mt-1 font-serif text-sm font-bold text-[#000000]">
                       {current.timeSlot}
                     </p>
                   </div>
 
                   <div>
                     <span className="flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase tracking-widest text-[#64748B]">
-                      <MapPinIcon className="h-3.5 w-3.5 text-[#10B981]" />
+                      <MapPinIcon className="h-3.5 w-3.5 text-[#0EA5E9]" />
                       Venue &amp; Hall
                     </span>
-                    <p className="mt-1 font-serif text-sm font-bold text-[#0F172A]">
+                    <p className="mt-1 font-serif text-sm font-bold text-[#000000]">
                       {current.venue}
                     </p>
                   </div>
                 </div>
 
-                <div className="rounded-xl border border-[#FF6B00]/40 bg-[#F8FAFC] p-3 text-center">
+                <div className="rounded-xl border border-[#0EA5E9]/40 bg-[#F8FAFC] p-3 text-center">
                   <span className="text-[10px] font-mono font-semibold uppercase tracking-wider text-[#64748B]">
                     Attendance Requirement
                   </span>
-                  <p className="text-xs font-serif font-bold text-[#0F172A] mt-0.5">
+                  <p className="text-xs font-serif font-bold text-[#000000] mt-0.5">
                     Physical Presence On-Campus
                   </p>
                 </div>

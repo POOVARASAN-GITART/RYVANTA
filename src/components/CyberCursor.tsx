@@ -70,17 +70,17 @@ export function CyberCursor() {
         ringRef.current.style.transform = `translate3d(${ringPos.current.x}px, ${ringPos.current.y}px, 0) translate(-50%, -50%) scale(${scale})`;
 
         if (isHovered.current) {
-          ringRef.current.style.borderColor = '#10B981';
-          ringRef.current.style.backgroundColor = 'rgba(16, 185, 129, 0.15)';
-          ringRef.current.style.boxShadow = '0 0 20px rgba(16, 185, 129, 0.5)';
+          ringRef.current.style.borderColor = '#0EA5E9';
+          ringRef.current.style.backgroundColor = 'rgba(14, 165, 233, 0.15)';
+          ringRef.current.style.boxShadow = '0 0 20px rgba(14, 165, 233, 0.5)';
         } else if (isClicked.current) {
-          ringRef.current.style.borderColor = '#FF6B00';
-          ringRef.current.style.backgroundColor = 'rgba(255, 107, 0, 0.2)';
-          ringRef.current.style.boxShadow = '0 0 15px rgba(255, 107, 0, 0.4)';
+          ringRef.current.style.borderColor = '#000000';
+          ringRef.current.style.backgroundColor = 'rgba(0, 0, 0, 0.15)';
+          ringRef.current.style.boxShadow = '0 0 15px rgba(0, 0, 0, 0.25)';
         } else {
-          ringRef.current.style.borderColor = '#FF6B00';
-          ringRef.current.style.backgroundColor = 'rgba(255, 107, 0, 0.05)';
-          ringRef.current.style.boxShadow = '0 0 12px rgba(255, 107, 0, 0.35)';
+          ringRef.current.style.borderColor = '#94A3B8';
+          ringRef.current.style.backgroundColor = 'rgba(148, 163, 184, 0.08)';
+          ringRef.current.style.boxShadow = '0 0 12px rgba(14, 165, 233, 0.3)';
         }
       }
 
@@ -107,12 +107,12 @@ export function CyberCursor() {
         style={{
           width: '380px',
           height: '380px',
-          background: 'radial-gradient(circle, rgba(14, 165, 233, 0.12) 0%, rgba(59, 130, 246, 0.04) 40%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(14, 165, 233, 0.12) 0%, rgba(37, 99, 235, 0.04) 40%, transparent 70%)',
           borderRadius: '50%'
         }}
       />
 
-      {/* Cyber Orange & Green Cursor Ring */}
+      {/* Cyber Blue & Silver Cursor Ring */}
       <div
         ref={ringRef}
         className="pointer-events-none fixed left-0 top-0 z-50 rounded-full border opacity-100 will-change-transform transition-[border-color,background-color,box-shadow] duration-150 ease-out"

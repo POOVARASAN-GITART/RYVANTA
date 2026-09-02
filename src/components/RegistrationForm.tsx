@@ -69,7 +69,7 @@ const EVENT_CATEGORY_CARDS: {
     teamSizeLabel: '3–4 Members',
     venue: 'Auditorium',
     icon: TrophyIcon,
-    colorClass: 'text-[#FF6B00]',
+    colorClass: 'text-[#0EA5E9]',
     desc: 'Multi-Department Flagship Engineering Sprint'
   },
   {
@@ -79,7 +79,7 @@ const EVENT_CATEGORY_CARDS: {
     teamSizeLabel: '2–3 Members',
     venue: 'IT Lab',
     icon: Gamepad2Icon,
-    colorClass: 'text-[#10B981]',
+    colorClass: 'text-[#2563EB]',
     desc: 'Game Design & 100-Mark Scoring Matrix'
   },
   {
@@ -89,7 +89,7 @@ const EVENT_CATEGORY_CARDS: {
     teamSizeLabel: '2–3 Members',
     venue: 'FOSS Lab',
     icon: TerminalIcon,
-    colorClass: 'text-[#0EA5E9]',
+    colorClass: 'text-[#0284C7]',
     desc: '2 Rounds · Cybersecurity Offensive Challenge'
   }
 ];
@@ -434,18 +434,18 @@ export function RegistrationForm({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E2E8F0] pb-4">
           <div>
             <div className="flex items-center gap-2">
-              <span className="flex h-2 w-2 rounded-full bg-[#FF6B00] animate-ping" />
-              <span className="font-mono text-xs font-bold uppercase tracking-widest text-[#FF6B00]">
+              <span className="flex h-2 w-2 rounded-full bg-[#0EA5E9] animate-ping" />
+              <span className="font-mono text-xs font-bold uppercase tracking-widest text-[#0284C7]">
                 Format ID: TI{event.code}1001
               </span>
             </div>
-            <h2 className="mt-1 font-serif text-xl sm:text-2xl font-bold text-[#0F172A]">
+            <h2 className="mt-1 font-serif text-xl sm:text-2xl font-bold text-[#000000]">
               {event.fullName}
             </h2>
           </div>
           <div className="flex items-center gap-2 font-mono text-xs text-[#64748B]">
             <span>STEP {currentStepIndex + 1} OF 5</span>
-            <span className="text-[#FF6B00] font-bold">({Math.round(((currentStepIndex + 1) / 5) * 100)}%)</span>
+            <span className="text-[#0EA5E9] font-bold">({Math.round(((currentStepIndex + 1) / 5) * 100)}%)</span>
           </div>
         </div>
 
@@ -459,19 +459,19 @@ export function RegistrationForm({
                 key={step.id}
                 className={`relative flex items-center gap-2.5 rounded-xl border p-2.5 transition-all ${
                   isCurrent
-                    ? 'border-[#FF6B00] bg-[#0F172A] text-white shadow-md'
+                    ? 'border-[#0EA5E9] bg-[#000000] text-white shadow-md'
                     : isPassed
-                    ? 'border-emerald-200 bg-emerald-50/90 text-emerald-800'
+                    ? 'border-sky-200 bg-sky-50/80 text-sky-900'
                     : 'border-[#E2E8F0] bg-[#F8FAFC] text-[#64748B]'
                 }`}
               >
                 <div
                   className={`flex h-6 w-6 items-center justify-center rounded-lg font-mono text-xs font-bold ${
                     isCurrent
-                      ? 'bg-[#FF6B00] text-white'
+                      ? 'bg-[#0EA5E9] text-white'
                       : isPassed
-                      ? 'bg-emerald-600 text-white'
-                      : 'bg-[#FFFFFF] border border-[#E2E8F0] text-[#64748B]'
+                      ? 'bg-[#2563EB] text-white'
+                      : 'bg-[#FFFFFF] border border-[#CBD5E1] text-[#64748B]'
                   }`}
                 >
                   {isPassed ? <CheckIcon className="h-3.5 w-3.5" /> : step.num}
@@ -502,8 +502,8 @@ export function RegistrationForm({
       {currentStep === 'step1_squad' && (
         <form onSubmit={handleGoToStep2} className="space-y-6 rounded-2xl border border-[#E2E8F0] bg-[#FFFFFF] p-6 sm:p-8 shadow-luxury">
           <div className="border-b border-[#E2E8F0] pb-3">
-            <h3 className="font-serif text-lg font-bold text-[#0F172A] flex items-center gap-2">
-              <UsersIcon className="h-5 w-5 text-[#FF6B00]" />
+            <h3 className="font-serif text-lg font-bold text-[#000000] flex items-center gap-2">
+              <UsersIcon className="h-5 w-5 text-[#0EA5E9]" />
               <span>Step 01: Team Identity &amp; Mandatory Contact Fields</span>
             </h3>
             <p className="mt-1 text-xs text-[#475569]">
@@ -514,8 +514,8 @@ export function RegistrationForm({
           <div className="grid gap-6 sm:grid-cols-2">
             {/* Team Name */}
             <div>
-              <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[#0F172A]">
-                Team Name <span className="text-[#FF6B00]">*</span>
+              <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[#000000]">
+                Team Name <span className="text-[#0EA5E9]">*</span>
               </label>
               <input
                 type="text"
@@ -523,14 +523,14 @@ export function RegistrationForm({
                 value={teamName}
                 onChange={(e) => setTeamName(e.target.value)}
                 placeholder="e.g. ApexInnovators, CyberKnights"
-                className="w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-sm text-[#0F172A] placeholder:text-[#64748B] focus:border-[#FF6B00] focus:bg-[#FFFFFF] focus:outline-none shadow-sm"
+                className="w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-sm text-[#000000] placeholder:text-[#64748B] focus:border-[#0EA5E9] focus:bg-[#FFFFFF] focus:outline-none shadow-sm"
               />
             </div>
 
             {/* College / University Name */}
             <div>
-              <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[#0F172A]">
-                College / University Name <span className="text-[#FF6B00]">*</span>
+              <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[#000000]">
+                College / University Name <span className="text-[#0EA5E9]">*</span>
               </label>
               <div className="relative">
                 <input
@@ -539,7 +539,7 @@ export function RegistrationForm({
                   value={institution}
                   onChange={(e) => setInstitution(e.target.value)}
                   placeholder="e.g. SRM Institute, Anna University, MIT"
-                  className="w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] pl-10 pr-4 py-3 text-sm text-[#0F172A] placeholder:text-[#64748B] focus:border-[#FF6B00] focus:bg-[#FFFFFF] focus:outline-none shadow-sm"
+                  className="w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] pl-10 pr-4 py-3 text-sm text-[#000000] placeholder:text-[#64748B] focus:border-[#0EA5E9] focus:bg-[#FFFFFF] focus:outline-none shadow-sm"
                 />
                 <BuildingIcon className="absolute left-3.5 top-3.5 h-4 w-4 text-[#64748B]" />
               </div>
@@ -547,8 +547,8 @@ export function RegistrationForm({
 
             {/* Team Leader Full Name */}
             <div>
-              <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[#0F172A]">
-                Team Leader Full Name <span className="text-[#FF6B00]">*</span>
+              <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[#000000]">
+                Team Leader Full Name <span className="text-[#0EA5E9]">*</span>
               </label>
               <input
                 type="text"
@@ -556,14 +556,14 @@ export function RegistrationForm({
                 value={leaderName}
                 onChange={(e) => setLeaderName(e.target.value)}
                 placeholder="e.g. Poovarasasn A"
-                className="w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-sm text-[#0F172A] placeholder:text-[#64748B] focus:border-[#FF6B00] focus:bg-[#FFFFFF] focus:outline-none shadow-sm"
+                className="w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-sm text-[#000000] placeholder:text-[#64748B] focus:border-[#0EA5E9] focus:bg-[#FFFFFF] focus:outline-none shadow-sm"
               />
             </div>
 
             {/* Primary Mobile Number (10-Digit Validation) */}
             <div>
-              <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[#0F172A]">
-                Primary Mobile Number <span className="text-[#FF6B00]">* (10-digit number)</span>
+              <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[#000000]">
+                Primary Mobile Number <span className="text-[#0EA5E9]">* (10-digit number)</span>
               </label>
               <div className="relative">
                 <input
@@ -573,7 +573,7 @@ export function RegistrationForm({
                   value={leaderPhone}
                   onChange={(e) => setLeaderPhone(e.target.value.replace(/\D/g, ''))}
                   placeholder="e.g. 9876543210"
-                  className="w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] pl-10 pr-4 py-3 font-mono text-sm text-[#0F172A] placeholder:text-[#64748B] focus:border-[#FF6B00] focus:bg-[#FFFFFF] focus:outline-none shadow-sm"
+                  className="w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] pl-10 pr-4 py-3 font-mono text-sm text-[#000000] placeholder:text-[#64748B] focus:border-[#0EA5E9] focus:bg-[#FFFFFF] focus:outline-none shadow-sm"
                 />
                 <PhoneIcon className="absolute left-3.5 top-3.5 h-4 w-4 text-[#64748B]" />
               </div>
@@ -585,11 +585,11 @@ export function RegistrationForm({
             {/* Team Leader Email ID */}
             <div className="sm:col-span-2">
               <div className="mb-2 flex items-center justify-between">
-                <label className="text-xs font-semibold uppercase tracking-wider text-[#0F172A]">
-                  Team Leader Email ID <span className="text-[#FF6B00]">*</span>
+                <label className="text-xs font-semibold uppercase tracking-wider text-[#000000]">
+                  Team Leader Email ID <span className="text-[#0EA5E9]">*</span>
                 </label>
                 {isCheckingEmail && (
-                  <span className="inline-flex items-center gap-1 text-[10px] text-[#FF6B00] font-mono font-bold">
+                  <span className="inline-flex items-center gap-1 text-[10px] text-[#0EA5E9] font-mono font-bold">
                     <Loader2Icon className="h-3 w-3 animate-spin" />
                     Checking availability...
                   </span>
@@ -606,10 +606,10 @@ export function RegistrationForm({
                   }}
                   onBlur={handleLeaderEmailBlur}
                   placeholder="e.g. teamleader@college.edu"
-                  className={`w-full rounded-xl border pl-10 pr-4 py-3 text-sm text-[#0F172A] placeholder:text-[#64748B] focus:outline-none shadow-sm ${
+                  className={`w-full rounded-xl border pl-10 pr-4 py-3 text-sm text-[#000000] placeholder:text-[#64748B] focus:outline-none shadow-sm ${
                     emailWarning
                       ? 'border-red-500 bg-red-50/60 focus:border-red-500'
-                      : 'border-[#E2E8F0] bg-[#F8FAFC] focus:border-[#FF6B00] focus:bg-[#FFFFFF]'
+                      : 'border-[#E2E8F0] bg-[#F8FAFC] focus:border-[#0EA5E9] focus:bg-[#FFFFFF]'
                   }`}
                 />
                 <MailIcon className="absolute left-3.5 top-3.5 h-4 w-4 text-[#64748B]" />
@@ -632,10 +632,10 @@ export function RegistrationForm({
           {/* ───────────────────────────────────────────────────────────── */}
           <div className="pt-4 border-t border-[#E2E8F0] space-y-3">
             <div className="flex items-center justify-between">
-              <label className="block text-xs font-serif font-bold uppercase tracking-wider text-[#0F172A]">
-                Select Competition Category <span className="text-[#FF6B00]">*</span>
+              <label className="block text-xs font-serif font-bold uppercase tracking-wider text-[#000000]">
+                Select Competition Category <span className="text-[#0EA5E9]">*</span>
               </label>
-              <span className="text-[11px] font-mono text-[#FF6B00] font-bold">
+              <span className="text-[11px] font-mono text-[#0284C7] font-bold">
                 Flat ₹{REGISTRATION_FEE} per team
               </span>
             </div>
@@ -651,12 +651,12 @@ export function RegistrationForm({
                     onClick={() => handleSelectCategory(cat.id)}
                     className={`relative flex flex-col justify-between rounded-2xl border p-4 text-left transition-all duration-200 ${
                       isSelected
-                        ? 'border-2 border-[#FF6B00] bg-[#0F172A] text-[#FFFFFF] shadow-luxury scale-[1.02] ring-2 ring-[#FF6B00]/30'
-                        : 'border-[#E2E8F0] bg-[#F8FAFC] text-[#0F172A] hover:border-[#FF6B00]/60 hover:bg-[#FFFFFF]'
+                        ? 'border-2 border-[#0EA5E9] bg-[#000000] text-[#FFFFFF] shadow-luxury scale-[1.02] ring-2 ring-[#0EA5E9]/30'
+                        : 'border-[#E2E8F0] bg-[#F8FAFC] text-[#000000] hover:border-[#0EA5E9]/60 hover:bg-[#FFFFFF]'
                     }`}
                   >
                     {isSelected && (
-                      <div className="absolute top-3 right-3 flex h-5 w-5 items-center justify-center rounded-full bg-[#FF6B00] text-white font-bold shadow-sm">
+                      <div className="absolute top-3 right-3 flex h-5 w-5 items-center justify-center rounded-full bg-[#0EA5E9] text-white font-bold shadow-sm">
                         <CheckIcon className="h-3.5 w-3.5" />
                       </div>
                     )}
@@ -666,15 +666,15 @@ export function RegistrationForm({
                         <div
                           className={`flex h-8 w-8 items-center justify-center rounded-xl ${
                             isSelected
-                              ? 'bg-[#FF6B00] text-[#FFFFFF]'
-                              : 'bg-[#FFFFFF] border border-[#E2E8F0] ' + cat.colorClass
+                              ? 'bg-[#0EA5E9] text-[#FFFFFF]'
+                              : 'bg-[#FFFFFF] border border-[#CBD5E1] ' + cat.colorClass
                           }`}
                         >
                           <Icon className="h-4 w-4" />
                         </div>
                         <span
                           className={`font-mono text-[10px] font-bold uppercase tracking-wider ${
-                            isSelected ? 'text-[#FEF08A]' : 'text-[#FF6B00]'
+                            isSelected ? 'text-[#38BDF8]' : 'text-[#0284C7]'
                           }`}
                         >
                           {cat.codeBadge}
@@ -686,7 +686,7 @@ export function RegistrationForm({
                       </h4>
                       <p
                         className={`text-[11px] mt-1 line-clamp-2 ${
-                          isSelected ? 'text-gray-300' : 'text-[#475569]'
+                          isSelected ? 'text-slate-300' : 'text-[#475569]'
                         }`}
                       >
                         {cat.desc}
@@ -695,11 +695,11 @@ export function RegistrationForm({
 
                     <div
                       className={`mt-3.5 flex items-center justify-between border-t pt-2.5 text-[10px] font-mono ${
-                        isSelected ? 'border-gray-700 text-gray-300' : 'border-[#E2E8F0] text-[#64748B]'
+                        isSelected ? 'border-slate-800 text-slate-300' : 'border-[#E2E8F0] text-[#64748B]'
                       }`}
                     >
                       <span>{cat.teamSizeLabel}</span>
-                      <span className="font-bold text-[#10B981]">{cat.venue}</span>
+                      <span className="font-bold text-[#0EA5E9]">{cat.venue}</span>
                     </div>
                   </button>
                 );
@@ -711,10 +711,10 @@ export function RegistrationForm({
           <div className="flex justify-end pt-4 border-t border-[#E2E8F0]">
             <button
               type="submit"
-              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#EA580C] px-7 py-3.5 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] shadow-luxury hover:from-[#EA580C] hover:to-[#C2410C] hover:shadow-orange-glow transition-all"
+              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#0EA5E9] to-[#2563EB] px-7 py-3.5 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] shadow-luxury hover:from-[#0284C7] hover:to-[#1D4ED8] hover:shadow-blue-glow transition-all"
             >
               <span>Next: Team Members &amp; Domains</span>
-              <ArrowRightIcon className="h-4 w-4 text-[#FEF08A]" />
+              <ArrowRightIcon className="h-4 w-4 text-[#E0F2FE]" />
             </button>
           </div>
         </form>
@@ -726,8 +726,8 @@ export function RegistrationForm({
       {currentStep === 'step2_members' && (
         <form onSubmit={handleGoToStep3} className="space-y-6 rounded-2xl border border-[#E2E8F0] bg-[#FFFFFF] p-6 sm:p-8 shadow-luxury">
           <div className="border-b border-[#E2E8F0] pb-3">
-            <h3 className="font-serif text-lg font-bold text-[#0F172A] flex items-center gap-2">
-              <UserCheckIcon className="h-5 w-5 text-[#FF6B00]" />
+            <h3 className="font-serif text-lg font-bold text-[#000000] flex items-center gap-2">
+              <UserCheckIcon className="h-5 w-5 text-[#0EA5E9]" />
               <span>Step 02: Domain Selection &amp; Team Members Roster</span>
             </h3>
             <p className="mt-1 text-xs text-[#475569]">
@@ -737,7 +737,7 @@ export function RegistrationForm({
 
           {/* Section A: Domain Selection */}
           <div className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-5 space-y-4">
-            <span className="font-serif text-xs font-bold uppercase tracking-wider text-[#0F172A] block">
+            <span className="font-serif text-xs font-bold uppercase tracking-wider text-[#000000] block">
               1. Choose Problem Statement / Domain for {event.name}
             </span>
 
@@ -745,7 +745,7 @@ export function RegistrationForm({
             {event.requiresDepartment && (
               <div>
                 <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-wider text-[#475569]">
-                  Engineering Department <span className="text-[#FF6B00]">*</span>
+                  Engineering Department <span className="text-[#0EA5E9]">*</span>
                 </label>
                 <select
                   required
@@ -754,7 +754,7 @@ export function RegistrationForm({
                     setDepartment(e.target.value);
                     setDomain('');
                   }}
-                  className="w-full rounded-xl border border-[#E2E8F0] bg-[#FFFFFF] px-4 py-3 text-xs text-[#0F172A] focus:border-[#FF6B00] focus:outline-none shadow-sm"
+                  className="w-full rounded-xl border border-[#E2E8F0] bg-[#FFFFFF] px-4 py-3 text-xs text-[#000000] focus:border-[#0EA5E9] focus:outline-none shadow-sm"
                 >
                   <option value="">Select your Engineering Department...</option>
                   {HACKATHON_DEPARTMENTS.map((dept) => (
@@ -773,14 +773,14 @@ export function RegistrationForm({
             <div>
               <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-wider text-[#475569]">
                 {event.requiresDepartment ? 'Department-Specific Problem Domain' : 'Challenge Track / Domain'}{' '}
-                <span className="text-[#FF6B00]">*</span>
+                <span className="text-[#0EA5E9]">*</span>
               </label>
               <select
                 required
                 value={domain}
                 onChange={(e) => setDomain(e.target.value)}
                 disabled={event.requiresDepartment && !department}
-                className="w-full rounded-xl border border-[#E2E8F0] bg-[#FFFFFF] px-4 py-3 text-xs text-[#0F172A] focus:border-[#FF6B00] focus:outline-none disabled:bg-[#F1F5F9] disabled:cursor-not-allowed shadow-sm"
+                className="w-full rounded-xl border border-[#E2E8F0] bg-[#FFFFFF] px-4 py-3 text-xs text-[#000000] focus:border-[#0EA5E9] focus:outline-none disabled:bg-[#F1F5F9] disabled:cursor-not-allowed shadow-sm"
               >
                 <option value="">
                   {event.requiresDepartment && !department
@@ -800,16 +800,16 @@ export function RegistrationForm({
 
             {/* Event Specification Banner */}
             {event.scoringMatrix && (
-              <div className="mt-3 rounded-lg border border-[#10B981]/40 bg-[#FFFFFF] p-3 text-xs space-y-2">
-                <div className="flex items-center gap-1.5 font-serif font-bold text-[#0F172A]">
-                  <Gamepad2Icon className="h-4 w-4 text-[#10B981]" />
+              <div className="mt-3 rounded-lg border border-[#CBD5E1] bg-[#FFFFFF] p-3 text-xs space-y-2">
+                <div className="flex items-center gap-1.5 font-serif font-bold text-[#000000]">
+                  <Gamepad2Icon className="h-4 w-4 text-[#0EA5E9]" />
                   <span>2D Games Official Scoring Criteria Matrix (100 Marks)</span>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-[10px]">
                   {GAMES_2D_SCORING_MATRIX.map((c, i) => (
                     <div key={i} className="rounded bg-[#F8FAFC] border border-[#E2E8F0] p-2">
-                      <span className="font-bold text-[#0F172A] block">{c.category}</span>
-                      <span className="font-mono text-[#10B981] font-bold">{c.marks} Marks</span>
+                      <span className="font-bold text-[#000000] block">{c.category}</span>
+                      <span className="font-mono text-[#0284C7] font-bold">{c.marks} Marks</span>
                     </div>
                   ))}
                 </div>
@@ -818,7 +818,7 @@ export function RegistrationForm({
 
             {event.formatDetails && (
               <div className="mt-3 rounded-lg border border-[#0EA5E9]/40 bg-[#FFFFFF] p-3 text-xs space-y-1.5">
-                <div className="flex items-center gap-1.5 font-serif font-bold text-[#0F172A]">
+                <div className="flex items-center gap-1.5 font-serif font-bold text-[#000000]">
                   <TerminalIcon className="h-4 w-4 text-[#0EA5E9]" />
                   <span>Capture The Flag Challenge Protocol</span>
                 </div>
@@ -837,7 +837,7 @@ export function RegistrationForm({
           {/* Section B: Team Members Names */}
           <div className="space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E2E8F0] pb-3">
-              <span className="font-serif text-xs font-bold uppercase tracking-wider text-[#0F172A]">
+              <span className="font-serif text-xs font-bold uppercase tracking-wider text-[#000000]">
                 2. Team Members Names Roster
               </span>
 
@@ -852,8 +852,8 @@ export function RegistrationForm({
                       onClick={() => handleMemberCountChange(count)}
                       className={`rounded-lg px-3.5 py-1 font-mono text-xs font-bold transition-all ${
                         memberCount === count
-                          ? 'bg-[#0F172A] text-[#FFFFFF] shadow-sm'
-                          : 'text-[#475569] hover:text-[#0F172A]'
+                          ? 'bg-[#000000] text-[#FFFFFF] shadow-sm'
+                          : 'text-[#475569] hover:text-[#000000]'
                       }`}
                     >
                       {count} Members
@@ -864,17 +864,17 @@ export function RegistrationForm({
             </div>
 
             {/* Member 1: Leader (Preview) */}
-            <div className="rounded-xl border border-[#FF6B00]/40 bg-[#F8FAFC] p-3.5">
+            <div className="rounded-xl border border-[#0EA5E9]/40 bg-[#F8FAFC] p-3.5">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-[#FF6B00] text-white font-mono text-xs font-bold">
+                  <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-[#0EA5E9] text-white font-mono text-xs font-bold">
                     01
                   </span>
-                  <span className="font-serif text-sm font-bold text-[#0F172A]">
+                  <span className="font-serif text-sm font-bold text-[#000000]">
                     {leaderName || 'Team Leader'} (Team Lead)
                   </span>
                 </div>
-                <span className="font-mono text-xs text-[#FF6B00] font-bold">{leaderEmail}</span>
+                <span className="font-mono text-xs text-[#0284C7] font-bold">{leaderEmail}</span>
               </div>
             </div>
 
@@ -884,11 +884,11 @@ export function RegistrationForm({
               return (
                 <div
                   key={index}
-                  className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-4 sm:p-5 transition-all hover:border-[#FF6B00]/60"
+                  className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-4 sm:p-5 transition-all hover:border-[#0EA5E9]/60"
                 >
                   <div className="mb-3 flex items-center justify-between">
-                    <span className="flex items-center gap-2 font-serif text-xs font-bold uppercase tracking-wider text-[#0F172A]">
-                      <span className="flex h-5 w-5 items-center justify-center rounded-md bg-[#FFFFFF] border border-[#E2E8F0] font-mono text-[10px] text-[#475569]">
+                    <span className="flex items-center gap-2 font-serif text-xs font-bold uppercase tracking-wider text-[#000000]">
+                      <span className="flex h-5 w-5 items-center justify-center rounded-md bg-[#FFFFFF] border border-[#CBD5E1] font-mono text-[10px] text-[#475569]">
                         {memberNum.toString().padStart(2, '0')}
                       </span>
                       <span>Team Member #{memberNum}</span>
@@ -900,7 +900,7 @@ export function RegistrationForm({
                     {/* Full Name */}
                     <div>
                       <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-[#475569]">
-                        Full Name <span className="text-[#FF6B00]">*</span>
+                        Full Name <span className="text-[#0EA5E9]">*</span>
                       </label>
                       <input
                         type="text"
@@ -908,7 +908,7 @@ export function RegistrationForm({
                         value={member.name}
                         onChange={(e) => updateSquadMember(index, { name: e.target.value })}
                         placeholder={`Member #${memberNum} Full Name`}
-                        className="w-full rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-2 text-xs text-[#0F172A] placeholder:text-[#64748B] focus:border-[#FF6B00] focus:outline-none"
+                        className="w-full rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-2 text-xs text-[#000000] placeholder:text-[#64748B] focus:border-[#0EA5E9] focus:outline-none"
                       />
                     </div>
 
@@ -922,7 +922,7 @@ export function RegistrationForm({
                         value={member.email || ''}
                         onChange={(e) => updateSquadMember(index, { email: e.target.value })}
                         placeholder="student@college.edu"
-                        className="w-full rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-2 text-xs text-[#0F172A] placeholder:text-[#64748B] focus:border-[#FF6B00] focus:outline-none"
+                        className="w-full rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-2 text-xs text-[#000000] placeholder:text-[#64748B] focus:border-[#0EA5E9] focus:outline-none"
                       />
                     </div>
 
@@ -941,7 +941,7 @@ export function RegistrationForm({
                           })
                         }
                         placeholder="e.g. 21CS045 / CSE"
-                        className="w-full rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-2 text-xs text-[#0F172A] placeholder:text-[#64748B] focus:border-[#FF6B00] focus:outline-none"
+                        className="w-full rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-2 text-xs text-[#000000] placeholder:text-[#64748B] focus:border-[#0EA5E9] focus:outline-none"
                       />
                     </div>
                   </div>
@@ -955,17 +955,17 @@ export function RegistrationForm({
             <button
               type="button"
               onClick={() => setCurrentStep('step1_squad')}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-2.5 text-xs font-semibold text-[#475569] hover:bg-[#FFFFFF] hover:text-[#0F172A]"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-2.5 text-xs font-semibold text-[#475569] hover:bg-[#FFFFFF] hover:text-[#000000]"
             >
               <ArrowLeftIcon className="h-3.5 w-3.5" />
               <span>Back: Team Identity</span>
             </button>
             <button
               type="submit"
-              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#EA580C] px-7 py-3 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] shadow-luxury hover:from-[#EA580C] hover:to-[#C2410C] hover:shadow-orange-glow"
+              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#0EA5E9] to-[#2563EB] px-7 py-3 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] shadow-luxury hover:from-[#0284C7] hover:to-[#1D4ED8] hover:shadow-blue-glow"
             >
               <span>Next: Terms &amp; Rules</span>
-              <ArrowRightIcon className="h-4 w-4 text-[#FEF08A]" />
+              <ArrowRightIcon className="h-4 w-4 text-[#E0F2FE]" />
             </button>
           </div>
         </form>
@@ -977,8 +977,8 @@ export function RegistrationForm({
       {currentStep === 'step3_terms' && (
         <form onSubmit={handleGoToStep4} className="space-y-6 rounded-2xl border border-[#E2E8F0] bg-[#FFFFFF] p-6 sm:p-8 shadow-luxury">
           <div className="border-b border-[#E2E8F0] pb-3">
-            <h3 className="font-serif text-lg font-bold text-[#0F172A] flex items-center gap-2">
-              <FileTextIcon className="h-5 w-5 text-[#FF6B00]" />
+            <h3 className="font-serif text-lg font-bold text-[#000000] flex items-center gap-2">
+              <FileTextIcon className="h-5 w-5 text-[#0EA5E9]" />
               <span>Step 03: Event Rules &amp; Code of Conduct</span>
             </h3>
             <p className="mt-1 text-xs text-[#475569]">
@@ -993,22 +993,22 @@ export function RegistrationForm({
               'Jury scoring decisions are final and binding.'
             ]).map((rule, idx) => (
               <div key={idx} className="flex items-start gap-2.5">
-                <CheckCircle2Icon className="h-4 w-4 text-[#10B981] shrink-0 mt-0.5" />
+                <CheckCircle2Icon className="h-4 w-4 text-[#0EA5E9] shrink-0 mt-0.5" />
                 <p className="leading-relaxed">{rule}</p>
               </div>
             ))}
           </div>
 
-          <label className="flex items-start gap-3 rounded-xl border border-[#FF6B00]/40 bg-[#F8FAFC] p-4 cursor-pointer hover:bg-[#FFFFFF] transition-colors">
+          <label className="flex items-start gap-3 rounded-xl border border-[#0EA5E9]/40 bg-[#F8FAFC] p-4 cursor-pointer hover:bg-[#FFFFFF] transition-colors">
             <input
               type="checkbox"
               required
               checked={termsAccepted}
               onChange={(e) => setTermsAccepted(e.target.checked)}
-              className="h-5 w-5 rounded border-[#E2E8F0] text-[#FF6B00] focus:ring-[#FF6B00] mt-0.5"
+              className="h-5 w-5 rounded border-[#E2E8F0] text-[#0EA5E9] focus:ring-[#0EA5E9] mt-0.5"
             />
             <div className="text-xs text-[#475569]">
-              <span className="font-bold block text-[#0F172A]">Team Declaration &amp; Acceptance</span>
+              <span className="font-bold block text-[#000000]">Team Declaration &amp; Acceptance</span>
               <span>
                 I hereby declare that all provided team details are accurate and all participants agree to follow the RYVANTA '26 rules and campus regulations.
               </span>
@@ -1019,7 +1019,7 @@ export function RegistrationForm({
             <button
               type="button"
               onClick={() => setCurrentStep('step2_members')}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-2.5 text-xs font-semibold text-[#475569] hover:bg-[#FFFFFF] hover:text-[#0F172A]"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-2.5 text-xs font-semibold text-[#475569] hover:bg-[#FFFFFF] hover:text-[#000000]"
             >
               <ArrowLeftIcon className="h-3.5 w-3.5" />
               <span>Back: Members</span>
@@ -1027,10 +1027,10 @@ export function RegistrationForm({
             <button
               type="submit"
               disabled={!termsAccepted}
-              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#EA580C] px-7 py-3 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] shadow-luxury hover:from-[#EA580C] hover:to-[#C2410C] hover:shadow-orange-glow disabled:opacity-50"
+              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#0EA5E9] to-[#2563EB] px-7 py-3 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] shadow-luxury hover:from-[#0284C7] hover:to-[#1D4ED8] hover:shadow-blue-glow disabled:opacity-50"
             >
               <span>Next: Review Details</span>
-              <ArrowRightIcon className="h-4 w-4 text-[#FEF08A]" />
+              <ArrowRightIcon className="h-4 w-4 text-[#E0F2FE]" />
             </button>
           </div>
         </form>
@@ -1042,8 +1042,8 @@ export function RegistrationForm({
       {currentStep === 'step4_review' && (
         <div className="space-y-6 rounded-2xl border border-[#E2E8F0] bg-[#FFFFFF] p-6 sm:p-8 shadow-luxury">
           <div className="border-b border-[#E2E8F0] pb-3">
-            <h3 className="font-serif text-lg font-bold text-[#0F172A] flex items-center gap-2">
-              <LayersIcon className="h-5 w-5 text-[#FF6B00]" />
+            <h3 className="font-serif text-lg font-bold text-[#000000] flex items-center gap-2">
+              <LayersIcon className="h-5 w-5 text-[#0EA5E9]" />
               <span>Step 04: Review Registration Summary</span>
             </h3>
             <p className="mt-1 text-xs text-[#475569]">
@@ -1056,10 +1056,10 @@ export function RegistrationForm({
               <span className="font-mono text-[10px] uppercase font-bold tracking-widest text-[#64748B]">
                 Event &amp; Domain
               </span>
-              <div className="font-serif text-base font-bold text-[#0F172A]">{event.fullName}</div>
+              <div className="font-serif text-base font-bold text-[#000000]">{event.fullName}</div>
               <div className="text-xs text-[#475569]">{institution}</div>
               {department && <div className="text-xs text-[#475569]">Dept: {department}</div>}
-              <div className="mt-2 rounded-lg bg-[#FFFFFF] border border-[#E2E8F0] p-2 text-xs font-mono text-[#FF6B00] font-bold">
+              <div className="mt-2 rounded-lg bg-[#FFFFFF] border border-[#CBD5E1] p-2 text-xs font-mono text-[#0284C7] font-bold">
                 Domain: {domain}
               </div>
             </div>
@@ -1068,7 +1068,7 @@ export function RegistrationForm({
               <span className="font-mono text-[10px] uppercase font-bold tracking-widest text-[#64748B]">
                 Team &amp; Leader Contact
               </span>
-              <div className="font-serif text-base font-bold text-[#0F172A]">{teamName}</div>
+              <div className="font-serif text-base font-bold text-[#000000]">{teamName}</div>
               <div className="text-xs text-[#475569]">Lead: {leaderName}</div>
               <div className="text-xs font-mono text-[#475569]">{leaderEmail}</div>
               <div className="text-xs font-mono text-[#64748B]">Mobile: +91 {leaderPhone}</div>
@@ -1082,21 +1082,21 @@ export function RegistrationForm({
                 <button
                   type="button"
                   onClick={() => setCurrentStep('step2_members')}
-                  className="text-xs font-bold text-[#FF6B00] hover:underline"
+                  className="text-xs font-bold text-[#0EA5E9] hover:underline"
                 >
                   Edit Members
                 </button>
               </div>
 
               <div className="grid gap-2 sm:grid-cols-2">
-                <div className="rounded-lg border border-[#FF6B00]/40 bg-[#FFFFFF] p-3 text-xs">
-                  <span className="font-bold text-[#0F172A] block">{leaderName} (Team Lead)</span>
+                <div className="rounded-lg border border-[#0EA5E9]/40 bg-[#FFFFFF] p-3 text-xs">
+                  <span className="font-bold text-[#000000] block">{leaderName} (Team Lead)</span>
                   <span className="text-[11px] font-mono text-[#64748B]">{leaderEmail}</span>
                 </div>
 
                 {squadMembers.map((m, idx) => (
                   <div key={idx} className="rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] p-3 text-xs">
-                    <span className="font-bold text-[#0F172A] block">
+                    <span className="font-bold text-[#000000] block">
                       {m.name || `Member #${idx + 2}`}
                     </span>
                     <span className="text-[11px] font-mono text-[#64748B]">
@@ -1107,16 +1107,16 @@ export function RegistrationForm({
               </div>
             </div>
 
-            <div className="sm:col-span-2 flex items-center justify-between rounded-xl border border-[#FF6B00] bg-gradient-to-r from-orange-50 to-emerald-50/50 p-4">
+            <div className="sm:col-span-2 flex items-center justify-between rounded-xl border border-[#0EA5E9] bg-gradient-to-r from-sky-50 to-slate-100 p-4">
               <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-[#0F172A] block">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#000000] block">
                   Registration Fee
                 </span>
                 <span className="text-[11px] text-[#475569]">
                   Flat entry fee per team for {event.name}
                 </span>
               </div>
-              <div className="font-serif text-2xl font-black text-[#0F172A]">
+              <div className="font-serif text-2xl font-black text-[#000000]">
                 ₹{REGISTRATION_FEE}
               </div>
             </div>
@@ -1126,7 +1126,7 @@ export function RegistrationForm({
             <button
               type="button"
               onClick={() => setCurrentStep('step3_terms')}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-2.5 text-xs font-semibold text-[#475569] hover:bg-[#FFFFFF] hover:text-[#0F172A]"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-2.5 text-xs font-semibold text-[#475569] hover:bg-[#FFFFFF] hover:text-[#000000]"
             >
               <ArrowLeftIcon className="h-3.5 w-3.5" />
               <span>Back: Terms</span>
@@ -1134,10 +1134,10 @@ export function RegistrationForm({
             <button
               type="button"
               onClick={handleGoToStep5}
-              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#EA580C] px-7 py-3 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] shadow-luxury hover:from-[#EA580C] hover:to-[#C2410C] hover:shadow-orange-glow"
+              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#0EA5E9] to-[#2563EB] px-7 py-3 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] shadow-luxury hover:from-[#0284C7] hover:to-[#1D4ED8] hover:shadow-blue-glow"
             >
               <span>Proceed to Payment</span>
-              <ArrowRightIcon className="h-4 w-4 text-[#FEF08A]" />
+              <ArrowRightIcon className="h-4 w-4 text-[#E0F2FE]" />
             </button>
           </div>
         </div>
@@ -1164,17 +1164,17 @@ export function RegistrationForm({
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 {isSubmitting ? (
-                  <Loader2Icon className="h-4 w-4 animate-spin text-[#FF6B00]" />
+                  <Loader2Icon className="h-4 w-4 animate-spin text-[#0EA5E9]" />
                 ) : (
-                  <div className="h-2.5 w-2.5 rounded-full bg-[#10B981] animate-ping" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-[#0EA5E9] animate-ping" />
                 )}
-                <span className="font-semibold text-[#0F172A]">
+                <span className="font-semibold text-[#000000]">
                   {isSubmitting
                     ? verificationStatusText
                     : 'Awaiting Payment Verification: Pay via QR or UPI apps above'}
                 </span>
               </div>
-              <span className="font-mono text-xs font-bold text-[#FF6B00]">
+              <span className="font-mono text-xs font-bold text-[#0EA5E9]">
                 {isSubmitting ? `${verificationProgress}%` : 'READY'}
               </span>
             </div>
@@ -1182,7 +1182,7 @@ export function RegistrationForm({
             {isSubmitting && (
               <div className="h-2 w-full overflow-hidden rounded-full bg-[#E2E8F0]">
                 <div
-                  className="h-full bg-gradient-to-r from-[#FF6B00] via-[#0EA5E9] to-[#10B981] transition-all duration-300 ease-out shadow-sm"
+                  className="h-full bg-gradient-to-r from-[#0EA5E9] via-[#38BDF8] to-[#2563EB] transition-all duration-300 ease-out shadow-sm"
                   style={{ width: `${verificationProgress}%` }}
                 />
               </div>
@@ -1194,7 +1194,7 @@ export function RegistrationForm({
               type="button"
               onClick={() => setCurrentStep('step4_review')}
               disabled={isSubmitting}
-              className="inline-flex w-full sm:w-auto items-center justify-center gap-1.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-[#475569] hover:bg-[#FFFFFF] hover:text-[#0F172A] disabled:opacity-50"
+              className="inline-flex w-full sm:w-auto items-center justify-center gap-1.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-[#475569] hover:bg-[#FFFFFF] hover:text-[#000000] disabled:opacity-50"
             >
               <ArrowLeftIcon className="h-4 w-4" />
               <span>Review Details</span>
@@ -1204,16 +1204,16 @@ export function RegistrationForm({
               type="button"
               onClick={() => void handleFinalSubmission()}
               disabled={isSubmitting}
-              className="inline-flex flex-1 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#EA580C] px-6 py-4 text-xs font-black uppercase tracking-wider text-[#FFFFFF] shadow-luxury transition-all hover:from-[#EA580C] hover:to-[#C2410C] hover:shadow-orange-glow disabled:cursor-not-allowed disabled:opacity-50"
+              className="inline-flex flex-1 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#0EA5E9] to-[#2563EB] px-6 py-4 text-xs font-black uppercase tracking-wider text-[#FFFFFF] shadow-luxury transition-all hover:from-[#0284C7] hover:to-[#1D4ED8] hover:shadow-blue-glow disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isSubmitting ? (
                 <>
-                  <Loader2Icon className="h-4 w-4 animate-spin text-[#FEF08A]" />
+                  <Loader2Icon className="h-4 w-4 animate-spin text-[#E0F2FE]" />
                   <span>{verificationStatusText || 'Generating Participation ID...'}</span>
                 </>
               ) : (
                 <>
-                  <ShieldCheckIcon className="h-5 w-5 text-[#FEF08A]" />
+                  <ShieldCheckIcon className="h-5 w-5 text-[#E0F2FE]" />
                   <span>I Have Completed Payment — Generate TI{event.code}1001 ID</span>
                 </>
               )}
