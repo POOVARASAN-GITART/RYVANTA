@@ -98,7 +98,7 @@ export function CyberCursor() {
             ? 'border-cyan-400 bg-cyan-400/15 shadow-[0_0_20px_#00f0ff] scale-150'
             : isClicking
             ? 'border-purple-400 bg-purple-500/30 scale-75'
-            : 'border-cyan-500/50 bg-cyan-500/5'
+            : 'border-cyan-400/60 bg-cyan-400/5 shadow-[0_0_12px_rgba(0,240,255,0.25)]'
         }`}
         style={{
           left: `${trailingPos.x}px`,
@@ -107,22 +107,6 @@ export function CyberCursor() {
           width: isHovering ? '44px' : '32px',
           height: isHovering ? '44px' : '32px',
           transitionProperty: 'width, height, transform, border-color, background-color, box-shadow'
-        }}
-      />
-
-      {/* Inner Precision Dot */}
-      <div
-        className={`pointer-events-none fixed z-50 rounded-full transition-all duration-75 ${
-          isHovering
-            ? 'h-2 w-2 bg-white shadow-[0_0_10px_#ffffff]'
-            : isClicking
-            ? 'h-3 w-3 bg-purple-400 shadow-[0_0_12px_#a855f7]'
-            : 'h-1.5 w-1.5 bg-cyan-300 shadow-[0_0_8px_#00f0ff]'
-        }`}
-        style={{
-          left: `${position.x}px`,
-          top: `${position.y}px`,
-          transform: 'translate(-50%, -50%)'
         }}
       />
     </>
