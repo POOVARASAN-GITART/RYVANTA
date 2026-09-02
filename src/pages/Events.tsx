@@ -85,6 +85,7 @@ export function Events() {
           <RegistrationForm
             key={activeEventId}
             eventId={activeEventId}
+            onEventChange={selectEvent}
             submit={submit}
             takenDomains={takenDomains[activeEventId] ?? []}
             upiId={settings.upiId}

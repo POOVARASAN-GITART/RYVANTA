@@ -17,10 +17,11 @@ import {
   Gamepad2Icon,
   TerminalIcon,
   SparklesIcon,
-  PlusIcon,
-  Trash2Icon
+  TrophyIcon,
+  ChevronRightIcon
 } from 'lucide-react';
 import {
+  EVENTS,
   HACKATHON_DEPARTMENTS,
   HACKATHON_DEPARTMENT_DOMAINS,
   GAMES_2D_SCORING_MATRIX,
@@ -43,6 +44,7 @@ import { PaymentQrBox } from './PaymentQrBox';
 
 interface RegistrationFormProps {
   eventId: EventId;
+  onEventChange?: (id: EventId) => void;
   upiId?: string;
   payeeName?: string;
   takenDomains: string[];
@@ -52,28 +54,68 @@ interface RegistrationFormProps {
 
 type WizardStep = 'step1_squad' | 'step2_members' | 'step3_terms' | 'step4_review' | 'step5_payment';
 
+const EVENT_CATEGORY_CARDS: {
+  id: EventId;
+  name: string;
+  codeBadge: string;
+  teamSizeLabel: string;
+  venue: string;
+  icon: typeof TrophyIcon;
+  desc: string;
+}[] = [
+  {
+    id: 'hackathon',
+    name: "Hackathon '26",
+    codeBadge: 'TICH###',
+    teamSizeLabel: '3–4 Members',
+    venue: 'Auditorium',
+    icon: TrophyIcon,
+    desc: 'Multi-Department Flagship Engineering Sprint'
+  },
+  {
+    id: '2d-games',
+    name: "2D Games (SOZO '26)",
+    codeBadge: 'TID###',
+    teamSizeLabel: '2–3 Members',
+    venue: 'IT Lab',
+    icon: Gamepad2Icon,
+    desc: 'Game Design & 100-Mark Scoring Matrix'
+  },
+  {
+    id: 'ctf',
+    name: "Capture The Flag (NEXVORA '26)",
+    codeBadge: 'TIC###',
+    teamSizeLabel: '2–3 Members',
+    venue: 'FOSS Lab',
+    icon: TerminalIcon,
+    desc: '2 Rounds · Cybersecurity Offensive Challenge'
+  }
+];
+
 export function RegistrationForm({
-  eventId,
+  eventId: initialEventId,
+  onEventChange,
   upiId = 'alangaram1985@okicici',
   payeeName = 'Alangaram Selvaraj',
   takenDomains,
   onRegistered,
   submit
 }: RegistrationFormProps) {
-  const event = getEvent(eventId);
+  const [selectedEventId, setSelectedEventId] = useState<EventId>(initialEventId);
+  const event = getEvent(selectedEventId);
 
   const [currentStep, setCurrentStep] = useState<WizardStep>('step1_squad');
 
-  // Step 1: Team & Leader State
+  // Step 1: Team & Leader Details
   const [teamName, setTeamName] = useState('');
+  const [institution, setInstitution] = useState('');
   const [leaderName, setLeaderName] = useState('');
   const [leaderPhone, setLeaderPhone] = useState('');
   const [leaderEmail, setLeaderEmail] = useState('');
-  const [institution, setInstitution] = useState('');
+
+  // Step 2: Department, Domain & Team Members
   const [department, setDepartment] = useState('');
   const [domain, setDomain] = useState('');
-
-  // Step 2: Team Members State (Constrained strictly by minMembers and maxMembers)
   const [memberCount, setMemberCount] = useState<number>(event.minMembers);
   const [squadMembers, setSquadMembers] = useState<SquadMember[]>(() =>
     Array.from({ length: event.minMembers - 1 }, () => ({
@@ -92,7 +134,7 @@ export function RegistrationForm({
   const [upiRef, setUpiRef] = useState('');
   const [paymentScreenshot, setPaymentScreenshot] = useState<string | undefined>(undefined);
 
-  // Form Status
+  // Live status
   const [isCheckingEmail, setIsCheckingEmail] = useState(false);
   const [emailWarning, setEmailWarning] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -100,11 +142,20 @@ export function RegistrationForm({
   const [verificationProgress, setVerificationProgress] = useState(0);
   const [error, setError] = useState<ApiRequestError | Error | null>(null);
 
-  // Reset/Re-sync when event changes
+  // Sync with prop changes if any
   useEffect(() => {
-    setMemberCount(event.minMembers);
+    setSelectedEventId(initialEventId);
+  }, [initialEventId]);
+
+  // When event category changes
+  function handleSelectCategory(newId: EventId) {
+    setSelectedEventId(newId);
+    if (onEventChange) onEventChange(newId);
+
+    const targetEvent = getEvent(newId);
+    setMemberCount(targetEvent.minMembers);
     setSquadMembers(
-      Array.from({ length: event.minMembers - 1 }, () => ({
+      Array.from({ length: targetEvent.minMembers - 1 }, () => ({
         name: '',
         email: '',
         phone: '',
@@ -115,10 +166,9 @@ export function RegistrationForm({
     setDepartment('');
     setDomain('');
     setError(null);
-    setCurrentStep('step1_squad');
-  }, [event]);
+  }
 
-  // Handle dynamic member count change within [minMembers, maxMembers]
+  // Handle dynamic member count adjustments
   function handleMemberCountChange(newTotalCount: number) {
     if (newTotalCount < event.minMembers || newTotalCount > event.maxMembers) return;
     setMemberCount(newTotalCount);
@@ -156,7 +206,7 @@ export function RegistrationForm({
     try {
       const exists = await checkEmailExists(leaderEmail.trim());
       if (exists) {
-        setEmailWarning(`The email "${leaderEmail.trim()}" is already registered. Each participant can only register once.`);
+        setEmailWarning(`The email "${leaderEmail.trim()}" is already registered. Only one team per email.`);
       } else {
         setEmailWarning(null);
       }
@@ -167,9 +217,9 @@ export function RegistrationForm({
     }
   }
 
-  // Determine available domains dynamically based on event and department
+  // Domains available for selected event and department
   const availableDomains = (() => {
-    if (eventId === 'hackathon') {
+    if (selectedEventId === 'hackathon') {
       return department ? HACKATHON_DEPARTMENT_DOMAINS[department] || [] : [];
     }
     return event.domains || [];
@@ -178,52 +228,59 @@ export function RegistrationForm({
   const takenSet = new Set(takenDomains.map((val) => val.toLowerCase()));
   const isDomainTaken = (opt: string) => takenSet.has(opt.toLowerCase());
 
-  // Step 1 Validation
+  // Step 1 Validation (Team Identity, Email, and Category)
   function validateStep1(): boolean {
     if (teamName.trim().length < 3) {
-      setError(new ApiRequestError('Team Name is required and must have at least 3 characters.', 'teamName'));
+      setError(new ApiRequestError('Team Name is required (minimum 3 characters).', 'teamName'));
+      return false;
+    }
+    if (institution.trim().length < 2) {
+      setError(new ApiRequestError('College / University name is required.', 'institution'));
       return false;
     }
     if (leaderName.trim().length < 2) {
       setError(new ApiRequestError('Team Leader full name is required.', 'leaderName'));
       return false;
     }
-    // 10-Digit Mobile Number Validation
+    // 10-Digit Mobile Validation
     const cleanPhone = leaderPhone.replace(/\D/g, '');
     if (!/^[6-9]\d{9}$/.test(cleanPhone)) {
-      setError(new ApiRequestError('Enter a valid 10-digit primary mobile number (starts with 6, 7, 8, or 9).', 'phone'));
+      setError(new ApiRequestError('Enter a valid 10-digit primary mobile number starting with 6, 7, 8, or 9.', 'phone'));
       return false;
     }
+    // Valid Email
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(leaderEmail.trim())) {
-      setError(new ApiRequestError('Enter a valid email address.', 'email'));
+      setError(new ApiRequestError('Enter a valid email address for the team leader.', 'email'));
       return false;
     }
     if (emailWarning) {
       setError(new ApiRequestError(emailWarning, 'email'));
       return false;
     }
-    if (institution.trim().length < 2) {
-      setError(new ApiRequestError('College / Institution name is required.', 'institution'));
+    if (!selectedEventId) {
+      setError(new ApiRequestError('Please select one of the three competition categories below.'));
       return false;
     }
+
+    setError(null);
+    return true;
+  }
+
+  // Step 2 Validation (Domain & Team Member Names)
+  function validateStep2(): boolean {
     if (event.requiresDepartment && !department) {
       setError(new ApiRequestError('Please select your Engineering Department.', 'department'));
       return false;
     }
     if (!domain) {
-      setError(new ApiRequestError('Please select a domain / challenge statement.', 'domain'));
+      setError(new ApiRequestError('Please select a domain / challenge problem statement.', 'domain'));
       return false;
     }
     if (isDomainTaken(domain)) {
-      setError(new ApiRequestError(`The domain "${domain}" has already been claimed. Please choose another domain.`, 'domain'));
+      setError(new ApiRequestError(`The domain "${domain}" has already been claimed. Please pick another.`, 'domain'));
       return false;
     }
-    setError(null);
-    return true;
-  }
 
-  // Step 2 Validation
-  function validateStep2(): boolean {
     if (memberCount < event.minMembers || memberCount > event.maxMembers) {
       setError(new ApiRequestError(`${event.name} requires between ${event.minMembers} and ${event.maxMembers} members.`, 'members'));
       return false;
@@ -240,14 +297,15 @@ export function RegistrationForm({
         return false;
       }
     }
+
     setError(null);
     return true;
   }
 
-  // Step 3 Validation
+  // Step 3 Validation (Terms)
   function validateStep3(): boolean {
     if (!termsAccepted) {
-      setError(new ApiRequestError('You must review and accept the official symposium code of conduct and rules.'));
+      setError(new ApiRequestError('You must accept the official rules and code of conduct.'));
       return false;
     }
     setError(null);
@@ -258,7 +316,7 @@ export function RegistrationForm({
     e.preventDefault();
     if (validateStep1()) {
       setCurrentStep('step2_members');
-      window.scrollTo({ top: 100, behavior: 'smooth' });
+      window.scrollTo({ top: 120, behavior: 'smooth' });
     }
   }
 
@@ -266,7 +324,7 @@ export function RegistrationForm({
     e.preventDefault();
     if (validateStep2()) {
       setCurrentStep('step3_terms');
-      window.scrollTo({ top: 100, behavior: 'smooth' });
+      window.scrollTo({ top: 120, behavior: 'smooth' });
     }
   }
 
@@ -274,17 +332,17 @@ export function RegistrationForm({
     e.preventDefault();
     if (validateStep3()) {
       setCurrentStep('step4_review');
-      window.scrollTo({ top: 100, behavior: 'smooth' });
+      window.scrollTo({ top: 120, behavior: 'smooth' });
     }
   }
 
   function handleGoToStep5(e: React.FormEvent) {
     e.preventDefault();
     setCurrentStep('step5_payment');
-    window.scrollTo({ top: 100, behavior: 'smooth' });
+    window.scrollTo({ top: 120, behavior: 'smooth' });
   }
 
-  // Final Submit & Automated Verification
+  // Final Submission & Sequential ID Generation
   async function handleFinalSubmission() {
     if (isSubmitting) return;
 
@@ -327,7 +385,7 @@ export function RegistrationForm({
       onSuccess: async (paymentDetails) => {
         try {
           const record = await submit({
-            eventId,
+            eventId: selectedEventId,
             teamName: teamName.trim(),
             leaderName: leaderName.trim(),
             leaderEmail: leaderEmail.trim(),
@@ -371,7 +429,7 @@ export function RegistrationForm({
   // Stepper Definition
   const stepsList = [
     { id: 'step1_squad', num: '01', title: 'Team Identity' },
-    { id: 'step2_members', num: '02', title: 'Members Roster' },
+    { id: 'step2_members', num: '02', title: 'Members & Domain' },
     { id: 'step3_terms', num: '03', title: 'Terms & Code' },
     { id: 'step4_review', num: '04', title: 'Review Details' },
     { id: 'step5_payment', num: '05', title: 'Payment & ID' }
@@ -449,7 +507,7 @@ export function RegistrationForm({
       )}
 
       {/* ───────────────────────────────────────────────────────────── */}
-      {/* STEP 01: TEAM IDENTITY & CONTACT DETAILS */}
+      {/* STEP 01: TEAM IDENTITY & 3 COMPETITION CATEGORIES */}
       {/* ───────────────────────────────────────────────────────────── */}
       {currentStep === 'step1_squad' && (
         <form onSubmit={handleGoToStep2} className="space-y-6 rounded-2xl border border-[#EAE6DF] bg-[#FFFFFF] p-6 sm:p-8 shadow-luxury">
@@ -459,45 +517,9 @@ export function RegistrationForm({
               <span>Step 01: Team Identity &amp; Mandatory Contact Fields</span>
             </h3>
             <p className="mt-1 text-xs text-[#555555]">
-              Provide your official team name, institution, and 10-digit primary contact details.
+              Provide your official team name, institution, 10-digit primary contact details, and choose your event category.
             </p>
           </div>
-
-          {/* Event-specific specifications banner */}
-          {event.scoringMatrix && (
-            <div className="rounded-xl border border-[#D4AF37]/50 bg-[#FAFAFA] p-4 text-xs space-y-2">
-              <div className="flex items-center gap-2 font-serif font-bold text-[#1C1C1C]">
-                <Gamepad2Icon className="h-4 w-4 text-[#D4AF37]" />
-                <span>2D Games Official Scoring Criteria Matrix (100 Marks)</span>
-              </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-[11px]">
-                {GAMES_2D_SCORING_MATRIX.map((c, i) => (
-                  <div key={i} className="rounded-lg bg-[#FFFFFF] border border-[#EAE6DF] p-2.5">
-                    <span className="font-bold text-[#1C1C1C] block">{c.category}</span>
-                    <span className="font-mono text-[#D4AF37] font-bold">{c.marks} Marks</span>
-                    <p className="text-[10px] text-[#767676] mt-0.5">{c.description}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {event.formatDetails && (
-            <div className="rounded-xl border border-[#D4AF37]/50 bg-[#FAFAFA] p-4 text-xs space-y-1.5">
-              <div className="flex items-center gap-2 font-serif font-bold text-[#1C1C1C]">
-                <TerminalIcon className="h-4 w-4 text-[#D4AF37]" />
-                <span>Capture The Flag Challenge Protocol</span>
-              </div>
-              <ul className="space-y-1 text-[11px] text-[#555555]">
-                {CTF_FORMAT_DETAILS.map((f, i) => (
-                  <li key={i} className="flex items-center gap-1.5">
-                    <span className="text-[#D4AF37] font-bold">•</span>
-                    <span>{f}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
 
           <div className="grid gap-6 sm:grid-cols-2">
             {/* Team Name */}
@@ -511,11 +533,11 @@ export function RegistrationForm({
                 value={teamName}
                 onChange={(e) => setTeamName(e.target.value)}
                 placeholder="e.g. ApexInnovators, CyberKnights"
-                className="w-full rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] px-4 py-3 text-sm text-[#1C1C1C] placeholder:text-[#767676] focus:border-[#D4AF37] focus:bg-[#FFFFFF] focus:outline-none"
+                className="w-full rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] px-4 py-3 text-sm text-[#1C1C1C] placeholder:text-[#767676] focus:border-[#D4AF37] focus:bg-[#FFFFFF] focus:outline-none shadow-sm"
               />
             </div>
 
-            {/* Institution / College Name */}
+            {/* College / University Name */}
             <div>
               <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[#1C1C1C]">
                 College / University Name <span className="text-[#D4AF37]">*</span>
@@ -527,7 +549,7 @@ export function RegistrationForm({
                   value={institution}
                   onChange={(e) => setInstitution(e.target.value)}
                   placeholder="e.g. SRM Institute, Anna University, MIT"
-                  className="w-full rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] pl-10 pr-4 py-3 text-sm text-[#1C1C1C] placeholder:text-[#767676] focus:border-[#D4AF37] focus:bg-[#FFFFFF] focus:outline-none"
+                  className="w-full rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] pl-10 pr-4 py-3 text-sm text-[#1C1C1C] placeholder:text-[#767676] focus:border-[#D4AF37] focus:bg-[#FFFFFF] focus:outline-none shadow-sm"
                 />
                 <BuildingIcon className="absolute left-3.5 top-3.5 h-4 w-4 text-[#767676]" />
               </div>
@@ -544,7 +566,7 @@ export function RegistrationForm({
                 value={leaderName}
                 onChange={(e) => setLeaderName(e.target.value)}
                 placeholder="e.g. Poovarasasn A"
-                className="w-full rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] px-4 py-3 text-sm text-[#1C1C1C] placeholder:text-[#767676] focus:border-[#D4AF37] focus:bg-[#FFFFFF] focus:outline-none"
+                className="w-full rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] px-4 py-3 text-sm text-[#1C1C1C] placeholder:text-[#767676] focus:border-[#D4AF37] focus:bg-[#FFFFFF] focus:outline-none shadow-sm"
               />
             </div>
 
@@ -561,7 +583,7 @@ export function RegistrationForm({
                   value={leaderPhone}
                   onChange={(e) => setLeaderPhone(e.target.value.replace(/\D/g, ''))}
                   placeholder="e.g. 9876543210"
-                  className="w-full rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] pl-10 pr-4 py-3 font-mono text-sm text-[#1C1C1C] placeholder:text-[#767676] focus:border-[#D4AF37] focus:bg-[#FFFFFF] focus:outline-none"
+                  className="w-full rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] pl-10 pr-4 py-3 font-mono text-sm text-[#1C1C1C] placeholder:text-[#767676] focus:border-[#D4AF37] focus:bg-[#FFFFFF] focus:outline-none shadow-sm"
                 />
                 <PhoneIcon className="absolute left-3.5 top-3.5 h-4 w-4 text-[#767676]" />
               </div>
@@ -570,7 +592,7 @@ export function RegistrationForm({
               </p>
             </div>
 
-            {/* Email Address (with One-Time Unique Check) */}
+            {/* Team Leader Email ID */}
             <div className="sm:col-span-2">
               <div className="mb-2 flex items-center justify-between">
                 <label className="text-xs font-semibold uppercase tracking-wider text-[#1C1C1C]">
@@ -594,7 +616,7 @@ export function RegistrationForm({
                   }}
                   onBlur={handleLeaderEmailBlur}
                   placeholder="e.g. teamleader@college.edu"
-                  className={`w-full rounded-xl border pl-10 pr-4 py-3 text-sm text-[#1C1C1C] placeholder:text-[#767676] focus:outline-none ${
+                  className={`w-full rounded-xl border pl-10 pr-4 py-3 text-sm text-[#1C1C1C] placeholder:text-[#767676] focus:outline-none shadow-sm ${
                     emailWarning
                       ? 'border-red-500 bg-red-50/60 focus:border-red-500'
                       : 'border-[#EAE6DF] bg-[#FAFAFA] focus:border-[#D4AF37] focus:bg-[#FFFFFF]'
@@ -613,11 +635,129 @@ export function RegistrationForm({
                 </p>
               )}
             </div>
+          </div>
 
-            {/* Dynamic Department Selector (For Hackathon '26) */}
+          {/* ───────────────────────────────────────────────────────────── */}
+          {/* THE 3 COMPETITION CATEGORIES (BELOW TEAM LEADER EMAIL ID) */}
+          {/* ───────────────────────────────────────────────────────────── */}
+          <div className="pt-4 border-t border-[#EAE6DF] space-y-3">
+            <div className="flex items-center justify-between">
+              <label className="block text-xs font-serif font-bold uppercase tracking-wider text-[#1C1C1C]">
+                Select Competition Category <span className="text-[#D4AF37]">*</span>
+              </label>
+              <span className="text-[11px] font-mono text-[#AA820A] font-bold">
+                Flat ₹{REGISTRATION_FEE} per team
+              </span>
+            </div>
+
+            <div className="grid gap-3.5 sm:grid-cols-3">
+              {EVENT_CATEGORY_CARDS.map((cat) => {
+                const isSelected = selectedEventId === cat.id;
+                const Icon = cat.icon;
+                return (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    onClick={() => handleSelectCategory(cat.id)}
+                    className={`relative flex flex-col justify-between rounded-2xl border p-4 text-left transition-all duration-200 ${
+                      isSelected
+                        ? 'border-2 border-[#D4AF37] bg-[#1C1C1C] text-[#FFFFFF] shadow-luxury scale-[1.02]'
+                        : 'border-[#EAE6DF] bg-[#FAFAFA] text-[#1C1C1C] hover:border-[#D4AF37]/60 hover:bg-[#FFFFFF]'
+                    }`}
+                  >
+                    {/* Active Checkmark Badge */}
+                    {isSelected && (
+                      <div className="absolute top-3 right-3 flex h-5 w-5 items-center justify-center rounded-full bg-[#D4AF37] text-[#1C1C1C] font-bold shadow-sm">
+                        <CheckIcon className="h-3.5 w-3.5" />
+                      </div>
+                    )}
+
+                    <div>
+                      <div className="flex items-center gap-2 mb-2">
+                        <div
+                          className={`flex h-8 w-8 items-center justify-center rounded-xl ${
+                            isSelected
+                              ? 'bg-[#D4AF37] text-[#1C1C1C]'
+                              : 'bg-[#FFFFFF] border border-[#EAE6DF] text-[#D4AF37]'
+                          }`}
+                        >
+                          <Icon className="h-4 w-4" />
+                        </div>
+                        <span
+                          className={`font-mono text-[10px] font-bold uppercase tracking-wider ${
+                            isSelected ? 'text-[#FFD700]' : 'text-[#AA820A]'
+                          }`}
+                        >
+                          {cat.codeBadge}
+                        </span>
+                      </div>
+
+                      <h4 className="font-serif text-sm font-bold leading-snug">
+                        {cat.name}
+                      </h4>
+                      <p
+                        className={`text-[11px] mt-1 line-clamp-2 ${
+                          isSelected ? 'text-gray-300' : 'text-[#555555]'
+                        }`}
+                      >
+                        {cat.desc}
+                      </p>
+                    </div>
+
+                    <div
+                      className={`mt-3.5 flex items-center justify-between border-t pt-2.5 text-[10px] font-mono ${
+                        isSelected ? 'border-gray-700 text-gray-300' : 'border-[#EAE6DF] text-[#767676]'
+                      }`}
+                    >
+                      <span>{cat.teamSizeLabel}</span>
+                      <span className="font-bold">{cat.venue}</span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Action Button */}
+          <div className="flex justify-end pt-4 border-t border-[#EAE6DF]">
+            <button
+              type="submit"
+              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#B8860B] px-7 py-3.5 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] shadow-luxury hover:from-[#B8860B] hover:to-[#8B6508] transition-all"
+            >
+              <span>Next: Team Members &amp; Domains</span>
+              <ArrowRightIcon className="h-4 w-4 text-[#FFD700]" />
+            </button>
+          </div>
+        </form>
+      )}
+
+      {/* ───────────────────────────────────────────────────────────── */}
+      {/* STEP 02: DOMAIN SELECTION & TEAM MEMBERS ROSTER */}
+      {/* ───────────────────────────────────────────────────────────── */}
+      {currentStep === 'step2_members' && (
+        <form onSubmit={handleGoToStep3} className="space-y-6 rounded-2xl border border-[#EAE6DF] bg-[#FFFFFF] p-6 sm:p-8 shadow-luxury">
+          <div className="border-b border-[#EAE6DF] pb-3">
+            <h3 className="font-serif text-lg font-bold text-[#1C1C1C] flex items-center gap-2">
+              <UserCheckIcon className="h-5 w-5 text-[#D4AF37]" />
+              <span>Step 02: Domain Selection &amp; Team Members Roster</span>
+            </h3>
+            <p className="mt-1 text-xs text-[#555555]">
+              Select your problem statement / track and register all team members ({event.minMembers} to {event.maxMembers} members for {event.name}).
+            </p>
+          </div>
+
+          {/* ───────────────────────────────────────────────────────────── */}
+          {/* SECTION A: DOMAIN / DEPARTMENT SELECTION */}
+          {/* ───────────────────────────────────────────────────────────── */}
+          <div className="rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] p-5 space-y-4">
+            <span className="font-serif text-xs font-bold uppercase tracking-wider text-[#1C1C1C] block">
+              1. Choose Problem Statement / Domain for {event.name}
+            </span>
+
+            {/* If Hackathon: Dynamic Department Selector */}
             {event.requiresDepartment && (
-              <div className="sm:col-span-2">
-                <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[#1C1C1C]">
+              <div>
+                <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-wider text-[#555555]">
                   Engineering Department <span className="text-[#D4AF37]">*</span>
                 </label>
                 <select
@@ -627,7 +767,7 @@ export function RegistrationForm({
                     setDepartment(e.target.value);
                     setDomain('');
                   }}
-                  className="w-full rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] px-4 py-3 text-sm text-[#1C1C1C] focus:border-[#D4AF37] focus:bg-[#FFFFFF] focus:outline-none"
+                  className="w-full rounded-xl border border-[#EAE6DF] bg-[#FFFFFF] px-4 py-3 text-xs text-[#1C1C1C] focus:border-[#D4AF37] focus:outline-none shadow-sm"
                 >
                   <option value="">Select your Engineering Department...</option>
                   {HACKATHON_DEPARTMENTS.map((dept) => (
@@ -636,15 +776,15 @@ export function RegistrationForm({
                     </option>
                   ))}
                 </select>
-                <p className="mt-1 text-[11px] text-[#767676]">
-                  Selecting your department dynamically loads only matching domains below.
+                <p className="mt-1 text-[10px] text-[#767676]">
+                  Selecting department dynamically loads eligible problem statements below.
                 </p>
               </div>
             )}
 
-            {/* Dynamic Domain Selector */}
-            <div className="sm:col-span-2">
-              <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[#1C1C1C]">
+            {/* Dynamic Domain Dropdown */}
+            <div>
+              <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-wider text-[#555555]">
                 {event.requiresDepartment ? 'Department-Specific Problem Domain' : 'Challenge Track / Domain'}{' '}
                 <span className="text-[#D4AF37]">*</span>
               </label>
@@ -653,7 +793,7 @@ export function RegistrationForm({
                 value={domain}
                 onChange={(e) => setDomain(e.target.value)}
                 disabled={event.requiresDepartment && !department}
-                className="w-full rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] px-4 py-3 text-sm text-[#1C1C1C] focus:border-[#D4AF37] focus:bg-[#FFFFFF] focus:outline-none disabled:bg-[#F0EEEA] disabled:cursor-not-allowed"
+                className="w-full rounded-xl border border-[#EAE6DF] bg-[#FFFFFF] px-4 py-3 text-xs text-[#1C1C1C] focus:border-[#D4AF37] focus:outline-none disabled:bg-[#F0EEEA] disabled:cursor-not-allowed shadow-sm"
               >
                 <option value="">
                   {event.requiresDepartment && !department
@@ -670,76 +810,90 @@ export function RegistrationForm({
                 })}
               </select>
             </div>
-          </div>
 
-          {/* Action Button */}
-          <div className="flex justify-end pt-4 border-t border-[#EAE6DF]">
-            <button
-              type="submit"
-              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#B8860B] px-7 py-3.5 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] shadow-luxury hover:from-[#B8860B] hover:to-[#8B6508] transition-all"
-            >
-              <span>Next: Team Members Roster</span>
-              <ArrowRightIcon className="h-4 w-4 text-[#FFD700]" />
-            </button>
-          </div>
-        </form>
-      )}
-
-      {/* ───────────────────────────────────────────────────────────── */}
-      {/* STEP 02: TEAM MEMBERS ROSTER (STRICT DYNAMIC CONSTRAINT) */}
-      {/* ───────────────────────────────────────────────────────────── */}
-      {currentStep === 'step2_members' && (
-        <form onSubmit={handleGoToStep3} className="space-y-6 rounded-2xl border border-[#EAE6DF] bg-[#FFFFFF] p-6 sm:p-8 shadow-luxury">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#EAE6DF] pb-4">
-            <div>
-              <h3 className="font-serif text-lg font-bold text-[#1C1C1C] flex items-center gap-2">
-                <UserCheckIcon className="h-5 w-5 text-[#D4AF37]" />
-                <span>Step 02: Team Members Names ({event.minMembers} to {event.maxMembers} Members)</span>
-              </h3>
-              <p className="mt-1 text-xs text-[#555555]">
-                {event.name} strictly accepts between {event.minMembers} and {event.maxMembers} members per team.
-              </p>
-            </div>
-
-            {/* Member Count Selector */}
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-mono text-[#767676] uppercase">Team Size:</span>
-              <div className="inline-flex rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] p-1">
-                {event.memberCounts.map((count) => (
-                  <button
-                    key={count}
-                    type="button"
-                    onClick={() => handleMemberCountChange(count)}
-                    className={`rounded-lg px-3.5 py-1 font-mono text-xs font-bold transition-all ${
-                      memberCount === count
-                        ? 'bg-[#1C1C1C] text-[#FFFFFF] shadow-sm'
-                        : 'text-[#555555] hover:text-[#1C1C1C]'
-                    }`}
-                  >
-                    {count} Members
-                  </button>
-                ))}
+            {/* Event Specification Banner (Scoring Matrix for 2D Games / Protocol for CTF) */}
+            {event.scoringMatrix && (
+              <div className="mt-3 rounded-lg border border-[#D4AF37]/40 bg-[#FFFFFF] p-3 text-xs space-y-2">
+                <div className="flex items-center gap-1.5 font-serif font-bold text-[#1C1C1C]">
+                  <Gamepad2Icon className="h-4 w-4 text-[#D4AF37]" />
+                  <span>2D Games Official Scoring Criteria Matrix (100 Marks)</span>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-[10px]">
+                  {GAMES_2D_SCORING_MATRIX.map((c, i) => (
+                    <div key={i} className="rounded bg-[#FAFAFA] border border-[#EAE6DF] p-2">
+                      <span className="font-bold text-[#1C1C1C] block">{c.category}</span>
+                      <span className="font-mono text-[#AA820A] font-bold">{c.marks} Marks</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          </div>
+            )}
 
-          {/* Member 1: Leader (Preview) */}
-          <div className="rounded-xl border border-[#D4AF37]/50 bg-[#FAFAFA] p-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-[#D4AF37] text-white font-mono text-xs font-bold">
-                  01
-                </span>
-                <span className="font-serif text-sm font-bold text-[#1C1C1C]">
-                  {leaderName || 'Team Leader'} (Team Lead)
-                </span>
+            {event.formatDetails && (
+              <div className="mt-3 rounded-lg border border-[#D4AF37]/40 bg-[#FFFFFF] p-3 text-xs space-y-1.5">
+                <div className="flex items-center gap-1.5 font-serif font-bold text-[#1C1C1C]">
+                  <TerminalIcon className="h-4 w-4 text-[#D4AF37]" />
+                  <span>Capture The Flag Challenge Protocol</span>
+                </div>
+                <ul className="space-y-1 text-[11px] text-[#555555]">
+                  {CTF_FORMAT_DETAILS.map((f, i) => (
+                    <li key={i} className="flex items-center gap-1.5">
+                      <span className="text-[#D4AF37] font-bold">•</span>
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <span className="font-mono text-xs text-[#AA820A] font-bold">{leaderEmail}</span>
-            </div>
+            )}
           </div>
 
-          {/* Dynamic Members List */}
+          {/* ───────────────────────────────────────────────────────────── */}
+          {/* SECTION B: TEAM MEMBERS ROSTER */}
+          {/* ───────────────────────────────────────────────────────────── */}
           <div className="space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#EAE6DF] pb-3">
+              <span className="font-serif text-xs font-bold uppercase tracking-wider text-[#1C1C1C]">
+                2. Team Members Names Roster
+              </span>
+
+              {/* Team Size Selector */}
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-mono text-[#767676] uppercase">Team Size:</span>
+                <div className="inline-flex rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] p-1">
+                  {event.memberCounts.map((count) => (
+                    <button
+                      key={count}
+                      type="button"
+                      onClick={() => handleMemberCountChange(count)}
+                      className={`rounded-lg px-3.5 py-1 font-mono text-xs font-bold transition-all ${
+                        memberCount === count
+                          ? 'bg-[#1C1C1C] text-[#FFFFFF] shadow-sm'
+                          : 'text-[#555555] hover:text-[#1C1C1C]'
+                      }`}
+                    >
+                      {count} Members
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Member 1: Leader (Preview) */}
+            <div className="rounded-xl border border-[#D4AF37]/50 bg-[#FAFAFA] p-3.5">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-[#D4AF37] text-white font-mono text-xs font-bold">
+                    01
+                  </span>
+                  <span className="font-serif text-sm font-bold text-[#1C1C1C]">
+                    {leaderName || 'Team Leader'} (Team Lead)
+                  </span>
+                </div>
+                <span className="font-mono text-xs text-[#AA820A] font-bold">{leaderEmail}</span>
+              </div>
+            </div>
+
+            {/* Dynamic Members List */}
             {squadMembers.map((member, index) => {
               const memberNum = index + 2;
               return (
@@ -819,7 +973,7 @@ export function RegistrationForm({
               className="inline-flex items-center gap-1.5 rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] px-4 py-2.5 text-xs font-semibold text-[#555555] hover:bg-[#FFFFFF] hover:text-[#1C1C1C]"
             >
               <ArrowLeftIcon className="h-3.5 w-3.5" />
-              <span>Back: Identity</span>
+              <span>Back: Team Identity</span>
             </button>
             <button
               type="submit"
@@ -920,9 +1074,9 @@ export function RegistrationForm({
             {/* Squad Info */}
             <div className="rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] p-4 space-y-2">
               <span className="font-mono text-[10px] uppercase font-bold tracking-widest text-[#767676]">
-                Team &amp; Domain
+                Event &amp; Domain
               </span>
-              <div className="font-serif text-base font-bold text-[#1C1C1C]">{teamName}</div>
+              <div className="font-serif text-base font-bold text-[#1C1C1C]">{event.fullName}</div>
               <div className="text-xs text-[#555555]">{institution}</div>
               {department && <div className="text-xs text-[#555555]">Dept: {department}</div>}
               <div className="mt-2 rounded-lg bg-[#FFFFFF] border border-[#EAE6DF] p-2 text-xs font-mono text-[#AA820A] font-bold">
@@ -933,9 +1087,10 @@ export function RegistrationForm({
             {/* Leader Info */}
             <div className="rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] p-4 space-y-2">
               <span className="font-mono text-[10px] uppercase font-bold tracking-widest text-[#767676]">
-                Primary Contact
+                Team &amp; Leader Contact
               </span>
-              <div className="font-serif text-base font-bold text-[#1C1C1C]">{leaderName}</div>
+              <div className="font-serif text-base font-bold text-[#1C1C1C]">{teamName}</div>
+              <div className="text-xs text-[#555555]">Lead: {leaderName}</div>
               <div className="text-xs font-mono text-[#555555]">{leaderEmail}</div>
               <div className="text-xs font-mono text-[#767676]">Mobile: +91 {leaderPhone}</div>
             </div>
