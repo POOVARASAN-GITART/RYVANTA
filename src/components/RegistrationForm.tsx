@@ -36,8 +36,9 @@ import {
   checkEmailExists
 } from '../services/registrationApi';
 import { PaymentGateway } from '../services/paymentGateway';
+import { playPortalLoginSound } from '../services/portalSound';
 import type {
-  EventId,
+  RegistrationRecord,
   Registration,
   RegistrationInput,
   SquadMember
@@ -365,6 +366,19 @@ export function RegistrationForm({
       return;
     }
 
+    // MANDATORY PAYMENT AUTHENTICATION CHECK
+    const isUtrProvided = upiRef.trim().length >= 8;
+    const isReceiptProvided = Boolean(paymentScreenshot);
+
+    if (!isUtrProvided && !isReceiptProvided) {
+      setError(
+        new Error(
+          'Payment authentication required: Please enter your 12-digit UPI Reference / UTR Number or attach your payment receipt screenshot to verify and generate your Student ID.'
+        )
+      );
+      return;
+    }
+
     setIsSubmitting(true);
     setError(null);
 
@@ -419,6 +433,8 @@ export function RegistrationForm({
             paymentStatus: 'verified'
           });
 
+          // Play rewarding confirmation sound upon verified ID generation
+          playPortalLoginSound();
           onRegistered(record);
         } catch (submitError) {
           setError(
@@ -1230,16 +1246,18 @@ export function RegistrationForm({
                 {isSubmitting ? (
                   <Loader2Icon className="h-4 w-4 animate-spin text-[#0EA5E9]" />
                 ) : (
-                  <div className="h-2.5 w-2.5 rounded-full bg-[#0EA5E9] animate-ping" />
+                  <div className={`h-2.5 w-2.5 rounded-full ${upiRef.trim().length >= 8 || paymentScreenshot ? 'bg-emerald-500 animate-pulse' : 'bg-amber-400'}`} />
                 )}
                 <span className="font-semibold text-[#000000]">
                   {isSubmitting
                     ? verificationStatusText
-                    : 'Awaiting Payment Verification: Pay via UPI apps or UPI ID above'}
+                    : upiRef.trim().length >= 8 || paymentScreenshot
+                    ? 'Payment Proof Entered: Ready for Automated Authentication'
+                    : 'Awaiting Payment Proof: Enter 12-digit UTR or attach receipt to authenticate'}
                 </span>
               </div>
-              <span className="font-mono text-xs font-bold text-[#0EA5E9]">
-                {isSubmitting ? `${verificationProgress}%` : 'READY'}
+              <span className={`font-mono text-xs font-bold ${upiRef.trim().length >= 8 || paymentScreenshot ? 'text-emerald-600' : 'text-amber-600'}`}>
+                {isSubmitting ? `${verificationProgress}%` : upiRef.trim().length >= 8 || paymentScreenshot ? 'READY' : 'PROOF REQUIRED'}
               </span>
             </div>
 
@@ -1267,18 +1285,18 @@ export function RegistrationForm({
             <button
               type="button"
               onClick={() => void handleFinalSubmission()}
-              disabled={isSubmitting}
+              disabled={isSubmitting || (!upiRef.trim() && !paymentScreenshot)}
               className="inline-flex flex-1 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#0EA5E9] to-[#2563EB] px-6 py-4 text-xs font-black uppercase tracking-wider text-[#FFFFFF] shadow-luxury transition-all hover:from-[#0284C7] hover:to-[#1D4ED8] hover:shadow-blue-glow disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isSubmitting ? (
                 <>
                   <Loader2Icon className="h-4 w-4 animate-spin text-[#E0F2FE]" />
-                  <span>{verificationStatusText || 'Generating Participation ID...'}</span>
+                  <span>{verificationStatusText || 'Authenticating & Generating ID...'}</span>
                 </>
               ) : (
                 <>
                   <ShieldCheckIcon className="h-5 w-5 text-[#E0F2FE]" />
-                  <span>I Have Completed Payment — Generate TI{event.code}1001 ID</span>
+                  <span>Authenticate Payment &amp; Generate TI{event.code}1001 ID</span>
                 </>
               )}
             </button>

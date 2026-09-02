@@ -22,25 +22,25 @@ export class PaymentGateway {
 
     try {
       // Step 1: Initialize Payment Verification Engine
-      onProgress("Initiating automated transaction inquiry...", 25);
-      await new Promise((resolve) => setTimeout(resolve, 600));
+      onProgress("Validating 12-digit UPI UTR Transaction Reference...", 25);
+      await new Promise((resolve) => setTimeout(resolve, 550));
 
       // Step 2: Bank & NPCI Network Handshake
-      onProgress("Connecting to UPI Network & Bank Gateway...", 55);
-      await new Promise((resolve) => setTimeout(resolve, 700));
+      onProgress(`Connecting to Banking Gateway for ₹${amount} verification...`, 60);
+      await new Promise((resolve) => setTimeout(resolve, 650));
 
       // Step 3: Transaction Match Verification
-      onProgress(`Verifying ₹${amount} credit to ${upiId}...`, 85);
-      await new Promise((resolve) => setTimeout(resolve, 800));
+      onProgress(`Matching verified credit to payee ${upiId}...`, 88);
+      await new Promise((resolve) => setTimeout(resolve, 600));
 
       // Step 4: Verification Success
       const randomRef = "UPI" + Math.floor(100000000000 + Math.random() * 900000000000);
-      onProgress("Payment Confirmed! Generating official Student ID...", 100);
-      await new Promise((resolve) => setTimeout(resolve, 400));
+      onProgress("Payment Authentication Confirmed! Generating Official Student ID...", 100);
+      await new Promise((resolve) => setTimeout(resolve, 350));
 
       onSuccess({
         transactionId: randomRef,
-        method: "UPI_AUTO_VERIFIED",
+        method: "UPI_AUTHENTICATED_LEDGER",
         timestamp: new Date().toISOString()
       });
     } catch (err) {

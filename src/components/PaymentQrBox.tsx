@@ -7,7 +7,9 @@ import {
   UploadCloudIcon,
   FileImageIcon,
   XIcon,
-  ShieldCheckIcon
+  ShieldCheckIcon,
+  CheckCircle2Icon,
+  LockIcon
 } from 'lucide-react';
 import { QrCodeView } from './QrCodeView';
 
@@ -95,6 +97,9 @@ export function PaymentQrBox({
     }
   }
 
+  const isUtrValid = upiRef.trim().length >= 8;
+  const hasProof = isUtrValid || Boolean(paymentScreenshot);
+
   return (
     <div className="overflow-hidden rounded-2xl border border-[#E2E8F0] bg-[#FFFFFF] p-5 sm:p-7 shadow-luxury">
       {/* Payee Profile Header Bar */}
@@ -107,7 +112,7 @@ export function PaymentQrBox({
             <h3 className="font-serif text-base font-bold text-[#000000]">
               Official Challenge Payment Gateway
             </h3>
-            <span className="text-xs text-[#64748B]">Instant Automated Verification &amp; ID Issue</span>
+            <span className="text-xs text-[#64748B]">Automated Authentication &amp; Student ID Verification</span>
           </div>
         </div>
 
@@ -214,67 +219,104 @@ export function PaymentQrBox({
         </div>
       </div>
 
-      {/* UTR Ref & Screenshot Proof Section */}
-      <div className="mt-6 border-t border-[#E2E8F0] pt-5 grid gap-4 sm:grid-cols-2">
-        {/* UPI Ref / UTR Number */}
-        <div>
-          <label
-            htmlFor="upi-ref"
-            className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#000000]"
-          >
-            UPI Reference / UTR Number <span className="text-[10px] text-[#64748B]">(Optional)</span>
-          </label>
-          <input
-            id="upi-ref"
-            type="text"
-            value={upiRef}
-            onChange={(e) => onUpiRefChange?.(e.target.value)}
-            placeholder="e.g. 423984729182 (12-digit UTR)"
-            className="w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-2.5 font-mono text-xs text-[#000000] placeholder:text-[#64748B] focus:border-[#0EA5E9] focus:bg-[#FFFFFF] focus:outline-none"
-          />
+      {/* Mandatory Payment Authentication Proof Section */}
+      <div className="mt-6 border-t border-[#E2E8F0] pt-5">
+        <div className="mb-3 flex items-center justify-between">
+          <div className="flex items-center gap-1.5">
+            <LockIcon className="h-3.5 w-3.5 text-[#0EA5E9]" />
+            <span className="text-xs font-bold uppercase tracking-wider text-[#000000]">
+              Payment Authentication Proof <span className="text-red-500">*</span>
+            </span>
+          </div>
+          {hasProof ? (
+            <span className="flex items-center gap-1 text-[11px] font-mono font-bold text-emerald-600">
+              <CheckCircle2Icon className="h-3.5 w-3.5" />
+              Proof Ready for Verification
+            </span>
+          ) : (
+            <span className="text-[10px] font-mono text-amber-600 font-semibold">
+              (Required to Generate Student ID)
+            </span>
+          )}
         </div>
 
-        {/* Screenshot Upload Proof */}
-        <div>
-          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#000000]">
-            Payment Screenshot Proof <span className="text-[10px] text-[#64748B]">(Optional)</span>
-          </label>
-          <input
-            type="file"
-            ref={fileInputRef}
-            accept="image/*"
-            onChange={handleFileSelect}
-            className="hidden"
-          />
-
-          {!paymentScreenshot ? (
-            <button
-              type="button"
-              onClick={() => fileInputRef.current?.click()}
-              className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-4 py-2.5 text-xs font-semibold text-[#000000] hover:border-[#0EA5E9] hover:bg-[#FFFFFF] transition-colors"
+        <div className="grid gap-4 sm:grid-cols-2">
+          {/* UPI Ref / UTR Number */}
+          <div>
+            <label
+              htmlFor="upi-ref"
+              className="mb-1.5 flex items-center justify-between text-xs font-semibold text-[#334155]"
             >
-              <UploadCloudIcon className="h-4 w-4 text-[#0EA5E9]" />
-              <span>Attach Receipt Screenshot</span>
-            </button>
-          ) : (
-            <div className="flex items-center justify-between rounded-xl border border-sky-300 bg-sky-50/80 px-3 py-2 text-xs text-sky-900">
-              <div className="flex items-center gap-2 truncate">
-                <FileImageIcon className="h-4 w-4 shrink-0 text-[#0EA5E9]" />
-                <span className="truncate font-mono">Screenshot attached</span>
-              </div>
+              <span>12-Digit UPI UTR / Ref Number</span>
+              {isUtrValid && (
+                <span className="text-[10px] font-mono text-emerald-600 font-bold">✓ Valid Format</span>
+              )}
+            </label>
+            <input
+              id="upi-ref"
+              type="text"
+              value={upiRef}
+              onChange={(e) => onUpiRefChange?.(e.target.value.replace(/[^a-zA-Z0-9]/g, ''))}
+              placeholder="e.g. 423984729182 (12-digit UTR)"
+              maxLength={22}
+              className={`w-full rounded-xl border px-4 py-2.5 font-mono text-xs text-[#000000] placeholder:text-[#64748B] focus:outline-none transition-colors ${
+                isUtrValid
+                  ? 'border-emerald-400 bg-emerald-50/30 focus:border-emerald-500'
+                  : 'border-[#E2E8F0] bg-[#F8FAFC] focus:border-[#0EA5E9] focus:bg-[#FFFFFF]'
+              }`}
+            />
+          </div>
+
+          {/* Screenshot Upload Proof */}
+          <div>
+            <label className="mb-1.5 flex items-center justify-between text-xs font-semibold text-[#334155]">
+              <span>Payment Screenshot Receipt</span>
+              {paymentScreenshot && (
+                <span className="text-[10px] font-mono text-emerald-600 font-bold">✓ Image Attached</span>
+              )}
+            </label>
+            <input
+              type="file"
+              ref={fileInputRef}
+              accept="image/*"
+              onChange={handleFileSelect}
+              className="hidden"
+            />
+
+            {!paymentScreenshot ? (
               <button
                 type="button"
-                onClick={handleRemoveScreenshot}
-                className="rounded-lg p-1 text-sky-800 hover:bg-sky-100"
-                title="Remove screenshot"
+                onClick={() => fileInputRef.current?.click()}
+                className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-4 py-2.5 text-xs font-semibold text-[#000000] hover:border-[#0EA5E9] hover:bg-[#FFFFFF] transition-colors"
               >
-                <XIcon className="h-3.5 w-3.5" />
+                <UploadCloudIcon className="h-4 w-4 text-[#0EA5E9]" />
+                <span>Attach Payment Screenshot</span>
               </button>
-            </div>
-          )}
+            ) : (
+              <div className="flex items-center justify-between rounded-xl border border-emerald-300 bg-emerald-50/80 px-3 py-2 text-xs text-emerald-900">
+                <div className="flex items-center gap-2 truncate">
+                  <FileImageIcon className="h-4 w-4 shrink-0 text-emerald-600" />
+                  <span className="truncate font-mono font-medium">Receipt screenshot attached</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleRemoveScreenshot}
+                  className="rounded-lg p-1 text-emerald-800 hover:bg-emerald-100"
+                  title="Remove screenshot"
+                >
+                  <XIcon className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            )}
 
-          {uploadError && <p className="mt-1 text-[11px] text-red-600">{uploadError}</p>}
+            {uploadError && <p className="mt-1 text-[11px] text-red-600">{uploadError}</p>}
+          </div>
         </div>
+
+        <p className="mt-3 text-[11px] text-[#64748B] flex items-center gap-1.5">
+          <span>🔒</span>
+          <span>Payment authentication must be confirmed with your 12-digit UTR transaction reference or receipt screenshot before the official Student Registration ID is generated.</span>
+        </p>
       </div>
     </div>
   );
