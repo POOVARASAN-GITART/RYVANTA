@@ -1,7 +1,5 @@
 import React, { useState, useRef } from 'react';
 import {
-  CheckIcon,
-  CopyIcon,
   ExternalLinkIcon,
   SmartphoneIcon,
   UploadCloudIcon,
@@ -9,7 +7,8 @@ import {
   XIcon,
   ShieldCheckIcon,
   CheckCircle2Icon,
-  LockIcon
+  LockIcon,
+  QrCodeIcon
 } from 'lucide-react';
 import { QrCodeView } from './QrCodeView';
 
@@ -38,11 +37,10 @@ export function PaymentQrBox({
   onScreenshotChange,
   hideQrCode = false
 }: PaymentQrBoxProps) {
-  const [copiedUpi, setCopiedUpi] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Construct standard UPI payment URI
+  // Construct standard UPI payment URI (encrypted in QR code and direct deep links)
   const note = `RYVANTA ${eventName.slice(0, 12)}${teamName ? ` - ${teamName.slice(0, 10)}` : ''}`;
   const baseUpiParams = `pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(
     payeeName
@@ -53,16 +51,6 @@ export function PaymentQrBox({
   const gpayUri = `gpay://upi/pay?${baseUpiParams}`;
   const phonepeUri = `phonepe://pay?${baseUpiParams}`;
   const paytmUri = `paytmmp://pay?${baseUpiParams}`;
-
-  async function copyToClipboard(text: string) {
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopiedUpi(true);
-      setTimeout(() => setCopiedUpi(false), 2000);
-    } catch {
-      // ignore
-    }
-  }
 
   function handleFileSelect(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -112,7 +100,7 @@ export function PaymentQrBox({
             <h3 className="font-serif text-base font-bold text-[#000000]">
               Official Challenge Payment Gateway
             </h3>
-            <span className="text-xs text-[#64748B]">Automated Authentication &amp; Student ID Verification</span>
+            <span className="text-xs text-[#64748B]">Automated Authentication &amp; Instant Student ID Verification</span>
           </div>
         </div>
 
@@ -141,43 +129,22 @@ export function PaymentQrBox({
           </div>
         )}
 
-        {/* UPI Details & Deep Links */}
+        {/* Secure Gateway Channel Details & Deep Links */}
         <div className="space-y-4">
-          {/* UPI ID Copy Field */}
-          <div className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-3.5">
+          {/* Secure Channel Card (UPI ID and Payee Name hidden) */}
+          <div className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-4">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#64748B]">
-                Official UPI ID
+              <span className="flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#000000]">
+                <LockIcon className="h-3.5 w-3.5 text-[#0EA5E9]" />
+                Encrypted UPI Gateway
               </span>
-              <span className="text-[10px] font-mono text-[#0284C7] font-bold">
-                ● Active Payee
+              <span className="rounded-full bg-emerald-50 border border-emerald-300 px-2.5 py-0.5 text-[10px] font-mono text-emerald-700 font-bold">
+                ● Live &amp; Verified
               </span>
             </div>
-            <div className="mt-1 flex items-center justify-between gap-2">
-              <span className="font-mono text-sm font-bold text-[#000000] select-all">
-                {upiId}
-              </span>
-              <button
-                type="button"
-                onClick={() => void copyToClipboard(upiId)}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-[#0EA5E9] bg-[#FFFFFF] px-3 py-1.5 text-xs font-semibold text-[#0284C7] hover:bg-sky-50 transition-colors shadow-sm"
-              >
-                {copiedUpi ? (
-                  <>
-                    <CheckIcon className="h-3.5 w-3.5 text-[#0EA5E9]" />
-                    <span className="text-[#0284C7]">Copied</span>
-                  </>
-                ) : (
-                  <>
-                    <CopyIcon className="h-3.5 w-3.5 text-[#0EA5E9]" />
-                    <span>Copy UPI</span>
-                  </>
-                )}
-              </button>
-            </div>
-            <div className="mt-1 text-[11px] text-[#64748B]">
-              Payee Name: <strong className="text-[#000000]">{payeeName}</strong>
-            </div>
+            <p className="mt-2 text-xs text-[#475569] leading-relaxed">
+              Scan the official QR code using any UPI scanner app, or tap one of the direct deep-link buttons below on your mobile device to complete the ₹{feeAmount} payment.
+            </p>
           </div>
 
           {/* Quick Pay Buttons for Mobile */}
