@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { SparklesIcon, LogInIcon, ArrowRightIcon } from 'lucide-react';
+import { SparklesIcon, LogInIcon, ArrowRightIcon, CpuIcon } from 'lucide-react';
 import { playPortalLoginSound } from '../services/portalSound';
 
 interface LetterConfig {
@@ -11,13 +11,13 @@ interface LetterConfig {
 }
 
 const LETTERS_CONFIG: LetterConfig[] = [
-  { char: 'R', fromX: -120, fromY: -120, rotate: -45, delay: 100 }, // Top-Left
-  { char: 'Y', fromX: 0, fromY: -140, rotate: 0, delay: 180 },     // Top
-  { char: 'V', fromX: -140, fromY: 140, rotate: 35, delay: 260 },   // Bottom-Left
-  { char: 'A', fromX: 130, fromY: -130, rotate: -30, delay: 340 },  // Top-Right
-  { char: 'N', fromX: 0, fromY: 140, rotate: 0, delay: 420 },      // Bottom
-  { char: 'T', fromX: -140, fromY: 0, rotate: 20, delay: 500 },    // Far Left
-  { char: 'A', fromX: 140, fromY: 0, rotate: -20, delay: 580 }     // Far Right
+  { char: 'R', fromX: -120, fromY: -120, rotate: -45, delay: 150 }, // Top-Left
+  { char: 'Y', fromX: 0, fromY: -140, rotate: 0, delay: 280 },     // Top
+  { char: 'V', fromX: -140, fromY: 140, rotate: 35, delay: 410 },   // Bottom-Left
+  { char: 'A', fromX: 130, fromY: -130, rotate: -30, delay: 540 },  // Top-Right
+  { char: 'N', fromX: 0, fromY: 140, rotate: 0, delay: 670 },      // Bottom
+  { char: 'T', fromX: -140, fromY: 0, rotate: 20, delay: 800 },    // Far Left
+  { char: 'A', fromX: 140, fromY: 0, rotate: -20, delay: 930 }     // Far Right
 ];
 
 export function RyvantaIntroLoader({ onComplete }: { onComplete?: () => void }) {
@@ -27,37 +27,38 @@ export function RyvantaIntroLoader({ onComplete }: { onComplete?: () => void }) 
   const hasTriggeredLoginSound = useRef(false);
 
   useEffect(() => {
-    // Start sliding in letters immediately after mount (silent)
+    // 1. Initial mounting (0s)
     const mountTimer = setTimeout(() => {
       setMounted(true);
-    }, 50);
+    }, 80);
 
-    // Progress counter animation
+    // 2. Smooth 3-Second Loading Counter Animation (0 to 100% across ~2800ms)
+    const startTime = Date.now();
+    const duration = 2800; // 2.8s smooth interpolation to 100%
+
     const progressInterval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(progressInterval);
-          return 100;
-        }
-        const inc = Math.floor(Math.random() * 9) + 5;
-        return Math.min(prev + inc, 100);
-      });
-    }, 45);
+      const elapsed = Date.now() - startTime;
+      const pct = Math.min(Math.floor((elapsed / duration) * 100), 100);
+      setProgress(pct);
+      if (pct >= 100) {
+        clearInterval(progressInterval);
+      }
+    }, 40);
 
-    // Phase 2: Assembled
+    // Phase 2: Assembled at 1.1s
     const assembledTimer = setTimeout(() => {
       setStage('assembled');
-    }, 950);
+    }, 1100);
 
-    // Phase 3: Subtitles reveal
+    // Phase 3: Subtitles reveal at 1.7s
     const subtitlesTimer = setTimeout(() => {
       setStage('subtitles');
-    }, 1400);
+    }, 1700);
 
-    // Phase 4: Ready to Login Inside
+    // Phase 4: Ready for Login after 3 full seconds (3000ms)
     const readyTimer = setTimeout(() => {
       setStage('ready_to_enter');
-    }, 1900);
+    }, 3000);
 
     return () => {
       clearTimeout(mountTimer);
@@ -71,7 +72,7 @@ export function RyvantaIntroLoader({ onComplete }: { onComplete?: () => void }) 
   function handleLoginToWebsite() {
     if (stage === 'entering' || stage === 'done') return;
 
-    // Play the distinctive portal login sound ONLY upon logging into the website
+    // Play the multi-layered technical sound sequence exclusively upon login
     if (!hasTriggeredLoginSound.current) {
       hasTriggeredLoginSound.current = true;
       playPortalLoginSound();
@@ -82,7 +83,7 @@ export function RyvantaIntroLoader({ onComplete }: { onComplete?: () => void }) 
     setTimeout(() => {
       setStage('done');
       onComplete?.();
-    }, 700);
+    }, 750);
   }
 
   if (stage === 'done') {
@@ -199,7 +200,7 @@ export function RyvantaIntroLoader({ onComplete }: { onComplete?: () => void }) 
       </p>
 
       {/* ───────────────────────────────────────────────────────────── */}
-      {/* LOGIN TO WEBSITE TRIGGER BUTTON (SOUND PLAYS ONLY ON THIS CLICK) */}
+      {/* LOGIN TO WEBSITE ACTION (EXTENDED 3-SEC LOADING COMPLETION) */}
       {/* ───────────────────────────────────────────────────────────── */}
       <div className="mt-8 flex flex-col items-center gap-4">
         {stage === 'ready_to_enter' ? (
@@ -207,25 +208,25 @@ export function RyvantaIntroLoader({ onComplete }: { onComplete?: () => void }) 
             type="button"
             onClick={handleLoginToWebsite}
             autoFocus
-            className="group relative inline-flex items-center gap-2.5 rounded-2xl bg-gradient-to-r from-[#0EA5E9] via-[#38BDF8] to-[#2563EB] px-8 py-3.5 text-xs font-mono font-bold uppercase tracking-widest text-[#FFFFFF] shadow-2xl hover:scale-105 hover:shadow-blue-glow transition-all duration-200 animate-bounce"
+            className="group relative inline-flex items-center gap-2.5 rounded-2xl bg-gradient-to-r from-[#0EA5E9] via-[#38BDF8] to-[#2563EB] px-8 py-4 text-xs font-mono font-bold uppercase tracking-widest text-[#FFFFFF] shadow-2xl hover:scale-105 hover:shadow-blue-glow transition-all duration-200 animate-bounce"
           >
-            <LogInIcon className="h-4 w-4 text-white group-hover:translate-x-0.5 transition-transform" />
+            <CpuIcon className="h-4 w-4 text-white animate-spin" />
             <span>LOGIN TO RYVANTA PORTAL</span>
-            <ArrowRightIcon className="h-4 w-4 text-white" />
+            <ArrowRightIcon className="h-4 w-4 text-white group-hover:translate-x-1 transition-transform" />
           </button>
         ) : (
-          /* Cyber Progress Indicator Bar while initializing */
+          /* 3-Second Cyber Progress Indicator Bar */
           <div className="flex flex-col items-center gap-2 w-64 sm:w-80">
             <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-900 border border-slate-800">
               <div
-                className="h-full bg-gradient-to-r from-[#0EA5E9] via-[#38BDF8] to-[#2563EB] shadow-blue-glow transition-all duration-150 ease-out"
+                className="h-full bg-gradient-to-r from-[#0EA5E9] via-[#38BDF8] to-[#2563EB] shadow-blue-glow transition-all duration-100 ease-linear"
                 style={{ width: `${progress}%` }}
               />
             </div>
             <div className="flex w-full items-center justify-between font-mono text-[10px] text-slate-500">
-              <span className="flex items-center gap-1">
+              <span className="flex items-center gap-1.5">
                 <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#0EA5E9] animate-ping" />
-                SYSTEM INITIALIZATION
+                SYSTEM INITIALIZING (3.0s)
               </span>
               <span className="font-bold text-[#0EA5E9]">{progress}%</span>
             </div>

@@ -1,8 +1,10 @@
 /**
- * RYVANTA '26 Portal Login & Entrance Sound Synthesizer
- * Plays distinct sci-fi login audio ONLY when logging into or entering the website.
+ * RYVANTA '26 Technical Cybernetic Login Sound Synthesizer
+ * Synthesizes multi-layered technical audio (biometric digital handshake,
+ * quantum server core boot, high-voltage laser grid lock & access granted chime)
+ * exclusively when logging into the portal.
  */
-class PortalLoginSoundEngine {
+class TechnicalPortalSoundEngine {
   private ctx: AudioContext | null = null;
 
   private initCtx() {
@@ -18,7 +20,7 @@ class PortalLoginSoundEngine {
   }
 
   /**
-   * Plays a distinct, rich futuristic portal login sound effect
+   * Plays a high-tech, multi-layered cybernetic login sequence
    */
   public playLoginSound() {
     this.initCtx();
@@ -27,68 +29,127 @@ class PortalLoginSoundEngine {
     try {
       const now = this.ctx.currentTime;
 
-      // 1. Deep Sub-Bass Warp Swell (Frequency sweep)
-      const swellOsc = this.ctx.createOscillator();
-      const swellGain = this.ctx.createGain();
-      swellOsc.type = 'sine';
-      swellOsc.frequency.setValueAtTime(55, now);
-      swellOsc.frequency.exponentialRampToValueAtTime(240, now + 0.35);
+      // ─────────────────────────────────────────────────────────────
+      // LAYER 1: Rapid Biometric Digital Data Stream (Micro-pulses)
+      // ─────────────────────────────────────────────────────────────
+      const pulseFreqs = [1850, 2200, 2750, 3300, 2400, 3600, 4200];
+      pulseFreqs.forEach((freq, idx) => {
+        const pulseOsc = this.ctx!.createOscillator();
+        const pulseGain = this.ctx!.createGain();
+        const pulseFilter = this.ctx!.createBiquadFilter();
 
-      swellGain.gain.setValueAtTime(0.01, now);
-      swellGain.gain.linearRampToValueAtTime(0.24, now + 0.22);
-      swellGain.gain.exponentialRampToValueAtTime(0.001, now + 0.7);
+        const startTime = now + idx * 0.035;
 
-      swellOsc.connect(swellGain);
-      swellGain.connect(this.ctx.destination);
-      swellOsc.start(now);
-      swellOsc.stop(now + 0.75);
+        pulseOsc.type = idx % 2 === 0 ? 'square' : 'triangle';
+        pulseOsc.frequency.setValueAtTime(freq, startTime);
+        pulseOsc.frequency.exponentialRampToValueAtTime(freq * 1.3, startTime + 0.03);
 
-      // 2. High Cyber Portal Chimes (C Major 9 ascending harmonics: 523Hz, 659Hz, 783Hz, 987Hz, 1174Hz, 1318Hz)
-      const chordFreqs = [523.25, 659.25, 783.99, 987.77, 1174.66, 1318.51];
-      chordFreqs.forEach((freq, idx) => {
-        const chordOsc = this.ctx!.createOscillator();
-        const chordGain = this.ctx!.createGain();
-        const chordFilter = this.ctx!.createBiquadFilter();
+        pulseFilter.type = 'bandpass';
+        pulseFilter.frequency.setValueAtTime(freq, startTime);
+        pulseFilter.Q.setValueAtTime(4.0, startTime);
 
-        chordOsc.type = 'sine';
-        chordOsc.frequency.setValueAtTime(freq, now + idx * 0.04);
+        pulseGain.gain.setValueAtTime(0.001, startTime);
+        pulseGain.gain.linearRampToValueAtTime(0.06, startTime + 0.008);
+        pulseGain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.035);
 
-        chordFilter.type = 'bandpass';
-        chordFilter.frequency.setValueAtTime(freq * 1.15, now);
+        pulseOsc.connect(pulseFilter);
+        pulseFilter.connect(pulseGain);
+        pulseGain.connect(this.ctx!.destination);
 
-        chordGain.gain.setValueAtTime(0.001, now + idx * 0.04);
-        chordGain.gain.linearRampToValueAtTime(0.12, now + 0.12 + idx * 0.04);
-        chordGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.95);
-
-        chordOsc.connect(chordFilter);
-        chordFilter.connect(chordGain);
-        chordGain.connect(this.ctx!.destination);
-
-        chordOsc.start(now + idx * 0.04);
-        chordOsc.stop(now + 1.0);
+        pulseOsc.start(startTime);
+        pulseOsc.stop(startTime + 0.04);
       });
 
-      // 3. Cyber Shimmer Pulse
-      const shimOsc = this.ctx.createOscillator();
-      const shimGain = this.ctx.createGain();
-      shimOsc.type = 'triangle';
-      shimOsc.frequency.setValueAtTime(880, now + 0.15);
-      shimOsc.frequency.exponentialRampToValueAtTime(1760, now + 0.45);
-      shimGain.gain.setValueAtTime(0.001, now + 0.15);
-      shimGain.gain.linearRampToValueAtTime(0.08, now + 0.25);
-      shimGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.6);
+      // ─────────────────────────────────────────────────────────────
+      // LAYER 2: Quantum Server Sub-Bass Core Boot (Power Surge)
+      // ─────────────────────────────────────────────────────────────
+      const subOsc = this.ctx.createOscillator();
+      const subGain = this.ctx.createGain();
+      const subFilter = this.ctx.createBiquadFilter();
 
-      shimOsc.connect(shimGain);
-      shimGain.connect(this.ctx.destination);
-      shimOsc.start(now + 0.15);
-      shimOsc.stop(now + 0.65);
+      subOsc.type = 'sawtooth';
+      subOsc.frequency.setValueAtTime(45, now + 0.1);
+      subOsc.frequency.exponentialRampToValueAtTime(190, now + 0.55);
+
+      subFilter.type = 'lowpass';
+      subFilter.frequency.setValueAtTime(180, now + 0.1);
+      subFilter.frequency.exponentialRampToValueAtTime(800, now + 0.5);
+
+      subGain.gain.setValueAtTime(0.001, now + 0.1);
+      subGain.gain.linearRampToValueAtTime(0.25, now + 0.3);
+      subGain.gain.exponentialRampToValueAtTime(0.001, now + 0.85);
+
+      subOsc.connect(subFilter);
+      subFilter.connect(subGain);
+      subGain.connect(this.ctx.destination);
+
+      subOsc.start(now + 0.1);
+      subOsc.stop(now + 0.9);
+
+      // ─────────────────────────────────────────────────────────────
+      // LAYER 3: High-Voltage Grid Lock Laser Shimmer (FM modulation)
+      // ─────────────────────────────────────────────────────────────
+      const carrier = this.ctx.createOscillator();
+      const modulator = this.ctx.createOscillator();
+      const modGain = this.ctx.createGain();
+      const carrierGain = this.ctx.createGain();
+
+      carrier.type = 'sine';
+      carrier.frequency.setValueAtTime(750, now + 0.25);
+      carrier.frequency.exponentialRampToValueAtTime(1600, now + 0.6);
+
+      modulator.type = 'sawtooth';
+      modulator.frequency.setValueAtTime(80, now + 0.25);
+      modulator.frequency.linearRampToValueAtTime(30, now + 0.6);
+
+      modGain.gain.setValueAtTime(400, now + 0.25);
+      modGain.gain.exponentialRampToValueAtTime(10, now + 0.6);
+
+      carrierGain.gain.setValueAtTime(0.001, now + 0.25);
+      carrierGain.gain.linearRampToValueAtTime(0.08, now + 0.35);
+      carrierGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.75);
+
+      modulator.connect(modGain);
+      modGain.connect(carrier.frequency);
+      carrier.connect(carrierGain);
+      carrierGain.connect(this.ctx.destination);
+
+      modulator.start(now + 0.25);
+      carrier.start(now + 0.25);
+      modulator.stop(now + 0.8);
+      carrier.stop(now + 0.8);
+
+      // ─────────────────────────────────────────────────────────────
+      // LAYER 4: Access Granted Technical Confirmation Chimes
+      // ─────────────────────────────────────────────────────────────
+      const chimeTones = [880, 1174.66, 1760, 2093];
+      chimeTones.forEach((freq, idx) => {
+        const chimeOsc = this.ctx!.createOscillator();
+        const chimeGain = this.ctx!.createGain();
+
+        const chimeStart = now + 0.45 + idx * 0.055;
+
+        chimeOsc.type = 'sine';
+        chimeOsc.frequency.setValueAtTime(freq, chimeStart);
+
+        chimeGain.gain.setValueAtTime(0.001, chimeStart);
+        chimeGain.gain.linearRampToValueAtTime(0.12, chimeStart + 0.02);
+        chimeGain.gain.exponentialRampToValueAtTime(0.0001, chimeStart + 0.8);
+
+        chimeOsc.connect(chimeGain);
+        chimeGain.connect(this.ctx!.destination);
+
+        chimeOsc.start(chimeStart);
+        chimeOsc.stop(chimeStart + 0.85);
+      });
     } catch {
       // Audio fallback
     }
   }
 }
 
-export const portalSound = new PortalLoginSoundEngine();
+export const portalSound = new TechnicalPortalSoundEngine();
+
 export function playPortalLoginSound() {
   portalSound.playLoginSound();
 }
