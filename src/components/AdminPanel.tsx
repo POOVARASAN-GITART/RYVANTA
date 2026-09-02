@@ -157,7 +157,7 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
               autoFocus
               value={passcode}
               onChange={(e) => setPasscode(e.target.value)}
-              placeholder="Default: admin123"
+              placeholder="••••••••"
               className="w-full rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] px-4 py-3 font-mono text-sm text-[#1C1C1C] placeholder:text-[#767676] focus:border-[#D4AF37] focus:bg-[#FFFFFF] focus:outline-none"
             />
             {authError && <p className="text-xs text-red-600 font-medium">{authError}</p>}
@@ -189,7 +189,7 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
                 type="search"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search team name, leader, ID (e.g. TIH001), college..."
+                placeholder="Search team name, leader, ID (e.g. TICH1001), college..."
                 className="w-full sm:w-80 rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] px-3.5 py-2 text-xs text-[#1C1C1C] placeholder:text-[#767676] focus:border-[#D4AF37] focus:bg-[#FFFFFF] focus:outline-none"
               />
 

@@ -16,7 +16,9 @@ import {
   CheckIcon,
   Gamepad2Icon,
   TerminalIcon,
-  HelpCircleIcon
+  SparklesIcon,
+  PlusIcon,
+  Trash2Icon
 } from 'lucide-react';
 import {
   HACKATHON_DEPARTMENTS,
@@ -71,10 +73,10 @@ export function RegistrationForm({
   const [department, setDepartment] = useState('');
   const [domain, setDomain] = useState('');
 
-  // Step 2: Team Members State
-  const [memberCount, setMemberCount] = useState<number>(event.memberCounts[0] || 2);
+  // Step 2: Team Members State (Constrained strictly by minMembers and maxMembers)
+  const [memberCount, setMemberCount] = useState<number>(event.minMembers);
   const [squadMembers, setSquadMembers] = useState<SquadMember[]>(() =>
-    Array.from({ length: (event.memberCounts[0] || 2) - 1 }, () => ({
+    Array.from({ length: event.minMembers - 1 }, () => ({
       name: '',
       email: '',
       phone: '',
@@ -100,10 +102,9 @@ export function RegistrationForm({
 
   // Reset/Re-sync when event changes
   useEffect(() => {
-    const defaultCount = event.memberCounts[0] || 2;
-    setMemberCount(defaultCount);
+    setMemberCount(event.minMembers);
     setSquadMembers(
-      Array.from({ length: defaultCount - 1 }, () => ({
+      Array.from({ length: event.minMembers - 1 }, () => ({
         name: '',
         email: '',
         phone: '',
@@ -117,8 +118,9 @@ export function RegistrationForm({
     setCurrentStep('step1_squad');
   }, [event]);
 
-  // Adjust squad members array when count changes
+  // Handle dynamic member count change within [minMembers, maxMembers]
   function handleMemberCountChange(newTotalCount: number) {
+    if (newTotalCount < event.minMembers || newTotalCount > event.maxMembers) return;
     setMemberCount(newTotalCount);
     const extraCount = Math.max(0, newTotalCount - 1);
     setSquadMembers((prev) => {
@@ -154,7 +156,7 @@ export function RegistrationForm({
     try {
       const exists = await checkEmailExists(leaderEmail.trim());
       if (exists) {
-        setEmailWarning(`The email "${leaderEmail.trim()}" is already registered. Only one registration is allowed per email address.`);
+        setEmailWarning(`The email "${leaderEmail.trim()}" is already registered. Each participant can only register once.`);
       } else {
         setEmailWarning(null);
       }
@@ -179,7 +181,7 @@ export function RegistrationForm({
   // Step 1 Validation
   function validateStep1(): boolean {
     if (teamName.trim().length < 3) {
-      setError(new ApiRequestError('Team name must have at least 3 characters.', 'teamName'));
+      setError(new ApiRequestError('Team Name is required and must have at least 3 characters.', 'teamName'));
       return false;
     }
     if (leaderName.trim().length < 2) {
@@ -209,11 +211,11 @@ export function RegistrationForm({
       return false;
     }
     if (!domain) {
-      setError(new ApiRequestError('Please select a domain / topic statement.', 'domain'));
+      setError(new ApiRequestError('Please select a domain / challenge statement.', 'domain'));
       return false;
     }
     if (isDomainTaken(domain)) {
-      setError(new ApiRequestError(`The domain "${domain}" has already been claimed by another team. Please pick another.`, 'domain'));
+      setError(new ApiRequestError(`The domain "${domain}" has already been claimed. Please choose another domain.`, 'domain'));
       return false;
     }
     setError(null);
@@ -222,6 +224,11 @@ export function RegistrationForm({
 
   // Step 2 Validation
   function validateStep2(): boolean {
+    if (memberCount < event.minMembers || memberCount > event.maxMembers) {
+      setError(new ApiRequestError(`${event.name} requires between ${event.minMembers} and ${event.maxMembers} members.`, 'members'));
+      return false;
+    }
+
     for (let i = 0; i < squadMembers.length; i++) {
       const m = squadMembers[i];
       if (m.name.trim().length < 2) {
@@ -381,7 +388,7 @@ export function RegistrationForm({
             <div className="flex items-center gap-2">
               <span className="flex h-2 w-2 rounded-full bg-[#D4AF37] animate-ping" />
               <span className="font-mono text-xs font-bold uppercase tracking-widest text-[#AA820A]">
-                Event Code: TI{event.code}###
+                Format ID: TI{event.code}1001
               </span>
             </div>
             <h2 className="mt-1 font-serif text-xl sm:text-2xl font-bold text-[#1C1C1C]">
@@ -449,25 +456,26 @@ export function RegistrationForm({
           <div className="border-b border-[#EAE6DF] pb-3">
             <h3 className="font-serif text-lg font-bold text-[#1C1C1C] flex items-center gap-2">
               <UsersIcon className="h-5 w-5 text-[#D4AF37]" />
-              <span>Step 01: Team Identity &amp; Contact Details</span>
+              <span>Step 01: Team Identity &amp; Mandatory Contact Fields</span>
             </h3>
             <p className="mt-1 text-xs text-[#555555]">
-              Provide your official team name, institution, and primary team leader contact details.
+              Provide your official team name, institution, and 10-digit primary contact details.
             </p>
           </div>
 
           {/* Event-specific specifications banner */}
           {event.scoringMatrix && (
-            <div className="rounded-xl border border-[#D4AF37]/40 bg-[#FAFAFA] p-4 text-xs space-y-2">
+            <div className="rounded-xl border border-[#D4AF37]/50 bg-[#FAFAFA] p-4 text-xs space-y-2">
               <div className="flex items-center gap-2 font-serif font-bold text-[#1C1C1C]">
                 <Gamepad2Icon className="h-4 w-4 text-[#D4AF37]" />
-                <span>2D Games Official Scoring Matrix (100 Marks)</span>
+                <span>2D Games Official Scoring Criteria Matrix (100 Marks)</span>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-[11px]">
                 {GAMES_2D_SCORING_MATRIX.map((c, i) => (
-                  <div key={i} className="rounded-lg bg-[#FFFFFF] border border-[#EAE6DF] p-2">
+                  <div key={i} className="rounded-lg bg-[#FFFFFF] border border-[#EAE6DF] p-2.5">
                     <span className="font-bold text-[#1C1C1C] block">{c.category}</span>
                     <span className="font-mono text-[#D4AF37] font-bold">{c.marks} Marks</span>
+                    <p className="text-[10px] text-[#767676] mt-0.5">{c.description}</p>
                   </div>
                 ))}
               </div>
@@ -475,7 +483,7 @@ export function RegistrationForm({
           )}
 
           {event.formatDetails && (
-            <div className="rounded-xl border border-[#D4AF37]/40 bg-[#FAFAFA] p-4 text-xs space-y-1.5">
+            <div className="rounded-xl border border-[#D4AF37]/50 bg-[#FAFAFA] p-4 text-xs space-y-1.5">
               <div className="flex items-center gap-2 font-serif font-bold text-[#1C1C1C]">
                 <TerminalIcon className="h-4 w-4 text-[#D4AF37]" />
                 <span>Capture The Flag Challenge Protocol</span>
@@ -543,7 +551,7 @@ export function RegistrationForm({
             {/* Primary Mobile Number (10-Digit Validation) */}
             <div>
               <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[#1C1C1C]">
-                Primary Mobile Number <span className="text-[#D4AF37]">* (10-digits)</span>
+                Primary Mobile Number <span className="text-[#D4AF37]">* (10-digit number)</span>
               </label>
               <div className="relative">
                 <input
@@ -558,7 +566,7 @@ export function RegistrationForm({
                 <PhoneIcon className="absolute left-3.5 top-3.5 h-4 w-4 text-[#767676]" />
               </div>
               <p className="mt-1 text-[11px] text-[#767676]">
-                Official SMS updates &amp; ID confirmations will be dispatched here.
+                SMS updates and participation ID confirmation will be sent here.
               </p>
             </div>
 
@@ -601,7 +609,7 @@ export function RegistrationForm({
                 </p>
               ) : (
                 <p className="mt-1 text-[11px] text-[#767676]">
-                  Strict One-Time Email: Each participant email can only be registered once.
+                  Strict validation: Only one team registration is permitted per participant email.
                 </p>
               )}
             </div>
@@ -629,7 +637,7 @@ export function RegistrationForm({
                   ))}
                 </select>
                 <p className="mt-1 text-[11px] text-[#767676]">
-                  Selecting your department will dynamically filter the eligible problem domains below.
+                  Selecting your department dynamically loads only matching domains below.
                 </p>
               </div>
             )}
@@ -678,7 +686,7 @@ export function RegistrationForm({
       )}
 
       {/* ───────────────────────────────────────────────────────────── */}
-      {/* STEP 02: TEAM MEMBERS ROSTER */}
+      {/* STEP 02: TEAM MEMBERS ROSTER (STRICT DYNAMIC CONSTRAINT) */}
       {/* ───────────────────────────────────────────────────────────── */}
       {currentStep === 'step2_members' && (
         <form onSubmit={handleGoToStep3} className="space-y-6 rounded-2xl border border-[#EAE6DF] bg-[#FFFFFF] p-6 sm:p-8 shadow-luxury">
@@ -686,10 +694,10 @@ export function RegistrationForm({
             <div>
               <h3 className="font-serif text-lg font-bold text-[#1C1C1C] flex items-center gap-2">
                 <UserCheckIcon className="h-5 w-5 text-[#D4AF37]" />
-                <span>Step 02: Team Members Roster</span>
+                <span>Step 02: Team Members Names ({event.minMembers} to {event.maxMembers} Members)</span>
               </h3>
               <p className="mt-1 text-xs text-[#555555]">
-                Leader is registered as Member #1. Configure additional team members according to event limit ({event.memberCounts.join('–')} members).
+                {event.name} strictly accepts between {event.minMembers} and {event.maxMembers} members per team.
               </p>
             </div>
 
@@ -730,7 +738,7 @@ export function RegistrationForm({
             </div>
           </div>
 
-          {/* Additional Squad Members Input Cards */}
+          {/* Dynamic Members List */}
           <div className="space-y-4">
             {squadMembers.map((member, index) => {
               const memberNum = index + 2;
@@ -832,31 +840,25 @@ export function RegistrationForm({
           <div className="border-b border-[#EAE6DF] pb-3">
             <h3 className="font-serif text-lg font-bold text-[#1C1C1C] flex items-center gap-2">
               <FileTextIcon className="h-5 w-5 text-[#D4AF37]" />
-              <span>Step 03: Terms &amp; Code of Conduct</span>
+              <span>Step 03: Event Rules &amp; Code of Conduct</span>
             </h3>
             <p className="mt-1 text-xs text-[#555555]">
-              Please review and agree to the official RYVANTA '26 rules and event guidelines.
+              Please review and accept the official rules for {event.fullName}.
             </p>
           </div>
 
           {/* Rules List Box */}
-          <div className="space-y-3 rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] p-4 sm:p-6 text-xs text-[#555555] max-h-72 overflow-y-auto">
-            <div className="flex items-start gap-2.5">
-              <CheckCircle2Icon className="h-4 w-4 text-[#D4AF37] shrink-0 mt-0.5" />
-              <p className="leading-relaxed">All team members must be enrolled students carrying valid college ID cards on the symposium day (19 Sep 2026).</p>
-            </div>
-            <div className="flex items-start gap-2.5">
-              <CheckCircle2Icon className="h-4 w-4 text-[#D4AF37] shrink-0 mt-0.5" />
-              <p className="leading-relaxed">All prototypes, models, and code must be developed fresh on-site during the competition timeline.</p>
-            </div>
-            <div className="flex items-start gap-2.5">
-              <CheckCircle2Icon className="h-4 w-4 text-[#D4AF37] shrink-0 mt-0.5" />
-              <p className="leading-relaxed">Open-source tools and libraries are permitted provided they are disclosed during presentation.</p>
-            </div>
-            <div className="flex items-start gap-2.5">
-              <CheckCircle2Icon className="h-4 w-4 text-[#D4AF37] shrink-0 mt-0.5" />
-              <p className="leading-relaxed">The decision of the jury panel is final and binding across all competitions.</p>
-            </div>
+          <div className="space-y-3 rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] p-4 sm:p-6 text-xs text-[#555555]">
+            {(event.rules || [
+              'All squad members must carry valid college identity cards on the event day (19 Sep 2026).',
+              'All projects and solutions must be developed fresh on-site.',
+              'Jury scoring decisions are final and binding.'
+            ]).map((rule, idx) => (
+              <div key={idx} className="flex items-start gap-2.5">
+                <CheckCircle2Icon className="h-4 w-4 text-[#D4AF37] shrink-0 mt-0.5" />
+                <p className="leading-relaxed">{rule}</p>
+              </div>
+            ))}
           </div>
 
           {/* Agreement Checkbox */}
@@ -871,7 +873,7 @@ export function RegistrationForm({
             <div className="text-xs text-[#555555]">
               <span className="font-bold block text-[#1C1C1C]">Team Declaration &amp; Acceptance</span>
               <span>
-                I hereby declare that all provided team and member details are accurate and all participants agree to follow the RYVANTA '26 rules and campus regulations.
+                I hereby declare that all provided team details are accurate and all participants agree to follow the RYVANTA '26 rules and campus regulations.
               </span>
             </div>
           </label>
@@ -1086,7 +1088,7 @@ export function RegistrationForm({
               ) : (
                 <>
                   <ShieldCheckIcon className="h-5 w-5 text-[#FFD700]" />
-                  <span>I Have Completed Payment — Generate TI{event.code}### Participation ID</span>
+                  <span>I Have Completed Payment — Generate TI{event.code}1001 ID</span>
                 </>
               )}
             </button>

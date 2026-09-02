@@ -8,25 +8,26 @@ export interface ScoringCriterion {
 
 export interface EventConfig {
   id: EventId;
-  /** Single letter used in the participation ID (TI<code-letter>001) */
+  /** Letter code used in participation ID generation (TI<Code><SequentialNumber>) */
   code: string;
   index: number;
   name: string;
   fullName: string;
   tagline: string;
   venue: string;
+  minMembers: number;
+  maxMembers: number;
   memberCounts: number[];
   fee: number;
   requiresDepartment: boolean;
   domains?: string[];
-  trackList?: string[];
   scoringMatrix?: ScoringCriterion[];
   formatDetails?: string[];
+  rules?: string[];
 }
 
 export const REGISTRATION_FEE = 300;
 
-// Exact target dates per specification
 export const REGISTRATION_CLOSES_AT = '2026-09-10T23:59:59';
 export const EVENT_STARTS_AT = '2026-09-19T08:30:00';
 
@@ -45,71 +46,71 @@ export interface TimelineMilestone {
 export const HACKATHON_TIMELINE: TimelineMilestone[] = [
   {
     phase: 'PHASE 01',
-    title: 'Squad Registration & Domain Claim',
+    title: 'Online Team Registration & Domain Lock',
     date: 'Active Now – 10 Sep 2026',
     timeSlot: '11:59 PM IST Deadline',
     venue: 'Online Registration Portal',
-    description: 'Squad leaders submit team details, choose department/domain, and generate sequential TI-Participation ID upon fee verification.',
+    description: 'Team leaders submit squad rosters, select eligible engineering domains, and generate participation IDs upon verification.',
     status: 'active',
     badge: 'ONLINE',
     milestones: [
-      'Team & member identity verification',
-      'Department domain assignment',
-      'Unique Participation ID generation'
+      'Team & member roster submission',
+      'Dynamic department domain selection',
+      'Instant Participation ID generation'
     ]
   },
   {
     phase: 'PHASE 02',
-    title: 'Shortlisting & Ideation Screening',
+    title: 'Screening & Problem Briefing',
     date: '12 Sep 2026',
     timeSlot: '10:00 AM – 04:00 PM',
-    venue: 'Academic Review Board',
-    description: 'Technical evaluation of submitted problem statements and team composition. Shortlisted squads receive digital admission passes.',
+    venue: 'Academic Evaluation Room',
+    description: 'Technical jury evaluates submitted problem statements and shortlists squads for on-campus competition rounds.',
     status: 'upcoming',
     badge: 'SCREENING',
     milestones: [
-      'Feasibility evaluation',
-      'Slot allocation by jury',
-      'Digital gate pass issue'
+      'Problem feasibility scoring',
+      'Laboratory slot assignment',
+      'Digital entry gate pass issued'
     ]
   },
   {
     phase: 'PHASE 03',
-    title: 'Grand Inauguration & Keynote Address',
+    title: 'Grand Inauguration & Keynote Briefing',
     date: '19 Sep 2026',
     timeSlot: '08:30 AM – 09:30 AM',
     venue: 'Main Auditorium',
-    description: 'Official opening ceremony, release of hackathon problem briefs, rules declaration, and keynote by distinguished guests.',
+    description: 'Inauguration ceremony, release of hackathon problem briefs, rules reveal, and orientation by keynote dignitaries.',
     status: 'upcoming',
     badge: 'ON-CAMPUS',
     milestones: [
-      'Physical reporting & kit distribution',
-      'Dataset & problem reveal',
-      'Keynote & rubric brief'
+      'Physical reporting & badge check',
+      'Live problem statements unlocked',
+      'Keynote & evaluation rubric brief'
     ]
   },
   {
     phase: 'PHASE 04',
-    title: 'Live Build Sprint & Mentorship Checks',
+    title: 'Live Sprint & Mentorship Evaluation',
     date: '19 Sep 2026',
     timeSlot: '09:30 AM – 05:30 PM',
-    venue: 'Auditorium & Dedicated Tech Labs',
-    description: 'Continuous development sprint across all 5 event arenas with mentor reviews at designated checkpoints.',
+    venue: 'Auditorium / IT Lab / FOSS Lab',
+    description: 'Non-stop hacking and technical challenge rounds across Auditorium, IT Lab, and FOSS Lab with mandatory mentor reviews.',
     status: 'upcoming',
     badge: 'LIVE SPRINT',
     milestones: [
-      'Rapid prototype development',
-      'Mid-evaluation review (01:30 PM)',
-      'Mentorship refinements'
+      'High-speed prototype development',
+      'Mid-sprint mentor check (01:30 PM)',
+      'Security flag verification rounds'
     ]
   },
   {
     phase: 'PHASE 05',
-    title: 'Code Freeze & Live Jury Demonstration',
+    title: 'Code Freeze & Live Jury Demo',
     date: '19 Sep 2026',
     timeSlot: '05:30 PM – 07:30 PM',
-    venue: 'IT Lab / FOSS Lab / Seminar Halls',
-    description: 'Repository commit freeze and 5-minute live working prototype demonstration with Q&A before the expert jury.',
+    venue: 'Dedicated Competition Venues',
+    description: 'Final repository commits locked and 5-minute live working demonstration before the esteemed judging panel.',
     status: 'upcoming',
     badge: 'EVALUATION',
     milestones: [
@@ -120,15 +121,15 @@ export const HACKATHON_TIMELINE: TimelineMilestone[] = [
   },
   {
     phase: 'PHASE 06',
-    title: 'Valedictory & Grand Awards Ceremony',
+    title: 'Grand Finale, Results & Awards',
     date: '19 Sep 2026',
     timeSlot: '08:00 PM – 09:30 PM',
     venue: 'Main Auditorium',
-    description: 'Announcement of winners across all events, cash prize distribution, certificates, and valedictory felicitation.',
+    description: 'Announcement of winners across all 3 technical events, certificate distribution, internship offers, and cash prizes.',
     status: 'upcoming',
     badge: 'AWARDS',
     milestones: [
-      'Grand trophies & cash prizes',
+      'Trophies & cash prizes',
       'Internship opportunities',
       'Official certificates of achievement'
     ]
@@ -216,61 +217,62 @@ export const GAMES_2D_SCORING_MATRIX: ScoringCriterion[] = [
 
 // Capture The Flag (NEXVORA '26) Domains & Format
 export const CTF_DOMAINS = [
-  'Web Exploitation & Security Auditing',
-  'Cryptography & Steganography',
+  'Web Exploitation & Vulnerability Assessment',
+  'Cryptography & Cipher Breaking',
   'Reverse Engineering & Binary Analysis',
-  'Network Forensics & Packet Analysis'
+  'Network Forensics & Packet Capture'
 ];
 
 export const CTF_FORMAT_DETAILS = [
   'Format: 2 Competitive Rounds, 2 Flags to capture',
   'Round 1: Preliminary qualifying challenges (Crypto & Web forensics)',
-  'Round 2: Advanced live CTF offensive-defense flag submission',
+  'Round 2: Advanced live offensive-defense flag submission',
   'Live Dynamic Scoreboard with time-penalty multipliers'
 ];
 
-// E-Games / E-Sports Domains
-export const EGAMES_DOMAINS = [
-  'BGMI Tactical Squad Championship',
-  'Free Fire Clash Squad Arena',
-  'Valorant Spike Rush Tournament',
-  'FIFA Competitive League'
-];
-
-// ELARIS SOZO '26 Domains
-export const ELARIS_SOZO_DOMAINS = [
-  'AI & Deep Tech Scientific Research',
-  'Sustainable CleanTech Innovations',
-  'Embedded IoT Hardware & Smart Devices',
-  'Open Domain Technical Innovation'
-];
-
+// The Three Specific Technical Events
 export const EVENTS: EventConfig[] = [
   {
     id: 'hackathon',
-    code: 'H',
+    code: 'CH',
     index: 1,
     name: "Hackathon '26",
     fullName: "Hackathon '26 (Multi-Department Flagship)",
-    tagline: 'Premier 8-hour sprint solving department-specific and interdisciplinary engineering challenges.',
+    tagline: 'Flagship 8-hour sprint solving department-specific and interdisciplinary engineering challenges.',
     venue: 'Auditorium',
+    minMembers: 3,
+    maxMembers: 4,
     memberCounts: [3, 4],
     fee: REGISTRATION_FEE,
-    requiresDepartment: true
+    requiresDepartment: true,
+    rules: [
+      'Team Size: Minimum 3, Maximum 4 members.',
+      'Department-based domain selection required.',
+      'Fresh code & prototype develop on-site during hackathon.',
+      'Bring college ID cards for verification.'
+    ]
   },
   {
     id: '2d-games',
     code: 'D',
     index: 2,
-    name: '2D Games (SOZO)',
+    name: "2D Games (SOZO '26)",
     fullName: "2D Games (SOZO '26)",
-    tagline: 'Game development arena judged on gameplay, art, and technical brilliance.',
+    tagline: 'Game development arena judged on gameplay, creativity, visual UI, and technical excellence.',
     venue: 'IT Lab',
+    minMembers: 2,
+    maxMembers: 3,
     memberCounts: [2, 3],
     fee: REGISTRATION_FEE,
     requiresDepartment: false,
     domains: GAMES_2D_DOMAINS,
-    scoringMatrix: GAMES_2D_SCORING_MATRIX
+    scoringMatrix: GAMES_2D_SCORING_MATRIX,
+    rules: [
+      'Team Size: Minimum 2, Maximum 3 members.',
+      '10 thematic 2D game domains available.',
+      'Strict 100-mark scoring criteria matrix evaluation.',
+      'All assets, engine build, and game logic must run on judge systems.'
+    ]
   },
   {
     id: 'ctf',
@@ -280,41 +282,22 @@ export const EVENTS: EventConfig[] = [
     fullName: "Capture The Flag (NEXVORA '26)",
     tagline: 'Elite cybersecurity hacking challenge across 2 intensive rounds with 2 flags to capture.',
     venue: 'FOSS Lab',
+    minMembers: 2,
+    maxMembers: 3,
     memberCounts: [2, 3],
     fee: REGISTRATION_FEE,
     requiresDepartment: false,
     domains: CTF_DOMAINS,
-    formatDetails: CTF_FORMAT_DETAILS
-  },
-  {
-    id: 'e-games',
-    code: 'E',
-    index: 4,
-    name: 'E-Games / E-Sports',
-    fullName: "E-Games & E-Sports Championship '26",
-    tagline: 'Competitive multi-title gaming arena testing team strategy, reflexes, and tactical coordination.',
-    venue: 'Gaming Lab / Tech Hub',
-    memberCounts: [2, 3, 4],
-    fee: REGISTRATION_FEE,
-    requiresDepartment: false,
-    domains: EGAMES_DOMAINS
-  },
-  {
-    id: 'elaris-sozo',
-    code: 'P',
-    index: 5,
-    name: 'ELARIS SOZO',
-    fullName: "ELARIS SOZO '26 (Paper & Project Innovation)",
-    tagline: 'National technical paper presentation and prototype project exposition before academic jury.',
-    venue: 'Seminar Hall & Innovation Gallery',
-    memberCounts: [1, 2, 3],
-    fee: REGISTRATION_FEE,
-    requiresDepartment: false,
-    domains: ELARIS_SOZO_DOMAINS
+    formatDetails: CTF_FORMAT_DETAILS,
+    rules: [
+      'Team Size: Minimum 2, Maximum 3 members.',
+      'Registration Fee: ₹300 per team.',
+      'Format: 2 Rounds, 2 Flags to capture.',
+      'Ethical hacking rules strictly enforced — no DDoS or attacking host infra.'
+    ]
   }
 ];
 
-// Official Helpline Numbers per specification
 export const SUPPORT_LINES = [
   { label: 'Convenor Helpline 1', number: '+91 95665 2006', tel: '+91956652006' },
   { label: 'Registration Helpline 2', number: '+91 90030 18088', tel: '+919003018088' }
