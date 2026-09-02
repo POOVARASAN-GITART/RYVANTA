@@ -4,6 +4,7 @@ from .views import (
     RegistrationListCreateAPIView,
     RegistrationStatsAPIView,
     ExportRegistrationsCsvAPIView,
+    PaymentGatewayVerifyAPIView,
 )
 
 urlpatterns = [
@@ -11,4 +12,6 @@ urlpatterns = [
     path('registrations/', RegistrationListCreateAPIView.as_view(), name='registration-list-create'),
     path('registrations/stats/', RegistrationStatsAPIView.as_view(), name='registration-stats'),
     path('registrations/export/', ExportRegistrationsCsvAPIView.as_view(), name='registration-export-csv'),
+    path('payment/verify/', PaymentGatewayVerifyAPIView.as_view(), name='payment-verify'),
+    path('payment/webhook/', PaymentGatewayVerifyAPIView.as_view(), name='payment-webhook'),
 ]

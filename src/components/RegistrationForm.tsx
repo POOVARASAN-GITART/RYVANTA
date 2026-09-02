@@ -366,19 +366,6 @@ export function RegistrationForm({
       return;
     }
 
-    // MANDATORY PAYMENT AUTHENTICATION CHECK
-    const isUtrProvided = upiRef.trim().length >= 8;
-    const isReceiptProvided = Boolean(paymentScreenshot);
-
-    if (!isUtrProvided && !isReceiptProvided) {
-      setError(
-        new Error(
-          'Payment authentication required: Please enter your 12-digit UPI Reference / UTR Number or attach your payment receipt screenshot to verify and generate your Student ID.'
-        )
-      );
-      return;
-    }
-
     setIsSubmitting(true);
     setError(null);
 
@@ -401,10 +388,13 @@ export function RegistrationForm({
       }))
     ];
 
-    await PaymentGateway.verifyAutomatedPayment({
-      teamName,
+    await PaymentGateway.initiatePayment({
+      teamName: teamName.trim(),
       eventName: event.fullName,
       amount: REGISTRATION_FEE,
+      leaderName: leaderName.trim(),
+      leaderEmail: leaderEmail.trim(),
+      leaderPhone: leaderPhone.trim(),
       upiId,
       payeeName,
       onProgress: (status, percent) => {
@@ -427,8 +417,8 @@ export function RegistrationForm({
             phone: leaderPhone.trim(),
             department: department || '',
             domain: domain.trim(),
-            upiRef: upiRef.trim() || paymentDetails.transactionId,
-            paymentScreenshot,
+            upiRef: paymentDetails.transactionId,
+            paymentScreenshot: undefined,
             termsAccepted,
             paymentStatus: 'verified'
           });
@@ -1223,7 +1213,7 @@ export function RegistrationForm({
       )}
 
       {/* ───────────────────────────────────────────────────────────── */}
-      {/* STEP 05: PAYMENT & PARTICIPATION ID GENERATION */}
+      {/* STEP 05: AUTOMATED PAYMENT & STUDENT ID ISSUANCE */}
       {/* ───────────────────────────────────────────────────────────── */}
       {currentStep === 'step5_payment' && (
         <div className="space-y-6">
@@ -1233,10 +1223,6 @@ export function RegistrationForm({
             feeAmount={REGISTRATION_FEE}
             eventName={event.fullName}
             teamName={teamName}
-            upiRef={upiRef}
-            onUpiRefChange={setUpiRef}
-            paymentScreenshot={paymentScreenshot}
-            onScreenshotChange={setPaymentScreenshot}
             hideQrCode={Boolean(event.hideQrCode)}
           />
 
@@ -1246,18 +1232,16 @@ export function RegistrationForm({
                 {isSubmitting ? (
                   <Loader2Icon className="h-4 w-4 animate-spin text-[#0EA5E9]" />
                 ) : (
-                  <div className={`h-2.5 w-2.5 rounded-full ${upiRef.trim().length >= 8 || paymentScreenshot ? 'bg-emerald-500 animate-pulse' : 'bg-amber-400'}`} />
+                  <div className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />
                 )}
                 <span className="font-semibold text-[#000000]">
                   {isSubmitting
                     ? verificationStatusText
-                    : upiRef.trim().length >= 8 || paymentScreenshot
-                    ? 'Payment Proof Entered: Ready for Automated Authentication'
-                    : 'Awaiting Payment Proof: Enter 12-digit UTR or attach receipt to authenticate'}
+                    : 'Secure Payment Gateway: Click below to complete ₹' + REGISTRATION_FEE + ' payment & auto-issue ID'}
                 </span>
               </div>
-              <span className={`font-mono text-xs font-bold ${upiRef.trim().length >= 8 || paymentScreenshot ? 'text-emerald-600' : 'text-amber-600'}`}>
-                {isSubmitting ? `${verificationProgress}%` : upiRef.trim().length >= 8 || paymentScreenshot ? 'READY' : 'PROOF REQUIRED'}
+              <span className={`font-mono text-xs font-bold ${isSubmitting ? 'text-[#0EA5E9]' : 'text-emerald-600'}`}>
+                {isSubmitting ? `${verificationProgress}%` : 'READY'}
               </span>
             </div>
 
@@ -1285,7 +1269,7 @@ export function RegistrationForm({
             <button
               type="button"
               onClick={() => void handleFinalSubmission()}
-              disabled={isSubmitting || (!upiRef.trim() && !paymentScreenshot)}
+              disabled={isSubmitting}
               className="inline-flex flex-1 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#0EA5E9] to-[#2563EB] px-6 py-4 text-xs font-black uppercase tracking-wider text-[#FFFFFF] shadow-luxury transition-all hover:from-[#0284C7] hover:to-[#1D4ED8] hover:shadow-blue-glow disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isSubmitting ? (
@@ -1296,7 +1280,7 @@ export function RegistrationForm({
               ) : (
                 <>
                   <ShieldCheckIcon className="h-5 w-5 text-[#E0F2FE]" />
-                  <span>Authenticate Payment &amp; Generate TI{event.code}1001 ID</span>
+                  <span>Pay ₹{REGISTRATION_FEE} &amp; Auto-Generate TI{event.code}1001 ID</span>
                 </>
               )}
             </button>

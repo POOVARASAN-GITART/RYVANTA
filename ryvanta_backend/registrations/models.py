@@ -102,11 +102,33 @@ class Registration(models.Model):
         verbose_name="Payment Status"
     )
 
+    payment_method = models.CharField(
+        max_length=50,
+        default="GATEWAY_AUTO_VERIFIED",
+        blank=True,
+        verbose_name="Payment Method"
+    )
+
+    transaction_id = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        verbose_name="Gateway Transaction ID",
+        help_text="Automated gateway transaction identifier (e.g. pay_xxx or PG_TXN_xxx)"
+    )
+
+    gateway_order_id = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        verbose_name="Gateway Order ID"
+    )
+
     upi_ref = models.CharField(
         max_length=80,
         blank=True,
         null=True,
-        verbose_name="UPI / UTR Reference"
+        verbose_name="UPI / Transaction Reference"
     )
 
     created_at = models.DateTimeField(

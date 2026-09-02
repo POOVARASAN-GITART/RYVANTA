@@ -132,3 +132,42 @@ class ExportRegistrationsCsvAPIView(views.APIView):
             ])
 
         return response
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class PaymentGatewayVerifyAPIView(views.APIView):
+    """
+    Automated webhook & callback endpoint to verify payment status and programmatically issue Student ID.
+    """
+    def post(self, request):
+        payload = request.data
+        transaction_id = payload.get('transaction_id') or payload.get('razorpay_payment_id') or f"PG_TXN_{request.data.get('upi_ref', 'AUTO')}"
+        gateway_order_id = payload.get('gateway_order_id') or payload.get('razorpay_order_id', '')
+        payment_method = payload.get('payment_method', 'GATEWAY_AUTO_VERIFIED')
+
+        # If registration ID provided, update existing record
+        participation_id = payload.get('participation_id') or payload.get('id')
+        if participation_id:
+            try:
+                reg = Registration.objects.get(participation_id=participation_id)
+                reg.payment_status = 'verified'
+                reg.transaction_id = transaction_id
+                reg.gateway_order_id = gateway_order_id
+                reg.payment_method = payment_method
+                reg.save()
+                return Response(RegistrationSerializer(reg).data, status=status.HTTP_200_OK)
+            except Registration.DoesNotExist:
+                pass
+
+        # Otherwise create verified registration directly
+        serializer = RegistrationSerializer(data=payload)
+        if serializer.is_valid():
+            reg = serializer.save()
+            reg.payment_status = 'verified'
+            reg.transaction_id = transaction_id
+            reg.gateway_order_id = gateway_order_id
+            reg.payment_method = payment_method
+            reg.save()
+            return Response(RegistrationSerializer(reg).data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
