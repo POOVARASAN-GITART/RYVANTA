@@ -8,15 +8,13 @@ import {
   UsersIcon,
   UserCheckIcon,
   ShieldCheckIcon,
-  CreditCardIcon,
   BuildingIcon,
   MailIcon,
   PhoneIcon,
   LayersIcon,
   FileTextIcon,
   AlertTriangleIcon,
-  CheckIcon,
-  ReceiptIcon
+  CheckIcon
 } from 'lucide-react';
 import {
   CHALLENGE_TRACKS,
@@ -157,7 +155,7 @@ export function RegistrationForm({
         setEmailWarning(null);
       }
     } catch {
-      // ignore check error
+      // ignore
     } finally {
       setIsCheckingEmail(false);
     }
@@ -359,23 +357,23 @@ export function RegistrationForm({
 
   return (
     <div className="space-y-8">
-      {/* 5-Step Futuristic Neon Stepper Header */}
-      <div className="overflow-hidden rounded-2xl border border-cyan-500/30 bg-[#060c1c]/90 p-4 sm:p-6 shadow-2xl backdrop-blur-xl">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-cyan-500/20 pb-4">
+      {/* 5-Step Stepper Header */}
+      <div className="overflow-hidden rounded-2xl border border-[#E5E4E2] bg-[#F3F1ED] p-4 sm:p-6 shadow-luxury">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E5E4E2] pb-4">
           <div>
             <div className="flex items-center gap-2">
-              <span className="flex h-2 w-2 rounded-full bg-cyan-400 animate-ping" />
-              <span className="font-mono text-xs font-bold uppercase tracking-widest text-cyan-400">
-                Orion 5-Step Registration Protocol
+              <span className="flex h-2 w-2 rounded-full bg-[#C5A059] animate-ping" />
+              <span className="font-mono text-xs font-bold uppercase tracking-widest text-[#C5A059]">
+                5-Step Registration Protocol
               </span>
             </div>
-            <h2 className="mt-1 font-display text-xl sm:text-2xl font-black uppercase text-white tracking-wide">
+            <h2 className="mt-1 font-display text-xl sm:text-2xl font-black uppercase text-[#1A1A1A] tracking-wide">
               {event.fullName}
             </h2>
           </div>
-          <div className="flex items-center gap-2 font-mono text-xs text-slate-400">
+          <div className="flex items-center gap-2 font-mono text-xs text-[#8C8A85]">
             <span>STEP {currentStepIndex + 1} OF 5</span>
-            <span className="text-cyan-400 font-bold">({Math.round(((currentStepIndex + 1) / 5) * 100)}%)</span>
+            <span className="text-[#C5A059] font-bold">({Math.round(((currentStepIndex + 1) / 5) * 100)}%)</span>
           </div>
         </div>
 
@@ -389,19 +387,19 @@ export function RegistrationForm({
                 key={step.id}
                 className={`relative flex items-center gap-2.5 rounded-xl border p-2.5 transition-all ${
                   isCurrent
-                    ? 'border-cyan-400 bg-cyan-950/60 shadow-[0_0_15px_rgba(0,240,255,0.3)]'
+                    ? 'border-[#2C2C2C] bg-[#2C2C2C] text-white shadow-md'
                     : isPassed
-                    ? 'border-emerald-500/40 bg-emerald-950/20 text-emerald-400'
-                    : 'border-slate-800 bg-slate-900/40 text-slate-500'
+                    ? 'border-emerald-200 bg-emerald-50/80 text-emerald-800'
+                    : 'border-[#E5E4E2] bg-[#FFFFFF] text-[#8C8A85]'
                 }`}
               >
                 <div
                   className={`flex h-6 w-6 items-center justify-center rounded-lg font-mono text-xs font-bold ${
                     isCurrent
-                      ? 'bg-cyan-400 text-slate-950'
+                      ? 'bg-[#C5A059] text-white'
                       : isPassed
-                      ? 'bg-emerald-500 text-slate-950'
-                      : 'bg-slate-800 text-slate-400'
+                      ? 'bg-emerald-600 text-white'
+                      : 'bg-[#F3F1ED] text-[#8C8A85]'
                   }`}
                 >
                   {isPassed ? <CheckIcon className="h-3.5 w-3.5" /> : step.num}
@@ -417,10 +415,10 @@ export function RegistrationForm({
 
       {/* Global Error Banner */}
       {error && (
-        <div className="flex items-start gap-3 rounded-2xl border border-red-500/50 bg-red-950/40 p-4 text-sm text-red-200 shadow-lg">
-          <AlertTriangleIcon className="h-5 w-5 shrink-0 text-red-400 mt-0.5" />
+        <div className="flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50/90 p-4 text-sm text-red-800 shadow-sm">
+          <AlertTriangleIcon className="h-5 w-5 shrink-0 text-red-600 mt-0.5" />
           <div>
-            <span className="font-bold block">Validation Error:</span>
+            <span className="font-bold block text-red-900">Validation Notice:</span>
             <span>{error.message}</span>
           </div>
         </div>
@@ -430,13 +428,13 @@ export function RegistrationForm({
       {/* STEP 01: SQUAD IDENTITY & TEAM LEADER DETAILS */}
       {/* ───────────────────────────────────────────────────────────── */}
       {currentStep === 'step1_squad' && (
-        <form onSubmit={handleGoToStep2} className="space-y-6 rounded-2xl border border-cyan-500/25 bg-[#080e22]/80 p-6 sm:p-8 shadow-2xl backdrop-blur-xl">
-          <div className="border-b border-cyan-500/20 pb-3">
-            <h3 className="font-display text-lg font-bold text-white uppercase tracking-wide flex items-center gap-2">
-              <UsersIcon className="h-5 w-5 text-cyan-400" />
+        <form onSubmit={handleGoToStep2} className="space-y-6 rounded-2xl border border-[#E5E4E2] bg-[#FFFFFF] p-6 sm:p-8 shadow-luxury">
+          <div className="border-b border-[#E5E4E2] pb-3">
+            <h3 className="font-display text-lg font-bold text-[#1A1A1A] uppercase tracking-wide flex items-center gap-2">
+              <UsersIcon className="h-5 w-5 text-[#C5A059]" />
               <span>Step 01: Squad Identity &amp; Team Leader</span>
             </h3>
-            <p className="mt-1 text-xs text-slate-400">
+            <p className="mt-1 text-xs text-[#4A4A4A]">
               Enter your squad name, university details, and the primary team leader contact.
             </p>
           </div>
@@ -444,23 +442,23 @@ export function RegistrationForm({
           <div className="grid gap-6 sm:grid-cols-2">
             {/* Squad / Team Name */}
             <div>
-              <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-slate-300">
-                Squad / Team Name <span className="text-cyan-400">*</span>
+              <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[#1A1A1A]">
+                Squad / Team Name <span className="text-[#C5A059]">*</span>
               </label>
               <input
                 type="text"
                 required
                 value={teamName}
                 onChange={(e) => setTeamName(e.target.value)}
-                placeholder="e.g. CyberVanguard, NeuralKnights"
-                className="w-full rounded-xl border border-slate-700 bg-slate-900/90 px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400"
+                placeholder="e.g. ApexInnovators, NeuralVanguard"
+                className="w-full rounded-xl border border-[#E5E4E2] bg-[#F9F8F6] px-4 py-3 text-sm text-[#1A1A1A] placeholder:text-[#8C8A85] focus:border-[#2C2C2C] focus:bg-[#FFFFFF] focus:outline-none"
               />
             </div>
 
             {/* Institution / College Name */}
             <div>
-              <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-slate-300">
-                College / University Name <span className="text-cyan-400">*</span>
+              <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[#1A1A1A]">
+                College / University Name <span className="text-[#C5A059]">*</span>
               </label>
               <div className="relative">
                 <input
@@ -468,17 +466,17 @@ export function RegistrationForm({
                   required
                   value={institution}
                   onChange={(e) => setInstitution(e.target.value)}
-                  placeholder="e.g. SRM Institute, Anna University, MIT"
-                  className="w-full rounded-xl border border-slate-700 bg-slate-900/90 pl-10 pr-4 py-3 text-sm text-white placeholder:text-slate-600 focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400"
+                  placeholder="e.g. SRM Institute, Anna University, IIT"
+                  className="w-full rounded-xl border border-[#E5E4E2] bg-[#F9F8F6] pl-10 pr-4 py-3 text-sm text-[#1A1A1A] placeholder:text-[#8C8A85] focus:border-[#2C2C2C] focus:bg-[#FFFFFF] focus:outline-none"
                 />
-                <BuildingIcon className="absolute left-3.5 top-3.5 h-4 w-4 text-slate-500" />
+                <BuildingIcon className="absolute left-3.5 top-3.5 h-4 w-4 text-[#8C8A85]" />
               </div>
             </div>
 
             {/* Leader Full Name */}
             <div>
-              <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-slate-300">
-                Team Leader Full Name <span className="text-cyan-400">*</span>
+              <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[#1A1A1A]">
+                Team Leader Full Name <span className="text-[#C5A059]">*</span>
               </label>
               <input
                 type="text"
@@ -486,14 +484,14 @@ export function RegistrationForm({
                 value={leaderName}
                 onChange={(e) => setLeaderName(e.target.value)}
                 placeholder="e.g. Poovarasasn A"
-                className="w-full rounded-xl border border-slate-700 bg-slate-900/90 px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400"
+                className="w-full rounded-xl border border-[#E5E4E2] bg-[#F9F8F6] px-4 py-3 text-sm text-[#1A1A1A] placeholder:text-[#8C8A85] focus:border-[#2C2C2C] focus:bg-[#FFFFFF] focus:outline-none"
               />
             </div>
 
             {/* Leader WhatsApp Phone */}
             <div>
-              <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-slate-300">
-                Leader WhatsApp Phone <span className="text-cyan-400">*</span>
+              <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[#1A1A1A]">
+                Leader WhatsApp Phone <span className="text-[#C5A059]">*</span>
               </label>
               <div className="relative">
                 <input
@@ -502,22 +500,22 @@ export function RegistrationForm({
                   value={leaderPhone}
                   onChange={(e) => setLeaderPhone(e.target.value)}
                   placeholder="e.g. 9876543210"
-                  className="w-full rounded-xl border border-slate-700 bg-slate-900/90 pl-10 pr-4 py-3 font-mono text-sm text-white placeholder:text-slate-600 focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400"
+                  className="w-full rounded-xl border border-[#E5E4E2] bg-[#F9F8F6] pl-10 pr-4 py-3 font-mono text-sm text-[#1A1A1A] placeholder:text-[#8C8A85] focus:border-[#2C2C2C] focus:bg-[#FFFFFF] focus:outline-none"
                 />
-                <PhoneIcon className="absolute left-3.5 top-3.5 h-4 w-4 text-slate-500" />
+                <PhoneIcon className="absolute left-3.5 top-3.5 h-4 w-4 text-[#8C8A85]" />
               </div>
             </div>
 
             {/* Leader Email Address (with One-Time Unique Constraint) */}
             <div>
               <div className="mb-2 flex items-center justify-between">
-                <label className="text-xs font-semibold uppercase tracking-wider text-slate-300">
-                  Leader Email Address <span className="text-cyan-400">*</span>
+                <label className="text-xs font-semibold uppercase tracking-wider text-[#1A1A1A]">
+                  Leader Email Address <span className="text-[#C5A059]">*</span>
                 </label>
                 {isCheckingEmail && (
-                  <span className="inline-flex items-center gap-1 text-[10px] text-cyan-400 font-mono">
+                  <span className="inline-flex items-center gap-1 text-[10px] text-[#C5A059] font-mono font-semibold">
                     <Loader2Icon className="h-3 w-3 animate-spin" />
-                    Checking availability...
+                    Checking email...
                   </span>
                 )}
               </div>
@@ -532,21 +530,21 @@ export function RegistrationForm({
                   }}
                   onBlur={handleLeaderEmailBlur}
                   placeholder="e.g. leader@college.edu"
-                  className={`w-full rounded-xl border bg-slate-900/90 pl-10 pr-4 py-3 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:ring-1 ${
+                  className={`w-full rounded-xl border pl-10 pr-4 py-3 text-sm text-[#1A1A1A] placeholder:text-[#8C8A85] focus:outline-none ${
                     emailWarning
-                      ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
-                      : 'border-slate-700 focus:border-cyan-400 focus:ring-cyan-400'
+                      ? 'border-red-500 bg-red-50/60 focus:border-red-500'
+                      : 'border-[#E5E4E2] bg-[#F9F8F6] focus:border-[#2C2C2C] focus:bg-[#FFFFFF]'
                   }`}
                 />
-                <MailIcon className="absolute left-3.5 top-3.5 h-4 w-4 text-slate-500" />
+                <MailIcon className="absolute left-3.5 top-3.5 h-4 w-4 text-[#8C8A85]" />
               </div>
               {emailWarning ? (
-                <p className="mt-1.5 flex items-center gap-1.5 text-xs text-red-400 font-medium">
+                <p className="mt-1.5 flex items-center gap-1.5 text-xs text-red-600 font-medium">
                   <AlertTriangleIcon className="h-3.5 w-3.5 shrink-0" />
                   <span>{emailWarning}</span>
                 </p>
               ) : (
-                <p className="mt-1 text-[11px] text-slate-500">
+                <p className="mt-1 text-[11px] text-[#8C8A85]">
                   Strict One-Time Email: Each participant email can only register once.
                 </p>
               )}
@@ -555,8 +553,8 @@ export function RegistrationForm({
             {/* Department (if applicable) */}
             {event.requiresDepartment && (
               <div>
-                <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-slate-300">
-                  Department / Branch <span className="text-cyan-400">*</span>
+                <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[#1A1A1A]">
+                  Department / Branch <span className="text-[#C5A059]">*</span>
                 </label>
                 <select
                   required
@@ -565,7 +563,7 @@ export function RegistrationForm({
                     setDepartment(e.target.value);
                     setTrack('');
                   }}
-                  className="w-full rounded-xl border border-slate-700 bg-slate-900/90 px-4 py-3 text-sm text-white focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400"
+                  className="w-full rounded-xl border border-[#E5E4E2] bg-[#F9F8F6] px-4 py-3 text-sm text-[#1A1A1A] focus:border-[#2C2C2C] focus:bg-[#FFFFFF] focus:outline-none"
                 >
                   <option value="">Select your department...</option>
                   {DEPARTMENTS.map((dept) => (
@@ -579,14 +577,14 @@ export function RegistrationForm({
 
             {/* Challenge Track / Problem Statement Selection */}
             <div className="sm:col-span-2">
-              <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-slate-300">
-                Challenge Track / Problem Statement <span className="text-cyan-400">*</span>
+              <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[#1A1A1A]">
+                Challenge Track / Problem Statement <span className="text-[#C5A059]">*</span>
               </label>
               <select
                 required
                 value={track}
                 onChange={(e) => setTrack(e.target.value)}
-                className="w-full rounded-xl border border-slate-700 bg-slate-900/90 px-4 py-3 text-sm text-white focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400"
+                className="w-full rounded-xl border border-[#E5E4E2] bg-[#F9F8F6] px-4 py-3 text-sm text-[#1A1A1A] focus:border-[#2C2C2C] focus:bg-[#FFFFFF] focus:outline-none"
               >
                 <option value="">Select an innovation track to build in...</option>
                 {tracksAvailable.map((t) => {
@@ -602,13 +600,13 @@ export function RegistrationForm({
           </div>
 
           {/* Action Button */}
-          <div className="flex justify-end pt-4 border-t border-cyan-500/20">
+          <div className="flex justify-end pt-4 border-t border-[#E5E4E2]">
             <button
               type="submit"
-              className="inline-flex items-center gap-2 rounded-xl bg-cyan-400 px-6 py-3.5 text-sm font-bold uppercase tracking-wider text-slate-950 shadow-lg shadow-cyan-400/20 transition-all hover:bg-cyan-300 hover:shadow-cyan-400/40"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#2C2C2C] px-7 py-3.5 text-xs font-bold uppercase tracking-wider text-[#F9F8F6] shadow-luxury hover:bg-[#1A1A1A] transition-all"
             >
               <span>Next: Squad Members</span>
-              <ArrowRightIcon className="h-4 w-4" />
+              <ArrowRightIcon className="h-4 w-4 text-[#C5A059]" />
             </button>
           </div>
         </form>
@@ -618,31 +616,31 @@ export function RegistrationForm({
       {/* STEP 02: SQUAD MEMBERS DETAILS */}
       {/* ───────────────────────────────────────────────────────────── */}
       {currentStep === 'step2_members' && (
-        <form onSubmit={handleGoToStep3} className="space-y-6 rounded-2xl border border-cyan-500/25 bg-[#080e22]/80 p-6 sm:p-8 shadow-2xl backdrop-blur-xl">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-cyan-500/20 pb-4">
+        <form onSubmit={handleGoToStep3} className="space-y-6 rounded-2xl border border-[#E5E4E2] bg-[#FFFFFF] p-6 sm:p-8 shadow-luxury">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E5E4E2] pb-4">
             <div>
-              <h3 className="font-display text-lg font-bold text-white uppercase tracking-wide flex items-center gap-2">
-                <UserCheckIcon className="h-5 w-5 text-cyan-400" />
+              <h3 className="font-display text-lg font-bold text-[#1A1A1A] uppercase tracking-wide flex items-center gap-2">
+                <UserCheckIcon className="h-5 w-5 text-[#C5A059]" />
                 <span>Step 02: Squad Members Breakdown</span>
               </h3>
-              <p className="mt-1 text-xs text-slate-400">
+              <p className="mt-1 text-xs text-[#4A4A4A]">
                 Leader is registered as Member #1. Configure additional squad members below.
               </p>
             </div>
 
             {/* Member Count Selector */}
             <div className="flex items-center gap-2">
-              <span className="text-xs font-mono text-slate-400 uppercase">Squad Size:</span>
-              <div className="inline-flex rounded-xl border border-slate-700 bg-slate-900 p-1">
+              <span className="text-xs font-mono text-[#8C8A85] uppercase">Squad Size:</span>
+              <div className="inline-flex rounded-xl border border-[#E5E4E2] bg-[#F9F8F6] p-1">
                 {event.memberCounts.map((count) => (
                   <button
                     key={count}
                     type="button"
                     onClick={() => handleMemberCountChange(count)}
-                    className={`rounded-lg px-3 py-1 font-mono text-xs font-bold transition-all ${
+                    className={`rounded-lg px-3.5 py-1 font-mono text-xs font-bold transition-all ${
                       memberCount === count
-                        ? 'bg-cyan-400 text-slate-950 shadow-sm'
-                        : 'text-slate-400 hover:text-white'
+                        ? 'bg-[#2C2C2C] text-white shadow-sm'
+                        : 'text-[#4A4A4A] hover:text-[#1A1A1A]'
                     }`}
                   >
                     {count} Members
@@ -653,17 +651,17 @@ export function RegistrationForm({
           </div>
 
           {/* Member 1: Leader (Preview) */}
-          <div className="rounded-xl border border-cyan-500/30 bg-cyan-950/20 p-4">
+          <div className="rounded-xl border border-[#D8D7D5] bg-[#F9F8F6] p-4">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-cyan-400 text-slate-950 font-mono text-xs font-bold">
+              <div className="flex items-center gap-2.5">
+                <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-[#2C2C2C] text-white font-mono text-xs font-bold">
                   01
                 </span>
-                <span className="font-display text-sm font-bold text-white">
+                <span className="font-display text-sm font-bold text-[#1A1A1A]">
                   {leaderName || 'Team Leader'} (Leader)
                 </span>
               </div>
-              <span className="font-mono text-xs text-cyan-400 font-semibold">{leaderEmail}</span>
+              <span className="font-mono text-xs text-[#C5A059] font-bold">{leaderEmail}</span>
             </div>
           </div>
 
@@ -674,23 +672,23 @@ export function RegistrationForm({
               return (
                 <div
                   key={index}
-                  className="rounded-xl border border-slate-800 bg-slate-900/60 p-4 sm:p-5 transition-all hover:border-cyan-500/30"
+                  className="rounded-xl border border-[#E5E4E2] bg-[#F9F8F6] p-4 sm:p-5 transition-all hover:border-[#D8D7D5]"
                 >
                   <div className="mb-3 flex items-center justify-between">
-                    <span className="flex items-center gap-2 font-display text-xs font-bold uppercase tracking-wider text-cyan-300">
-                      <span className="flex h-5 w-5 items-center justify-center rounded-md bg-slate-800 font-mono text-[10px] text-slate-300">
+                    <span className="flex items-center gap-2 font-display text-xs font-bold uppercase tracking-wider text-[#1A1A1A]">
+                      <span className="flex h-5 w-5 items-center justify-center rounded-md bg-[#FFFFFF] border border-[#E5E4E2] font-mono text-[10px] text-[#4A4A4A]">
                         {memberNum.toString().padStart(2, '0')}
                       </span>
                       <span>Squad Member #{memberNum}</span>
                     </span>
-                    <span className="text-[10px] font-mono text-slate-500">Student Identity</span>
+                    <span className="text-[10px] font-mono text-[#8C8A85]">Student Identity</span>
                   </div>
 
                   <div className="grid gap-3 sm:grid-cols-3">
                     {/* Full Name */}
                     <div>
-                      <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-400">
-                        Full Name <span className="text-cyan-400">*</span>
+                      <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-[#4A4A4A]">
+                        Full Name <span className="text-[#C5A059]">*</span>
                       </label>
                       <input
                         type="text"
@@ -698,13 +696,13 @@ export function RegistrationForm({
                         value={member.name}
                         onChange={(e) => updateSquadMember(index, { name: e.target.value })}
                         placeholder={`Member #${memberNum} Full Name`}
-                        className="w-full rounded-lg border border-slate-700 bg-slate-800/90 px-3 py-2 text-xs text-white placeholder:text-slate-600 focus:border-cyan-400 focus:outline-none"
+                        className="w-full rounded-lg border border-[#E5E4E2] bg-[#FFFFFF] px-3 py-2 text-xs text-[#1A1A1A] placeholder:text-[#8C8A85] focus:border-[#2C2C2C] focus:outline-none"
                       />
                     </div>
 
                     {/* Email */}
                     <div>
-                      <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+                      <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-[#4A4A4A]">
                         Email Address
                       </label>
                       <input
@@ -712,13 +710,13 @@ export function RegistrationForm({
                         value={member.email || ''}
                         onChange={(e) => updateSquadMember(index, { email: e.target.value })}
                         placeholder="student@college.edu"
-                        className="w-full rounded-lg border border-slate-700 bg-slate-800/90 px-3 py-2 text-xs text-white placeholder:text-slate-600 focus:border-cyan-400 focus:outline-none"
+                        className="w-full rounded-lg border border-[#E5E4E2] bg-[#FFFFFF] px-3 py-2 text-xs text-[#1A1A1A] placeholder:text-[#8C8A85] focus:border-[#2C2C2C] focus:outline-none"
                       />
                     </div>
 
                     {/* Department / Roll No */}
                     <div>
-                      <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+                      <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-[#4A4A4A]">
                         Roll No. / Department
                       </label>
                       <input
@@ -731,7 +729,7 @@ export function RegistrationForm({
                           })
                         }
                         placeholder="e.g. 21CS045 / CSE"
-                        className="w-full rounded-lg border border-slate-700 bg-slate-800/90 px-3 py-2 text-xs text-white placeholder:text-slate-600 focus:border-cyan-400 focus:outline-none"
+                        className="w-full rounded-lg border border-[#E5E4E2] bg-[#FFFFFF] px-3 py-2 text-xs text-[#1A1A1A] placeholder:text-[#8C8A85] focus:border-[#2C2C2C] focus:outline-none"
                       />
                     </div>
                   </div>
@@ -741,21 +739,21 @@ export function RegistrationForm({
           </div>
 
           {/* Action Buttons */}
-          <div className="flex items-center justify-between pt-4 border-t border-cyan-500/20">
+          <div className="flex items-center justify-between pt-4 border-t border-[#E5E4E2]">
             <button
               type="button"
               onClick={() => setCurrentStep('step1_squad')}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-800 px-4 py-2.5 text-xs font-semibold text-slate-300 hover:border-slate-500 hover:text-white"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-[#D8D7D5] bg-[#F3F1ED] px-4 py-2.5 text-xs font-semibold text-[#4A4A4A] hover:bg-[#E5E4E2] hover:text-[#1A1A1A]"
             >
               <ArrowLeftIcon className="h-3.5 w-3.5" />
               <span>Back: Squad Identity</span>
             </button>
             <button
               type="submit"
-              className="inline-flex items-center gap-2 rounded-xl bg-cyan-400 px-6 py-3 text-sm font-bold uppercase tracking-wider text-slate-950 shadow-lg shadow-cyan-400/20 hover:bg-cyan-300"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#2C2C2C] px-7 py-3 text-xs font-bold uppercase tracking-wider text-[#F9F8F6] shadow-luxury hover:bg-[#1A1A1A]"
             >
               <span>Next: Terms &amp; Rules</span>
-              <ArrowRightIcon className="h-4 w-4" />
+              <ArrowRightIcon className="h-4 w-4 text-[#C5A059]" />
             </button>
           </div>
         </form>
@@ -765,38 +763,38 @@ export function RegistrationForm({
       {/* STEP 03: TERMS & CONDITIONS */}
       {/* ───────────────────────────────────────────────────────────── */}
       {currentStep === 'step3_terms' && (
-        <form onSubmit={handleGoToStep4} className="space-y-6 rounded-2xl border border-cyan-500/25 bg-[#080e22]/80 p-6 sm:p-8 shadow-2xl backdrop-blur-xl">
-          <div className="border-b border-cyan-500/20 pb-3">
-            <h3 className="font-display text-lg font-bold text-white uppercase tracking-wide flex items-center gap-2">
-              <FileTextIcon className="h-5 w-5 text-cyan-400" />
+        <form onSubmit={handleGoToStep4} className="space-y-6 rounded-2xl border border-[#E5E4E2] bg-[#FFFFFF] p-6 sm:p-8 shadow-luxury">
+          <div className="border-b border-[#E5E4E2] pb-3">
+            <h3 className="font-display text-lg font-bold text-[#1A1A1A] uppercase tracking-wide flex items-center gap-2">
+              <FileTextIcon className="h-5 w-5 text-[#C5A059]" />
               <span>Step 03: Terms &amp; Code of Conduct</span>
             </h3>
-            <p className="mt-1 text-xs text-slate-400">
+            <p className="mt-1 text-xs text-[#4A4A4A]">
               Please review and agree to the official RYVANTA Hackathon &amp; Innovation Challenge rules.
             </p>
           </div>
 
           {/* Rules List Box */}
-          <div className="space-y-3 rounded-xl border border-slate-800 bg-slate-900/80 p-4 sm:p-6 text-xs text-slate-300 max-h-72 overflow-y-auto">
+          <div className="space-y-3 rounded-xl border border-[#E5E4E2] bg-[#F9F8F6] p-4 sm:p-6 text-xs text-[#4A4A4A] max-h-72 overflow-y-auto">
             {HACKATHON_RULES.map((rule, idx) => (
               <div key={idx} className="flex items-start gap-2.5">
-                <CheckCircle2Icon className="h-4 w-4 text-cyan-400 shrink-0 mt-0.5" />
+                <CheckCircle2Icon className="h-4 w-4 text-[#C5A059] shrink-0 mt-0.5" />
                 <p className="leading-relaxed">{rule}</p>
               </div>
             ))}
           </div>
 
           {/* Agreement Checkbox */}
-          <label className="flex items-start gap-3 rounded-xl border border-cyan-500/30 bg-cyan-950/20 p-4 cursor-pointer hover:bg-cyan-950/30 transition-colors">
+          <label className="flex items-start gap-3 rounded-xl border border-[#D8D7D5] bg-[#F3F1ED] p-4 cursor-pointer hover:bg-[#E5E4E2]/60 transition-colors">
             <input
               type="checkbox"
               required
               checked={termsAccepted}
               onChange={(e) => setTermsAccepted(e.target.checked)}
-              className="h-5 w-5 rounded border-slate-700 bg-slate-900 text-cyan-400 focus:ring-cyan-400 mt-0.5"
+              className="h-5 w-5 rounded border-[#D8D7D5] text-[#2C2C2C] focus:ring-[#C5A059] mt-0.5"
             />
-            <div className="text-xs text-slate-200">
-              <span className="font-bold block text-white">Declaration &amp; Agreement</span>
+            <div className="text-xs text-[#4A4A4A]">
+              <span className="font-bold block text-[#1A1A1A]">Declaration &amp; Agreement</span>
               <span>
                 I hereby declare that all provided squad details are accurate and all squad members agree to follow the RYVANTA Hackathon rules, originality policies, and campus code of conduct.
               </span>
@@ -804,11 +802,11 @@ export function RegistrationForm({
           </label>
 
           {/* Action Buttons */}
-          <div className="flex items-center justify-between pt-4 border-t border-cyan-500/20">
+          <div className="flex items-center justify-between pt-4 border-t border-[#E5E4E2]">
             <button
               type="button"
               onClick={() => setCurrentStep('step2_members')}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-800 px-4 py-2.5 text-xs font-semibold text-slate-300 hover:border-slate-500 hover:text-white"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-[#D8D7D5] bg-[#F3F1ED] px-4 py-2.5 text-xs font-semibold text-[#4A4A4A] hover:bg-[#E5E4E2] hover:text-[#1A1A1A]"
             >
               <ArrowLeftIcon className="h-3.5 w-3.5" />
               <span>Back: Members</span>
@@ -816,10 +814,10 @@ export function RegistrationForm({
             <button
               type="submit"
               disabled={!termsAccepted}
-              className="inline-flex items-center gap-2 rounded-xl bg-cyan-400 px-6 py-3 text-sm font-bold uppercase tracking-wider text-slate-950 shadow-lg shadow-cyan-400/20 hover:bg-cyan-300 disabled:opacity-50"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#2C2C2C] px-7 py-3 text-xs font-bold uppercase tracking-wider text-[#F9F8F6] shadow-luxury hover:bg-[#1A1A1A] disabled:opacity-50"
             >
               <span>Next: Review Details</span>
-              <ArrowRightIcon className="h-4 w-4" />
+              <ArrowRightIcon className="h-4 w-4 text-[#C5A059]" />
             </button>
           </div>
         </form>
@@ -829,51 +827,51 @@ export function RegistrationForm({
       {/* STEP 04: REVIEW DETAILS */}
       {/* ───────────────────────────────────────────────────────────── */}
       {currentStep === 'step4_review' && (
-        <div className="space-y-6 rounded-2xl border border-cyan-500/25 bg-[#080e22]/80 p-6 sm:p-8 shadow-2xl backdrop-blur-xl">
-          <div className="border-b border-cyan-500/20 pb-3">
-            <h3 className="font-display text-lg font-bold text-white uppercase tracking-wide flex items-center gap-2">
-              <LayersIcon className="h-5 w-5 text-cyan-400" />
+        <div className="space-y-6 rounded-2xl border border-[#E5E4E2] bg-[#FFFFFF] p-6 sm:p-8 shadow-luxury">
+          <div className="border-b border-[#E5E4E2] pb-3">
+            <h3 className="font-display text-lg font-bold text-[#1A1A1A] uppercase tracking-wide flex items-center gap-2">
+              <LayersIcon className="h-5 w-5 text-[#C5A059]" />
               <span>Step 04: Review Registration Summary</span>
             </h3>
-            <p className="mt-1 text-xs text-slate-400">
+            <p className="mt-1 text-xs text-[#4A4A4A]">
               Double-check your squad information before proceeding to the final payment gate.
             </p>
           </div>
 
-          {/* Holographic Summary Card */}
+          {/* Summary Cards */}
           <div className="grid gap-4 sm:grid-cols-2">
             {/* Squad Info */}
-            <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-4 space-y-2">
-              <span className="font-mono text-[10px] uppercase font-bold tracking-widest text-cyan-400">
+            <div className="rounded-xl border border-[#E5E4E2] bg-[#F9F8F6] p-4 space-y-2">
+              <span className="font-mono text-[10px] uppercase font-bold tracking-widest text-[#8C8A85]">
                 Squad Identity
               </span>
-              <div className="font-display text-base font-bold text-white">{teamName}</div>
-              <div className="text-xs text-slate-400">{institution}</div>
-              <div className="mt-2 rounded-lg bg-slate-800/80 p-2 text-xs font-mono text-cyan-300">
+              <div className="font-display text-base font-bold text-[#1A1A1A]">{teamName}</div>
+              <div className="text-xs text-[#4A4A4A]">{institution}</div>
+              <div className="mt-2 rounded-lg bg-[#FFFFFF] border border-[#E5E4E2] p-2 text-xs font-mono text-[#C5A059] font-bold">
                 Track: {track}
               </div>
             </div>
 
             {/* Leader Info */}
-            <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-4 space-y-2">
-              <span className="font-mono text-[10px] uppercase font-bold tracking-widest text-cyan-400">
+            <div className="rounded-xl border border-[#E5E4E2] bg-[#F9F8F6] p-4 space-y-2">
+              <span className="font-mono text-[10px] uppercase font-bold tracking-widest text-[#8C8A85]">
                 Team Leader Contact
               </span>
-              <div className="font-display text-base font-bold text-white">{leaderName}</div>
-              <div className="text-xs font-mono text-slate-300">{leaderEmail}</div>
-              <div className="text-xs font-mono text-slate-400">WhatsApp: {leaderPhone}</div>
+              <div className="font-display text-base font-bold text-[#1A1A1A]">{leaderName}</div>
+              <div className="text-xs font-mono text-[#4A4A4A]">{leaderEmail}</div>
+              <div className="text-xs font-mono text-[#8C8A85]">WhatsApp: {leaderPhone}</div>
             </div>
 
             {/* Squad Members */}
-            <div className="sm:col-span-2 rounded-xl border border-slate-800 bg-slate-900/60 p-4 space-y-3">
+            <div className="sm:col-span-2 rounded-xl border border-[#E5E4E2] bg-[#F9F8F6] p-4 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="font-mono text-[10px] uppercase font-bold tracking-widest text-cyan-400">
+                <span className="font-mono text-[10px] uppercase font-bold tracking-widest text-[#8C8A85]">
                   All Squad Participants ({memberCount} Members)
                 </span>
                 <button
                   type="button"
                   onClick={() => setCurrentStep('step2_members')}
-                  className="text-xs font-semibold text-cyan-400 hover:underline"
+                  className="text-xs font-bold text-[#C5A059] hover:underline"
                 >
                   Edit Members
                 </button>
@@ -881,18 +879,18 @@ export function RegistrationForm({
 
               <div className="grid gap-2 sm:grid-cols-2">
                 {/* Leader */}
-                <div className="rounded-lg border border-cyan-500/20 bg-cyan-950/20 p-2.5 text-xs">
-                  <span className="font-bold text-white block">{leaderName} (Leader)</span>
-                  <span className="text-[11px] font-mono text-slate-400">{leaderEmail}</span>
+                <div className="rounded-lg border border-[#D8D7D5] bg-[#FFFFFF] p-3 text-xs">
+                  <span className="font-bold text-[#1A1A1A] block">{leaderName} (Leader)</span>
+                  <span className="text-[11px] font-mono text-[#8C8A85]">{leaderEmail}</span>
                 </div>
 
                 {/* Other members */}
                 {squadMembers.map((m, idx) => (
-                  <div key={idx} className="rounded-lg border border-slate-800 bg-slate-800/50 p-2.5 text-xs">
-                    <span className="font-bold text-white block">
+                  <div key={idx} className="rounded-lg border border-[#E5E4E2] bg-[#FFFFFF] p-3 text-xs">
+                    <span className="font-bold text-[#1A1A1A] block">
                       {m.name || `Member #${idx + 2}`}
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400">
+                    <span className="text-[11px] font-mono text-[#8C8A85]">
                       {m.email || 'Participant'} {m.rollNo ? `(${m.rollNo})` : ''}
                     </span>
                   </div>
@@ -901,27 +899,27 @@ export function RegistrationForm({
             </div>
 
             {/* Fee Summary */}
-            <div className="sm:col-span-2 flex items-center justify-between rounded-xl border border-cyan-500/30 bg-cyan-950/30 p-4">
+            <div className="sm:col-span-2 flex items-center justify-between rounded-xl border border-[#D8D7D5] bg-[#F3F1ED] p-4">
               <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-300 block">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#1A1A1A] block">
                   Total Registration Fee
                 </span>
-                <span className="text-[11px] text-slate-400">
-                  Flat entry fee for the full squad
+                <span className="text-[11px] text-[#4A4A4A]">
+                  Flat entry fee for the entire squad
                 </span>
               </div>
-              <div className="font-display text-2xl font-black text-cyan-300">
+              <div className="font-display text-2xl font-black text-[#1A1A1A]">
                 ₹{REGISTRATION_FEE}
               </div>
             </div>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex items-center justify-between pt-4 border-t border-cyan-500/20">
+          <div className="flex items-center justify-between pt-4 border-t border-[#E5E4E2]">
             <button
               type="button"
               onClick={() => setCurrentStep('step3_terms')}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-800 px-4 py-2.5 text-xs font-semibold text-slate-300 hover:border-slate-500 hover:text-white"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-[#D8D7D5] bg-[#F3F1ED] px-4 py-2.5 text-xs font-semibold text-[#4A4A4A] hover:bg-[#E5E4E2] hover:text-[#1A1A1A]"
             >
               <ArrowLeftIcon className="h-3.5 w-3.5" />
               <span>Back: Terms</span>
@@ -929,10 +927,10 @@ export function RegistrationForm({
             <button
               type="button"
               onClick={handleGoToStep5}
-              className="inline-flex items-center gap-2 rounded-xl bg-cyan-400 px-6 py-3 text-sm font-bold uppercase tracking-wider text-slate-950 shadow-lg shadow-cyan-400/20 hover:bg-cyan-300"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#2C2C2C] px-7 py-3 text-xs font-bold uppercase tracking-wider text-[#F9F8F6] shadow-luxury hover:bg-[#1A1A1A]"
             >
               <span>Proceed to Payment</span>
-              <ArrowRightIcon className="h-4 w-4" />
+              <ArrowRightIcon className="h-4 w-4 text-[#C5A059]" />
             </button>
           </div>
         </div>
@@ -957,29 +955,29 @@ export function RegistrationForm({
           />
 
           {/* Live Automated Verification Progress Bar */}
-          <div className="space-y-3 rounded-2xl border border-cyan-500/30 bg-[#080e22]/90 p-5 text-xs shadow-2xl backdrop-blur-xl">
+          <div className="space-y-3 rounded-2xl border border-[#E5E4E2] bg-[#FFFFFF] p-5 text-xs shadow-luxury">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 {isSubmitting ? (
-                  <Loader2Icon className="h-4 w-4 animate-spin text-cyan-400" />
+                  <Loader2Icon className="h-4 w-4 animate-spin text-[#C5A059]" />
                 ) : (
-                  <div className="h-2.5 w-2.5 rounded-full bg-cyan-400 animate-ping" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-ping" />
                 )}
-                <span className="font-semibold text-white">
+                <span className="font-semibold text-[#1A1A1A]">
                   {isSubmitting
                     ? verificationStatusText
-                    : 'Awaiting Payment Confirmation: Scan QR above or Pay via UPI App'}
+                    : 'Awaiting Payment: Scan QR above or Pay via UPI App'}
                 </span>
               </div>
-              <span className="font-mono text-xs font-bold text-cyan-400">
+              <span className="font-mono text-xs font-bold text-[#C5A059]">
                 {isSubmitting ? `${verificationProgress}%` : 'READY'}
               </span>
             </div>
 
             {isSubmitting && (
-              <div className="h-2 w-full overflow-hidden rounded-full bg-slate-900">
+              <div className="h-2 w-full overflow-hidden rounded-full bg-[#E5E4E2]">
                 <div
-                  className="h-full bg-gradient-to-r from-cyan-400 to-emerald-400 transition-all duration-300 ease-out shadow-[0_0_12px_#00f0ff]"
+                  className="h-full bg-gradient-to-r from-[#C5A059] to-emerald-500 transition-all duration-300 ease-out shadow-sm"
                   style={{ width: `${verificationProgress}%` }}
                 />
               </div>
@@ -992,7 +990,7 @@ export function RegistrationForm({
               type="button"
               onClick={() => setCurrentStep('step4_review')}
               disabled={isSubmitting}
-              className="inline-flex w-full sm:w-auto items-center justify-center gap-1.5 rounded-xl border border-slate-700 bg-slate-800 px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-slate-300 transition-colors hover:border-slate-500 hover:text-white disabled:opacity-50"
+              className="inline-flex w-full sm:w-auto items-center justify-center gap-1.5 rounded-xl border border-[#D8D7D5] bg-[#F3F1ED] px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-[#4A4A4A] hover:bg-[#E5E4E2] hover:text-[#1A1A1A] disabled:opacity-50"
             >
               <ArrowLeftIcon className="h-4 w-4" />
               <span>Review Details</span>
@@ -1002,17 +1000,17 @@ export function RegistrationForm({
               type="button"
               onClick={() => void handleFinalSubmission()}
               disabled={isSubmitting}
-              className="inline-flex flex-1 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 px-6 py-4 text-sm font-black uppercase tracking-wider text-slate-950 shadow-xl shadow-cyan-400/20 transition-all hover:from-cyan-300 hover:to-white disabled:cursor-not-allowed disabled:opacity-50"
+              className="inline-flex flex-1 w-full items-center justify-center gap-2 rounded-xl bg-[#2C2C2C] px-6 py-4 text-xs font-black uppercase tracking-wider text-[#F9F8F6] shadow-luxury transition-all hover:bg-[#1A1A1A] disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isSubmitting ? (
                 <>
-                  <Loader2Icon className="h-4 w-4 animate-spin" />
+                  <Loader2Icon className="h-4 w-4 animate-spin text-[#C5A059]" />
                   <span>{verificationStatusText || 'Verifying Transaction...'}</span>
                 </>
               ) : (
                 <>
-                  <ShieldCheckIcon className="h-5 w-5 text-slate-950" />
-                  <span>I Have Completed Payment — Generate Student ID &amp; Gate Pass</span>
+                  <ShieldCheckIcon className="h-5 w-5 text-[#C5A059]" />
+                  <span>I Have Completed Payment — Generate Student Pass</span>
                 </>
               )}
             </button>

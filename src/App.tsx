@@ -25,27 +25,27 @@ export function App() {
   return (
     <BrowserRouter>
       <RegistrationsProvider>
-        <div className="relative min-h-screen w-full flex-col bg-[#030712] overflow-x-hidden text-slate-200">
-          {/* Interactive Futuristic Cursor */}
+        <div className="relative min-h-screen w-full flex-col bg-[#F9F8F6] overflow-x-hidden text-[#4A4A4A] selection:bg-[#C5A059] selection:text-white">
+          {/* Interactive Luxury Champagne / Platinum Cursor */}
           <CyberCursor />
 
-          {/* Ambient Cyber Neural Particle Wave Background Layer */}
+          {/* Ambient Luxury Particle Wave Background Layer with Soft Blend */}
           <div
-            className="pointer-events-none fixed inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-35 mix-blend-screen"
+            className="pointer-events-none fixed inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-[0.06] mix-blend-multiply"
             style={{
               backgroundImage: 'url(/cyber-bg.jpg)',
               backgroundAttachment: 'fixed'
             }}
           />
 
-          {/* Deep dark gradient overlay for crystal clear contrast */}
-          <div className="pointer-events-none fixed inset-0 z-0 bg-gradient-to-b from-[#030712]/70 via-[#030712]/85 to-[#030712]" />
+          {/* Warm ivory cream gradient glow */}
+          <div className="pointer-events-none fixed inset-0 z-0 bg-gradient-to-b from-transparent via-[#F9F8F6]/60 to-[#F9F8F6]" />
 
           {/* Main App Content Layout */}
           <div className="relative z-10 flex min-h-screen flex-col">
             <Header onOpenAdmin={() => setIsAdminOpen(true)} />
 
-            <main className="mx-auto w-full max-w-7xl flex-grow px-4 sm:px-6 lg:px-8">
+            <main className="mx-auto w-full max-w-7xl flex-grow px-4 sm:px-6 lg:px-8 py-4">
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/events" element={<Events />} />

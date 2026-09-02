@@ -8,74 +8,90 @@
 
 /* END TAILWIND IMPORTS — ALL OTHER CSS MUST GO BELOW THIS LINE */
 
+:root {
+  --background: #F9F8F6;
+  --card: #F3F1ED;
+  --surface-elevated: #FFFFFF;
+  --border-subtle: #E5E4E2;
+  --border-accent: #D8D7D5;
+  --text-primary: #1A1A1A;
+  --text-secondary: #4A4A4A;
+  --text-muted: #8C8A85;
+  --accent-gold: #C5A059;
+  --luxury-noir: #2C2C2C;
+}
+
 html {
-  background-color: #030712;
+  background-color: #F9F8F6;
+  color: #1A1A1A;
   scroll-behavior: smooth;
 }
 
 body {
-  background-color: #030712;
-  color: #94a3b8;
+  background-color: #F9F8F6;
+  color: #4A4A4A;
   -webkit-font-smoothing: antialiased;
   background-image: 
-    radial-gradient(circle at 50% 0%, rgba(0, 240, 255, 0.07) 0%, transparent 50%),
-    radial-gradient(circle at 100% 50%, rgba(139, 92, 246, 0.05) 0%, transparent 40%),
-    linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-  background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+    radial-gradient(circle at 50% 0%, rgba(197, 160, 89, 0.05) 0%, transparent 60%),
+    radial-gradient(circle at 100% 50%, rgba(216, 215, 213, 0.08) 0%, transparent 50%),
+    linear-gradient(to right, rgba(229, 228, 226, 0.4) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(229, 228, 226, 0.4) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 60px 60px, 60px 60px;
 }
 
 ::selection {
-  background-color: #00f0ff;
-  color: #030712;
+  background-color: #C5A059;
+  color: #FFFFFF;
 }
 
 *:focus-visible {
-  outline: 2px solid #00f0ff;
+  outline: 2px solid #C5A059;
   outline-offset: 2px;
 }
 
-/* Custom Cyber Scrollbar */
+/* Refined Luxury Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #030712;
+  background: #F9F8F6;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: #D8D7D5;
   border-radius: 4px;
-  border: 1px solid rgba(0, 240, 255, 0.2);
+  border: 2px solid #F9F8F6;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #00f0ff;
+  background: #C5A059;
 }
 
-/* Cyber Utilities */
-.cyber-glass {
-  background: rgba(8, 14, 30, 0.82);
+/* Glassmorphism & Luxury Cards */
+.luxury-glass {
+  background: rgba(243, 241, 237, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(0, 240, 255, 0.22);
+  border: 1px solid rgba(229, 228, 226, 0.9);
 }
 
-.cyber-card-glow {
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.65), 0 0 20px rgba(0, 240, 255, 0.15), inset 0 0 15px rgba(0, 240, 255, 0.04);
+.luxury-card {
+  background: #F3F1ED;
+  border: 1px solid #E5E4E2;
+  box-shadow: 0 10px 30px -10px rgba(26, 26, 26, 0.05), 0 1px 3px 0 rgba(0, 0, 0, 0.02);
 }
 
-.cyber-glow-text {
-  text-shadow: 0 0 15px rgba(0, 240, 255, 0.6), 0 0 30px rgba(0, 240, 255, 0.2);
+.glow-platinum {
+  box-shadow: 0 0 20px -2px rgba(216, 215, 213, 0.6);
 }
 
-.cyber-gradient-border {
-  border-image: linear-gradient(to bottom right, #00f0ff, rgba(0, 240, 255, 0.1), #8b5cf6) 1;
+.glow-gold {
+  box-shadow: 0 0 25px rgba(197, 160, 89, 0.25);
 }
 
 /* Print Optimization */
 @media print {
   body {
-    background: #ffffff !important;
+    background: #FFFFFF !important;
     background-image: none !important;
     color: #000000 !important;
   }
@@ -83,9 +99,9 @@ body {
     display: none !important;
   }
   .student-pass-root {
-    border: 2px solid #0f172a !important;
-    background: #ffffff !important;
-    color: #0f172a !important;
+    border: 2px solid #2C2C2C !important;
+    background: #FFFFFF !important;
+    color: #1A1A1A !important;
     box-shadow: none !important;
     page-break-inside: avoid;
     break-inside: avoid;
@@ -93,7 +109,7 @@ body {
     margin: 0 auto !important;
   }
   .student-pass-root * {
-    color: #0f172a !important;
-    border-color: #cbd5e1 !important;
+    color: #1A1A1A !important;
+    border-color: #E5E4E2 !important;
   }
 }
