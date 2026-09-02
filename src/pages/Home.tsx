@@ -16,7 +16,7 @@ export function Home() {
       <section className="grid gap-10 pt-10 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:items-end lg:gap-16">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-metallic">
-            National Technical Symposium &amp; Hackathon
+            National Level Tech Innovation Challenge
           </p>
           <h1 className="mt-5 font-display text-5xl font-black leading-[1.05] tracking-tight text-highlight sm:text-6xl lg:text-7xl">
             Innovate. Build.
