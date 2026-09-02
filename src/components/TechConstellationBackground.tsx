@@ -7,7 +7,7 @@ interface Point {
   vy: number;
   radius: number;
   baseAlpha: number;
-  isGold: boolean;
+  colorType: 'cyan' | 'electricBlue' | 'skyBlue' | 'accentOrange' | 'accentGreen';
 }
 
 export function TechConstellationBackground() {
@@ -23,11 +23,11 @@ export function TechConstellationBackground() {
     let width = 0;
     let height = 0;
 
-    // Mouse tracking for interactive constellation pull
+    // Mouse tracking for dynamic blue wave interactivity
     const mouse = {
       x: -1000,
       y: -1000,
-      radius: 160
+      radius: 180
     };
 
     let points: Point[] = [];
@@ -45,19 +45,31 @@ export function TechConstellationBackground() {
 
     function initPoints() {
       points = [];
-      const density = Math.floor((width * height) / 16000);
-      const count = Math.min(Math.max(density, 45), 90);
+      const density = Math.floor((width * height) / 14000);
+      const count = Math.min(Math.max(density, 55), 110);
+
+      const colorOptions: Point['colorType'][] = [
+        'cyan',
+        'electricBlue',
+        'skyBlue',
+        'cyan',
+        'electricBlue',
+        'accentOrange',
+        'accentGreen'
+      ];
 
       for (let i = 0; i < count; i++) {
-        const isGold = Math.random() > 0.35;
+        const colorType = colorOptions[Math.floor(Math.random() * colorOptions.length)];
+        const isAccent = colorType === 'accentOrange' || colorType === 'accentGreen';
+
         points.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          vx: (Math.random() - 0.5) * 0.45,
-          vy: (Math.random() - 0.5) * 0.45,
-          radius: isGold ? Math.random() * 1.6 + 1.2 : Math.random() * 1.2 + 0.8,
-          baseAlpha: Math.random() * 0.5 + 0.25,
-          isGold
+          vx: (Math.random() - 0.5) * 0.55,
+          vy: (Math.random() - 0.5) * 0.55,
+          radius: isAccent ? Math.random() * 1.8 + 1.2 : Math.random() * 1.5 + 0.9,
+          baseAlpha: Math.random() * 0.55 + 0.35,
+          colorType
         });
       }
     }
@@ -78,41 +90,64 @@ export function TechConstellationBackground() {
 
     resize();
 
-    const connectionDistance = 135;
+    const connectionDistance = 145;
+    let waveTime = 0;
 
     function render() {
       if (!ctx || !canvas) return;
 
-      // Clear canvas with subtle transparency for smooth trails
       ctx.clearRect(0, 0, width, height);
+      waveTime += 0.015;
 
-      // Render living constellation lines and nodes
       const len = points.length;
+
+      // Draw undulating glowing blue wave lines in background
+      ctx.beginPath();
+      ctx.strokeStyle = 'rgba(14, 165, 233, 0.08)';
+      ctx.lineWidth = 2;
+      for (let x = 0; x < width; x += 30) {
+        const y = height * 0.65 + Math.sin(x * 0.005 + waveTime) * 35 + Math.cos(x * 0.008 + waveTime * 1.2) * 20;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.strokeStyle = 'rgba(37, 99, 235, 0.06)';
+      ctx.lineWidth = 1.5;
+      for (let x = 0; x < width; x += 30) {
+        const y = height * 0.45 + Math.cos(x * 0.006 - waveTime * 0.8) * 30 + Math.sin(x * 0.004 + waveTime) * 15;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      // Render living blue particle constellation
       for (let i = 0; i < len; i++) {
         const p = points[i];
 
-        // Update movement
+        // Motion update
         p.x += p.vx;
         p.y += p.vy;
 
-        // Bounce on borders
+        // Bounce on boundary
         if (p.x < 0 || p.x > width) p.vx *= -1;
         if (p.y < 0 || p.y > height) p.vy *= -1;
 
-        // Mouse reaction: subtle attraction
+        // Mouse attraction
         if (mouse.x > 0 && mouse.y > 0) {
           const dx = mouse.x - p.x;
           const dy = mouse.y - p.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist < mouse.radius) {
-            const force = (1 - dist / mouse.radius) * 0.6;
+            const force = (1 - dist / mouse.radius) * 0.8;
             p.x += (dx / dist) * force;
             p.y += (dy / dist) * force;
           }
         }
 
-        // Draw connecting constellation lines
+        // Draw connecting electric blue lines
         for (let j = i + 1; j < len; j++) {
           const p2 = points[j];
           const dx = p.x - p2.x;
@@ -120,27 +155,42 @@ export function TechConstellationBackground() {
           const dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist < connectionDistance) {
-            const alpha = (1 - dist / connectionDistance) * 0.22;
+            const alpha = (1 - dist / connectionDistance) * 0.28;
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(212, 175, 55, ${alpha})`;
-            ctx.lineWidth = 0.85;
+            ctx.strokeStyle = `rgba(14, 165, 233, ${alpha})`;
+            ctx.lineWidth = 0.95;
             ctx.stroke();
           }
         }
 
-        // Draw point node
+        // Draw particle node
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        if (p.isGold) {
-          ctx.fillStyle = `rgba(212, 175, 55, ${p.baseAlpha})`;
-          ctx.shadowColor = 'rgba(212, 175, 55, 0.4)';
-          ctx.shadowBlur = 4;
+
+        if (p.colorType === 'cyan') {
+          ctx.fillStyle = `rgba(6, 182, 212, ${p.baseAlpha})`;
+          ctx.shadowColor = 'rgba(6, 182, 212, 0.5)';
+          ctx.shadowBlur = 6;
+        } else if (p.colorType === 'electricBlue') {
+          ctx.fillStyle = `rgba(14, 165, 233, ${p.baseAlpha})`;
+          ctx.shadowColor = 'rgba(14, 165, 233, 0.6)';
+          ctx.shadowBlur = 6;
+        } else if (p.colorType === 'skyBlue') {
+          ctx.fillStyle = `rgba(59, 130, 246, ${p.baseAlpha})`;
+          ctx.shadowColor = 'rgba(59, 130, 246, 0.5)';
+          ctx.shadowBlur = 5;
+        } else if (p.colorType === 'accentOrange') {
+          ctx.fillStyle = `rgba(255, 107, 0, ${p.baseAlpha * 1.1})`;
+          ctx.shadowColor = 'rgba(255, 107, 0, 0.6)';
+          ctx.shadowBlur = 6;
         } else {
-          ctx.fillStyle = `rgba(180, 160, 120, ${p.baseAlpha * 0.7})`;
-          ctx.shadowBlur = 0;
+          ctx.fillStyle = `rgba(16, 185, 129, ${p.baseAlpha * 1.1})`;
+          ctx.shadowColor = 'rgba(16, 185, 129, 0.6)';
+          ctx.shadowBlur = 6;
         }
+
         ctx.fill();
       }
 
@@ -162,7 +212,7 @@ export function TechConstellationBackground() {
     <canvas
       ref={canvasRef}
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 z-0 h-full w-full opacity-70"
+      className="pointer-events-none fixed inset-0 z-0 h-full w-full opacity-80"
     />
   );
 }

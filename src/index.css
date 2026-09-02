@@ -12,45 +12,51 @@
   --background: #FAFAFA;
   --card: #FFFFFF;
   --surface-elevated: #FFFFFF;
-  --border-subtle: #EAE6DF;
-  --border-accent: #D4AF37;
-  --text-primary: #1C1C1C;
-  --text-secondary: #383838;
-  --text-muted: #767676;
-  --regal-gold: #D4AF37;
-  --regal-gold-light: #FFD700;
+  --border-subtle: #E2E8F0;
+  --border-accent: #FF6B00;
+  --text-primary: #0F172A;
+  --text-secondary: #334155;
+  --text-muted: #64748B;
+  
+  --brand-orange: #FF6B00;
+  --brand-orange-light: #FB923C;
+  --brand-green: #10B981;
+  --brand-green-light: #34D399;
+  --brand-blue: #0EA5E9;
+  --brand-blue-deep: #2563EB;
 }
 
 html {
   background-color: #FAFAFA;
-  color: #1C1C1C;
+  color: #0F172A;
   scroll-behavior: smooth;
 }
 
 body {
   background-color: #FAFAFA;
-  color: #383838;
+  color: #334155;
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   background-image: 
-    radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.07) 0%, transparent 60%),
-    radial-gradient(circle at 100% 50%, rgba(234, 230, 223, 0.5) 0%, transparent 50%),
-    linear-gradient(to right, rgba(234, 230, 223, 0.4) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(234, 230, 223, 0.4) 1px, transparent 1px);
-  background-size: 100% 100%, 100% 100%, 60px 60px, 60px 60px;
+    radial-gradient(circle at 10% 0%, rgba(14, 165, 233, 0.08) 0%, transparent 45%),
+    radial-gradient(circle at 90% 20%, rgba(255, 107, 0, 0.06) 0%, transparent 45%),
+    radial-gradient(circle at 50% 80%, rgba(16, 185, 129, 0.06) 0%, transparent 50%),
+    linear-gradient(to right, rgba(226, 232, 240, 0.45) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(226, 232, 240, 0.45) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 50px 50px, 50px 50px;
 }
 
 ::selection {
-  background-color: #D4AF37;
+  background-color: #FF6B00;
   color: #FFFFFF;
 }
 
 *:focus-visible {
-  outline: 2px solid #D4AF37;
+  outline: 2px solid #FF6B00;
   outline-offset: 2px;
 }
 
-/* Regal Gold Scrollbar */
+/* Custom Vibrant Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -59,39 +65,60 @@ body {
   background: #FAFAFA;
 }
 ::-webkit-scrollbar-thumb {
-  background: #D4AF37;
+  background: linear-gradient(180deg, #FF6B00 0%, #10B981 100%);
   border-radius: 4px;
   border: 2px solid #FAFAFA;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #B8860B;
+  background: linear-gradient(180deg, #EA580C 0%, #059669 100%);
 }
 
-/* Regal Gold Gradients & Glassmorphism */
-.text-gold-gradient {
-  background: linear-gradient(135deg, #B8860B 0%, #D4AF37 50%, #AA820A 100%);
+/* Gradient Typography */
+.text-orange-gradient {
+  background: linear-gradient(135deg, #FF6B00 0%, #F97316 50%, #EA580C 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.gold-border-glow {
-  border: 1px solid rgba(212, 175, 55, 0.5);
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+.text-green-gradient {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.gold-border-glow:hover {
-  border-color: #D4AF37;
-  box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+.text-blue-gradient {
+  background: linear-gradient(135deg, #0EA5E9 0%, #2563EB 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.regal-card {
-  background: #FFFFFF;
-  border: 1px solid #EAE6DF;
-  box-shadow: 0 10px 30px -10px rgba(28, 28, 28, 0.06), 0 1px 3px 0 rgba(0, 0, 0, 0.02);
+.text-orange-green-gradient, .text-gold-gradient {
+  background: linear-gradient(135deg, #FF6B00 0%, #10B981 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.orange-border-glow {
+  border: 1px solid rgba(255, 107, 0, 0.5);
+  box-shadow: 0 0 20px rgba(255, 107, 0, 0.15);
+}
+
+.orange-border-glow:hover {
+  border-color: #FF6B00;
+  box-shadow: 0 0 30px rgba(255, 107, 0, 0.3);
+}
+
+.green-border-glow {
+  border: 1px solid rgba(16, 185, 129, 0.5);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
 }
 
 .shadow-luxury {
-  box-shadow: 0 10px 30px -10px rgba(28, 28, 28, 0.06), 0 1px 3px 0 rgba(0, 0, 0, 0.02);
+  box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.08), 0 1px 3px 0 rgba(0, 0, 0, 0.02);
+}
+
+.shadow-luxury-lg {
+  box-shadow: 0 20px 40px -15px rgba(255, 107, 0, 0.15), 0 0 0 1px rgba(226, 232, 240, 0.9);
 }
 
 /* Print Optimization */
@@ -105,9 +132,9 @@ body {
     display: none !important;
   }
   .student-pass-root {
-    border: 2px solid #1C1C1C !important;
+    border: 2px solid #0F172A !important;
     background: #FFFFFF !important;
-    color: #1C1C1C !important;
+    color: #0F172A !important;
     box-shadow: none !important;
     page-break-inside: avoid;
     break-inside: avoid;
@@ -115,7 +142,7 @@ body {
     margin: 0 auto !important;
   }
   .student-pass-root * {
-    color: #1C1C1C !important;
-    border-color: #EAE6DF !important;
+    color: #0F172A !important;
+    border-color: #E2E8F0 !important;
   }
 }

@@ -94,26 +94,26 @@ export function PaymentQrBox({
   }
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-[#EAE6DF] bg-[#FFFFFF] p-5 sm:p-7 shadow-luxury">
+    <div className="overflow-hidden rounded-2xl border border-[#E2E8F0] bg-[#FFFFFF] p-5 sm:p-7 shadow-luxury">
       {/* Payee Profile Header Bar */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-[#EAE6DF] pb-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-[#E2E8F0] pb-4">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FAFAFA] border border-[#D4AF37]/40 text-[#D4AF37] font-bold">
-            <ShieldCheckIcon className="h-5 w-5 text-[#D4AF37]" />
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F8FAFC] border border-[#FF6B00]/40 text-[#FF6B00] font-bold">
+            <ShieldCheckIcon className="h-5 w-5 text-[#10B981]" />
           </div>
           <div>
-            <h3 className="font-serif text-base font-bold text-[#1C1C1C]">
+            <h3 className="font-serif text-base font-bold text-[#0F172A]">
               Official Symposium Payment Gateway
             </h3>
-            <span className="text-xs text-[#767676]">Instant Automated Verification &amp; ID Issue</span>
+            <span className="text-xs text-[#64748B]">Instant Automated Verification &amp; ID Issue</span>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D4AF37]/15 to-[#FFD700]/15 border border-[#D4AF37] px-4 py-2 text-right">
-          <span className="text-[10px] uppercase font-mono font-bold tracking-widest text-[#AA820A]">
+        <div className="flex items-center gap-2 rounded-xl bg-orange-50/70 border border-[#FF6B00] px-4 py-2 text-right">
+          <span className="text-[10px] uppercase font-mono font-bold tracking-widest text-[#EA580C]">
             Fee Amount:
           </span>
-          <span className="font-serif text-xl font-black text-[#1C1C1C]">
+          <span className="font-serif text-xl font-black text-[#0F172A]">
             ₹{feeAmount}
           </span>
         </div>
@@ -121,23 +121,23 @@ export function PaymentQrBox({
 
       <div className="mt-6 grid gap-6 md:grid-cols-[220px_minmax(0,1fr)] items-start">
         {/* QR Code Container */}
-        <div className="flex flex-col items-center justify-center rounded-2xl border border-[#EAE6DF] bg-[#FAFAFA] p-4 text-center">
-          <div className="rounded-xl border border-[#D4AF37]/50 bg-[#FFFFFF] p-3 shadow-md">
+        <div className="flex flex-col items-center justify-center rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-4 text-center">
+          <div className="rounded-xl border border-[#FF6B00]/40 bg-[#FFFFFF] p-3 shadow-md">
             <QrCodeView value={genericUpiUri} size={168} />
           </div>
 
-          <span className="mt-3 font-mono text-[10px] font-bold uppercase tracking-wider text-[#767676]">
+          <span className="mt-3 font-mono text-[10px] font-bold uppercase tracking-wider text-[#64748B]">
             Scan with any UPI App
           </span>
-          <span className="mt-0.5 text-[11px] font-medium text-[#AA820A]">GPay · PhonePe · Paytm · BHIM</span>
+          <span className="mt-0.5 text-[11px] font-medium text-[#FF6B00]">GPay · PhonePe · Paytm · BHIM</span>
         </div>
 
         {/* UPI Details & Deep Links */}
         <div className="space-y-4">
           {/* UPI ID Copy Field */}
-          <div className="rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] p-3.5">
+          <div className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-3.5">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#767676]">
+              <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#64748B]">
                 Official UPI ID
               </span>
               <span className="text-[10px] font-mono text-emerald-700 font-bold">
@@ -145,13 +145,13 @@ export function PaymentQrBox({
               </span>
             </div>
             <div className="mt-1 flex items-center justify-between gap-2">
-              <span className="font-mono text-sm font-bold text-[#1C1C1C] select-all">
+              <span className="font-mono text-sm font-bold text-[#0F172A] select-all">
                 {upiId}
               </span>
               <button
                 type="button"
                 onClick={() => void copyToClipboard(upiId)}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-[#D4AF37] bg-[#FFFFFF] px-3 py-1.5 text-xs font-semibold text-[#1C1C1C] hover:bg-[#FAFAFA] transition-colors shadow-sm"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-[#FF6B00] bg-[#FFFFFF] px-3 py-1.5 text-xs font-semibold text-[#FF6B00] hover:bg-orange-50 transition-colors shadow-sm"
               >
                 {copiedUpi ? (
                   <>
@@ -160,49 +160,49 @@ export function PaymentQrBox({
                   </>
                 ) : (
                   <>
-                    <CopyIcon className="h-3.5 w-3.5 text-[#D4AF37]" />
+                    <CopyIcon className="h-3.5 w-3.5 text-[#FF6B00]" />
                     <span>Copy UPI</span>
                   </>
                 )}
               </button>
             </div>
-            <div className="mt-1 text-[11px] text-[#767676]">
-              Payee Name: <strong className="text-[#1C1C1C]">{payeeName}</strong>
+            <div className="mt-1 text-[11px] text-[#64748B]">
+              Payee Name: <strong className="text-[#0F172A]">{payeeName}</strong>
             </div>
           </div>
 
           {/* Quick Pay Buttons for Mobile */}
           <div>
-            <span className="mb-2 block text-[10px] font-mono font-bold uppercase tracking-widest text-[#767676]">
+            <span className="mb-2 block text-[10px] font-mono font-bold uppercase tracking-widest text-[#64748B]">
               Direct App Deep-Links (Mobile Only)
             </span>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               <a
                 href={gpayUri}
-                className="flex items-center justify-center gap-1.5 rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] p-2.5 text-xs font-semibold text-[#1C1C1C] hover:border-[#D4AF37] hover:bg-[#FFFFFF] transition-colors shadow-sm"
+                className="flex items-center justify-center gap-1.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-2.5 text-xs font-semibold text-[#0F172A] hover:border-[#0EA5E9] hover:bg-[#FFFFFF] transition-colors shadow-sm"
               >
-                <SmartphoneIcon className="h-3.5 w-3.5 text-[#D4AF37]" />
+                <SmartphoneIcon className="h-3.5 w-3.5 text-[#0EA5E9]" />
                 <span>Google Pay</span>
               </a>
               <a
                 href={phonepeUri}
-                className="flex items-center justify-center gap-1.5 rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] p-2.5 text-xs font-semibold text-[#1C1C1C] hover:border-[#D4AF37] hover:bg-[#FFFFFF] transition-colors shadow-sm"
+                className="flex items-center justify-center gap-1.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-2.5 text-xs font-semibold text-[#0F172A] hover:border-[#10B981] hover:bg-[#FFFFFF] transition-colors shadow-sm"
               >
-                <SmartphoneIcon className="h-3.5 w-3.5 text-[#D4AF37]" />
+                <SmartphoneIcon className="h-3.5 w-3.5 text-[#10B981]" />
                 <span>PhonePe</span>
               </a>
               <a
                 href={paytmUri}
-                className="flex items-center justify-center gap-1.5 rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] p-2.5 text-xs font-semibold text-[#1C1C1C] hover:border-[#D4AF37] hover:bg-[#FFFFFF] transition-colors shadow-sm"
+                className="flex items-center justify-center gap-1.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-2.5 text-xs font-semibold text-[#0F172A] hover:border-[#0EA5E9] hover:bg-[#FFFFFF] transition-colors shadow-sm"
               >
-                <SmartphoneIcon className="h-3.5 w-3.5 text-[#D4AF37]" />
+                <SmartphoneIcon className="h-3.5 w-3.5 text-[#0EA5E9]" />
                 <span>Paytm</span>
               </a>
               <a
                 href={genericUpiUri}
-                className="flex items-center justify-center gap-1.5 rounded-xl border border-[#D4AF37] bg-gradient-to-r from-[#D4AF37]/20 to-transparent p-2.5 text-xs font-bold text-[#1C1C1C] hover:bg-[#FAFAFA] transition-colors shadow-sm"
+                className="flex items-center justify-center gap-1.5 rounded-xl border border-[#FF6B00] bg-gradient-to-r from-orange-50 to-emerald-50 p-2.5 text-xs font-bold text-[#0F172A] hover:bg-orange-100/50 transition-colors shadow-sm"
               >
-                <ExternalLinkIcon className="h-3.5 w-3.5 text-[#D4AF37]" />
+                <ExternalLinkIcon className="h-3.5 w-3.5 text-[#FF6B00]" />
                 <span>Any UPI App</span>
               </a>
             </div>
@@ -211,14 +211,14 @@ export function PaymentQrBox({
       </div>
 
       {/* UTR Ref & Screenshot Proof Section */}
-      <div className="mt-6 border-t border-[#EAE6DF] pt-5 grid gap-4 sm:grid-cols-2">
+      <div className="mt-6 border-t border-[#E2E8F0] pt-5 grid gap-4 sm:grid-cols-2">
         {/* UPI Ref / UTR Number */}
         <div>
           <label
             htmlFor="upi-ref"
-            className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#1C1C1C]"
+            className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#0F172A]"
           >
-            UPI Reference / UTR Number <span className="text-[10px] text-[#767676]">(Optional)</span>
+            UPI Reference / UTR Number <span className="text-[10px] text-[#64748B]">(Optional)</span>
           </label>
           <input
             id="upi-ref"
@@ -226,14 +226,14 @@ export function PaymentQrBox({
             value={upiRef}
             onChange={(e) => onUpiRefChange?.(e.target.value)}
             placeholder="e.g. 423984729182 (12-digit UTR)"
-            className="w-full rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] px-4 py-2.5 font-mono text-xs text-[#1C1C1C] placeholder:text-[#767676] focus:border-[#D4AF37] focus:bg-[#FFFFFF] focus:outline-none"
+            className="w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-2.5 font-mono text-xs text-[#0F172A] placeholder:text-[#64748B] focus:border-[#FF6B00] focus:bg-[#FFFFFF] focus:outline-none"
           />
         </div>
 
         {/* Screenshot Upload Proof */}
         <div>
-          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#1C1C1C]">
-            Payment Screenshot Proof <span className="text-[10px] text-[#767676]">(Optional)</span>
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#0F172A]">
+            Payment Screenshot Proof <span className="text-[10px] text-[#64748B]">(Optional)</span>
           </label>
           <input
             type="file"
@@ -247,9 +247,9 @@ export function PaymentQrBox({
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-[#D4AF37] bg-[#FAFAFA] px-4 py-2.5 text-xs font-semibold text-[#1C1C1C] hover:bg-[#FFFFFF] transition-colors"
+              className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-[#FF6B00] bg-[#F8FAFC] px-4 py-2.5 text-xs font-semibold text-[#0F172A] hover:bg-[#FFFFFF] transition-colors"
             >
-              <UploadCloudIcon className="h-4 w-4 text-[#D4AF37]" />
+              <UploadCloudIcon className="h-4 w-4 text-[#FF6B00]" />
               <span>Attach Receipt Screenshot</span>
             </button>
           ) : (

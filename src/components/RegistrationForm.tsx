@@ -17,11 +17,9 @@ import {
   Gamepad2Icon,
   TerminalIcon,
   SparklesIcon,
-  TrophyIcon,
-  ChevronRightIcon
+  TrophyIcon
 } from 'lucide-react';
 import {
-  EVENTS,
   HACKATHON_DEPARTMENTS,
   HACKATHON_DEPARTMENT_DOMAINS,
   GAMES_2D_SCORING_MATRIX,
@@ -61,6 +59,7 @@ const EVENT_CATEGORY_CARDS: {
   teamSizeLabel: string;
   venue: string;
   icon: typeof TrophyIcon;
+  colorClass: string;
   desc: string;
 }[] = [
   {
@@ -70,6 +69,7 @@ const EVENT_CATEGORY_CARDS: {
     teamSizeLabel: '3–4 Members',
     venue: 'Auditorium',
     icon: TrophyIcon,
+    colorClass: 'text-[#FF6B00]',
     desc: 'Multi-Department Flagship Engineering Sprint'
   },
   {
@@ -79,6 +79,7 @@ const EVENT_CATEGORY_CARDS: {
     teamSizeLabel: '2–3 Members',
     venue: 'IT Lab',
     icon: Gamepad2Icon,
+    colorClass: 'text-[#10B981]',
     desc: 'Game Design & 100-Mark Scoring Matrix'
   },
   {
@@ -88,6 +89,7 @@ const EVENT_CATEGORY_CARDS: {
     teamSizeLabel: '2–3 Members',
     venue: 'FOSS Lab',
     icon: TerminalIcon,
+    colorClass: 'text-[#0EA5E9]',
     desc: '2 Rounds · Cybersecurity Offensive Challenge'
   }
 ];
@@ -142,12 +144,10 @@ export function RegistrationForm({
   const [verificationProgress, setVerificationProgress] = useState(0);
   const [error, setError] = useState<ApiRequestError | Error | null>(null);
 
-  // Sync with prop changes if any
   useEffect(() => {
     setSelectedEventId(initialEventId);
   }, [initialEventId]);
 
-  // When event category changes
   function handleSelectCategory(newId: EventId) {
     setSelectedEventId(newId);
     if (onEventChange) onEventChange(newId);
@@ -168,7 +168,6 @@ export function RegistrationForm({
     setError(null);
   }
 
-  // Handle dynamic member count adjustments
   function handleMemberCountChange(newTotalCount: number) {
     if (newTotalCount < event.minMembers || newTotalCount > event.maxMembers) return;
     setMemberCount(newTotalCount);
@@ -197,7 +196,6 @@ export function RegistrationForm({
     });
   }
 
-  // Live Email Duplicate Check
   async function handleLeaderEmailBlur() {
     if (!leaderEmail.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(leaderEmail.trim())) {
       return;
@@ -217,7 +215,6 @@ export function RegistrationForm({
     }
   }
 
-  // Domains available for selected event and department
   const availableDomains = (() => {
     if (selectedEventId === 'hackathon') {
       return department ? HACKATHON_DEPARTMENT_DOMAINS[department] || [] : [];
@@ -228,7 +225,6 @@ export function RegistrationForm({
   const takenSet = new Set(takenDomains.map((val) => val.toLowerCase()));
   const isDomainTaken = (opt: string) => takenSet.has(opt.toLowerCase());
 
-  // Step 1 Validation (Team Identity, Email, and Category)
   function validateStep1(): boolean {
     if (teamName.trim().length < 3) {
       setError(new ApiRequestError('Team Name is required (minimum 3 characters).', 'teamName'));
@@ -242,13 +238,11 @@ export function RegistrationForm({
       setError(new ApiRequestError('Team Leader full name is required.', 'leaderName'));
       return false;
     }
-    // 10-Digit Mobile Validation
     const cleanPhone = leaderPhone.replace(/\D/g, '');
     if (!/^[6-9]\d{9}$/.test(cleanPhone)) {
       setError(new ApiRequestError('Enter a valid 10-digit primary mobile number starting with 6, 7, 8, or 9.', 'phone'));
       return false;
     }
-    // Valid Email
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(leaderEmail.trim())) {
       setError(new ApiRequestError('Enter a valid email address for the team leader.', 'email'));
       return false;
@@ -266,7 +260,6 @@ export function RegistrationForm({
     return true;
   }
 
-  // Step 2 Validation (Domain & Team Member Names)
   function validateStep2(): boolean {
     if (event.requiresDepartment && !department) {
       setError(new ApiRequestError('Please select your Engineering Department.', 'department'));
@@ -302,7 +295,6 @@ export function RegistrationForm({
     return true;
   }
 
-  // Step 3 Validation (Terms)
   function validateStep3(): boolean {
     if (!termsAccepted) {
       setError(new ApiRequestError('You must accept the official rules and code of conduct.'));
@@ -342,7 +334,6 @@ export function RegistrationForm({
     window.scrollTo({ top: 120, behavior: 'smooth' });
   }
 
-  // Final Submission & Sequential ID Generation
   async function handleFinalSubmission() {
     if (isSubmitting) return;
 
@@ -426,7 +417,6 @@ export function RegistrationForm({
     });
   }
 
-  // Stepper Definition
   const stepsList = [
     { id: 'step1_squad', num: '01', title: 'Team Identity' },
     { id: 'step2_members', num: '02', title: 'Members & Domain' },
@@ -440,22 +430,22 @@ export function RegistrationForm({
   return (
     <div className="space-y-8">
       {/* 5-Step Stepper Header */}
-      <div className="overflow-hidden rounded-2xl border border-[#EAE6DF] bg-[#FFFFFF] p-4 sm:p-6 shadow-luxury">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#EAE6DF] pb-4">
+      <div className="overflow-hidden rounded-2xl border border-[#E2E8F0] bg-[#FFFFFF] p-4 sm:p-6 shadow-luxury">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E2E8F0] pb-4">
           <div>
             <div className="flex items-center gap-2">
-              <span className="flex h-2 w-2 rounded-full bg-[#D4AF37] animate-ping" />
-              <span className="font-mono text-xs font-bold uppercase tracking-widest text-[#AA820A]">
+              <span className="flex h-2 w-2 rounded-full bg-[#FF6B00] animate-ping" />
+              <span className="font-mono text-xs font-bold uppercase tracking-widest text-[#FF6B00]">
                 Format ID: TI{event.code}1001
               </span>
             </div>
-            <h2 className="mt-1 font-serif text-xl sm:text-2xl font-bold text-[#1C1C1C]">
+            <h2 className="mt-1 font-serif text-xl sm:text-2xl font-bold text-[#0F172A]">
               {event.fullName}
             </h2>
           </div>
-          <div className="flex items-center gap-2 font-mono text-xs text-[#767676]">
+          <div className="flex items-center gap-2 font-mono text-xs text-[#64748B]">
             <span>STEP {currentStepIndex + 1} OF 5</span>
-            <span className="text-[#D4AF37] font-bold">({Math.round(((currentStepIndex + 1) / 5) * 100)}%)</span>
+            <span className="text-[#FF6B00] font-bold">({Math.round(((currentStepIndex + 1) / 5) * 100)}%)</span>
           </div>
         </div>
 
@@ -469,19 +459,19 @@ export function RegistrationForm({
                 key={step.id}
                 className={`relative flex items-center gap-2.5 rounded-xl border p-2.5 transition-all ${
                   isCurrent
-                    ? 'border-[#D4AF37] bg-[#1C1C1C] text-white shadow-md'
+                    ? 'border-[#FF6B00] bg-[#0F172A] text-white shadow-md'
                     : isPassed
-                    ? 'border-emerald-200 bg-emerald-50/80 text-emerald-800'
-                    : 'border-[#EAE6DF] bg-[#FAFAFA] text-[#767676]'
+                    ? 'border-emerald-200 bg-emerald-50/90 text-emerald-800'
+                    : 'border-[#E2E8F0] bg-[#F8FAFC] text-[#64748B]'
                 }`}
               >
                 <div
                   className={`flex h-6 w-6 items-center justify-center rounded-lg font-mono text-xs font-bold ${
                     isCurrent
-                      ? 'bg-[#D4AF37] text-white'
+                      ? 'bg-[#FF6B00] text-white'
                       : isPassed
                       ? 'bg-emerald-600 text-white'
-                      : 'bg-[#FFFFFF] border border-[#EAE6DF] text-[#767676]'
+                      : 'bg-[#FFFFFF] border border-[#E2E8F0] text-[#64748B]'
                   }`}
                 >
                   {isPassed ? <CheckIcon className="h-3.5 w-3.5" /> : step.num}
@@ -510,13 +500,13 @@ export function RegistrationForm({
       {/* STEP 01: TEAM IDENTITY & 3 COMPETITION CATEGORIES */}
       {/* ───────────────────────────────────────────────────────────── */}
       {currentStep === 'step1_squad' && (
-        <form onSubmit={handleGoToStep2} className="space-y-6 rounded-2xl border border-[#EAE6DF] bg-[#FFFFFF] p-6 sm:p-8 shadow-luxury">
-          <div className="border-b border-[#EAE6DF] pb-3">
-            <h3 className="font-serif text-lg font-bold text-[#1C1C1C] flex items-center gap-2">
-              <UsersIcon className="h-5 w-5 text-[#D4AF37]" />
+        <form onSubmit={handleGoToStep2} className="space-y-6 rounded-2xl border border-[#E2E8F0] bg-[#FFFFFF] p-6 sm:p-8 shadow-luxury">
+          <div className="border-b border-[#E2E8F0] pb-3">
+            <h3 className="font-serif text-lg font-bold text-[#0F172A] flex items-center gap-2">
+              <UsersIcon className="h-5 w-5 text-[#FF6B00]" />
               <span>Step 01: Team Identity &amp; Mandatory Contact Fields</span>
             </h3>
-            <p className="mt-1 text-xs text-[#555555]">
+            <p className="mt-1 text-xs text-[#475569]">
               Provide your official team name, institution, 10-digit primary contact details, and choose your event category.
             </p>
           </div>
@@ -524,8 +514,8 @@ export function RegistrationForm({
           <div className="grid gap-6 sm:grid-cols-2">
             {/* Team Name */}
             <div>
-              <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[#1C1C1C]">
-                Team Name <span className="text-[#D4AF37]">*</span>
+              <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[#0F172A]">
+                Team Name <span className="text-[#FF6B00]">*</span>
               </label>
               <input
                 type="text"
@@ -533,14 +523,14 @@ export function RegistrationForm({
                 value={teamName}
                 onChange={(e) => setTeamName(e.target.value)}
                 placeholder="e.g. ApexInnovators, CyberKnights"
-                className="w-full rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] px-4 py-3 text-sm text-[#1C1C1C] placeholder:text-[#767676] focus:border-[#D4AF37] focus:bg-[#FFFFFF] focus:outline-none shadow-sm"
+                className="w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-sm text-[#0F172A] placeholder:text-[#64748B] focus:border-[#FF6B00] focus:bg-[#FFFFFF] focus:outline-none shadow-sm"
               />
             </div>
 
             {/* College / University Name */}
             <div>
-              <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[#1C1C1C]">
-                College / University Name <span className="text-[#D4AF37]">*</span>
+              <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[#0F172A]">
+                College / University Name <span className="text-[#FF6B00]">*</span>
               </label>
               <div className="relative">
                 <input
@@ -549,16 +539,16 @@ export function RegistrationForm({
                   value={institution}
                   onChange={(e) => setInstitution(e.target.value)}
                   placeholder="e.g. SRM Institute, Anna University, MIT"
-                  className="w-full rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] pl-10 pr-4 py-3 text-sm text-[#1C1C1C] placeholder:text-[#767676] focus:border-[#D4AF37] focus:bg-[#FFFFFF] focus:outline-none shadow-sm"
+                  className="w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] pl-10 pr-4 py-3 text-sm text-[#0F172A] placeholder:text-[#64748B] focus:border-[#FF6B00] focus:bg-[#FFFFFF] focus:outline-none shadow-sm"
                 />
-                <BuildingIcon className="absolute left-3.5 top-3.5 h-4 w-4 text-[#767676]" />
+                <BuildingIcon className="absolute left-3.5 top-3.5 h-4 w-4 text-[#64748B]" />
               </div>
             </div>
 
             {/* Team Leader Full Name */}
             <div>
-              <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[#1C1C1C]">
-                Team Leader Full Name <span className="text-[#D4AF37]">*</span>
+              <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[#0F172A]">
+                Team Leader Full Name <span className="text-[#FF6B00]">*</span>
               </label>
               <input
                 type="text"
@@ -566,14 +556,14 @@ export function RegistrationForm({
                 value={leaderName}
                 onChange={(e) => setLeaderName(e.target.value)}
                 placeholder="e.g. Poovarasasn A"
-                className="w-full rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] px-4 py-3 text-sm text-[#1C1C1C] placeholder:text-[#767676] focus:border-[#D4AF37] focus:bg-[#FFFFFF] focus:outline-none shadow-sm"
+                className="w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-sm text-[#0F172A] placeholder:text-[#64748B] focus:border-[#FF6B00] focus:bg-[#FFFFFF] focus:outline-none shadow-sm"
               />
             </div>
 
             {/* Primary Mobile Number (10-Digit Validation) */}
             <div>
-              <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[#1C1C1C]">
-                Primary Mobile Number <span className="text-[#D4AF37]">* (10-digit number)</span>
+              <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[#0F172A]">
+                Primary Mobile Number <span className="text-[#FF6B00]">* (10-digit number)</span>
               </label>
               <div className="relative">
                 <input
@@ -583,11 +573,11 @@ export function RegistrationForm({
                   value={leaderPhone}
                   onChange={(e) => setLeaderPhone(e.target.value.replace(/\D/g, ''))}
                   placeholder="e.g. 9876543210"
-                  className="w-full rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] pl-10 pr-4 py-3 font-mono text-sm text-[#1C1C1C] placeholder:text-[#767676] focus:border-[#D4AF37] focus:bg-[#FFFFFF] focus:outline-none shadow-sm"
+                  className="w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] pl-10 pr-4 py-3 font-mono text-sm text-[#0F172A] placeholder:text-[#64748B] focus:border-[#FF6B00] focus:bg-[#FFFFFF] focus:outline-none shadow-sm"
                 />
-                <PhoneIcon className="absolute left-3.5 top-3.5 h-4 w-4 text-[#767676]" />
+                <PhoneIcon className="absolute left-3.5 top-3.5 h-4 w-4 text-[#64748B]" />
               </div>
-              <p className="mt-1 text-[11px] text-[#767676]">
+              <p className="mt-1 text-[11px] text-[#64748B]">
                 SMS updates and participation ID confirmation will be sent here.
               </p>
             </div>
@@ -595,11 +585,11 @@ export function RegistrationForm({
             {/* Team Leader Email ID */}
             <div className="sm:col-span-2">
               <div className="mb-2 flex items-center justify-between">
-                <label className="text-xs font-semibold uppercase tracking-wider text-[#1C1C1C]">
-                  Team Leader Email ID <span className="text-[#D4AF37]">*</span>
+                <label className="text-xs font-semibold uppercase tracking-wider text-[#0F172A]">
+                  Team Leader Email ID <span className="text-[#FF6B00]">*</span>
                 </label>
                 {isCheckingEmail && (
-                  <span className="inline-flex items-center gap-1 text-[10px] text-[#D4AF37] font-mono font-bold">
+                  <span className="inline-flex items-center gap-1 text-[10px] text-[#FF6B00] font-mono font-bold">
                     <Loader2Icon className="h-3 w-3 animate-spin" />
                     Checking availability...
                   </span>
@@ -616,13 +606,13 @@ export function RegistrationForm({
                   }}
                   onBlur={handleLeaderEmailBlur}
                   placeholder="e.g. teamleader@college.edu"
-                  className={`w-full rounded-xl border pl-10 pr-4 py-3 text-sm text-[#1C1C1C] placeholder:text-[#767676] focus:outline-none shadow-sm ${
+                  className={`w-full rounded-xl border pl-10 pr-4 py-3 text-sm text-[#0F172A] placeholder:text-[#64748B] focus:outline-none shadow-sm ${
                     emailWarning
                       ? 'border-red-500 bg-red-50/60 focus:border-red-500'
-                      : 'border-[#EAE6DF] bg-[#FAFAFA] focus:border-[#D4AF37] focus:bg-[#FFFFFF]'
+                      : 'border-[#E2E8F0] bg-[#F8FAFC] focus:border-[#FF6B00] focus:bg-[#FFFFFF]'
                   }`}
                 />
-                <MailIcon className="absolute left-3.5 top-3.5 h-4 w-4 text-[#767676]" />
+                <MailIcon className="absolute left-3.5 top-3.5 h-4 w-4 text-[#64748B]" />
               </div>
               {emailWarning ? (
                 <p className="mt-1.5 flex items-center gap-1.5 text-xs text-red-600 font-medium">
@@ -630,7 +620,7 @@ export function RegistrationForm({
                   <span>{emailWarning}</span>
                 </p>
               ) : (
-                <p className="mt-1 text-[11px] text-[#767676]">
+                <p className="mt-1 text-[11px] text-[#64748B]">
                   Strict validation: Only one team registration is permitted per participant email.
                 </p>
               )}
@@ -640,12 +630,12 @@ export function RegistrationForm({
           {/* ───────────────────────────────────────────────────────────── */}
           {/* THE 3 COMPETITION CATEGORIES (BELOW TEAM LEADER EMAIL ID) */}
           {/* ───────────────────────────────────────────────────────────── */}
-          <div className="pt-4 border-t border-[#EAE6DF] space-y-3">
+          <div className="pt-4 border-t border-[#E2E8F0] space-y-3">
             <div className="flex items-center justify-between">
-              <label className="block text-xs font-serif font-bold uppercase tracking-wider text-[#1C1C1C]">
-                Select Competition Category <span className="text-[#D4AF37]">*</span>
+              <label className="block text-xs font-serif font-bold uppercase tracking-wider text-[#0F172A]">
+                Select Competition Category <span className="text-[#FF6B00]">*</span>
               </label>
-              <span className="text-[11px] font-mono text-[#AA820A] font-bold">
+              <span className="text-[11px] font-mono text-[#FF6B00] font-bold">
                 Flat ₹{REGISTRATION_FEE} per team
               </span>
             </div>
@@ -661,13 +651,12 @@ export function RegistrationForm({
                     onClick={() => handleSelectCategory(cat.id)}
                     className={`relative flex flex-col justify-between rounded-2xl border p-4 text-left transition-all duration-200 ${
                       isSelected
-                        ? 'border-2 border-[#D4AF37] bg-[#1C1C1C] text-[#FFFFFF] shadow-luxury scale-[1.02]'
-                        : 'border-[#EAE6DF] bg-[#FAFAFA] text-[#1C1C1C] hover:border-[#D4AF37]/60 hover:bg-[#FFFFFF]'
+                        ? 'border-2 border-[#FF6B00] bg-[#0F172A] text-[#FFFFFF] shadow-luxury scale-[1.02] ring-2 ring-[#FF6B00]/30'
+                        : 'border-[#E2E8F0] bg-[#F8FAFC] text-[#0F172A] hover:border-[#FF6B00]/60 hover:bg-[#FFFFFF]'
                     }`}
                   >
-                    {/* Active Checkmark Badge */}
                     {isSelected && (
-                      <div className="absolute top-3 right-3 flex h-5 w-5 items-center justify-center rounded-full bg-[#D4AF37] text-[#1C1C1C] font-bold shadow-sm">
+                      <div className="absolute top-3 right-3 flex h-5 w-5 items-center justify-center rounded-full bg-[#FF6B00] text-white font-bold shadow-sm">
                         <CheckIcon className="h-3.5 w-3.5" />
                       </div>
                     )}
@@ -677,15 +666,15 @@ export function RegistrationForm({
                         <div
                           className={`flex h-8 w-8 items-center justify-center rounded-xl ${
                             isSelected
-                              ? 'bg-[#D4AF37] text-[#1C1C1C]'
-                              : 'bg-[#FFFFFF] border border-[#EAE6DF] text-[#D4AF37]'
+                              ? 'bg-[#FF6B00] text-[#FFFFFF]'
+                              : 'bg-[#FFFFFF] border border-[#E2E8F0] ' + cat.colorClass
                           }`}
                         >
                           <Icon className="h-4 w-4" />
                         </div>
                         <span
                           className={`font-mono text-[10px] font-bold uppercase tracking-wider ${
-                            isSelected ? 'text-[#FFD700]' : 'text-[#AA820A]'
+                            isSelected ? 'text-[#FEF08A]' : 'text-[#FF6B00]'
                           }`}
                         >
                           {cat.codeBadge}
@@ -697,7 +686,7 @@ export function RegistrationForm({
                       </h4>
                       <p
                         className={`text-[11px] mt-1 line-clamp-2 ${
-                          isSelected ? 'text-gray-300' : 'text-[#555555]'
+                          isSelected ? 'text-gray-300' : 'text-[#475569]'
                         }`}
                       >
                         {cat.desc}
@@ -706,11 +695,11 @@ export function RegistrationForm({
 
                     <div
                       className={`mt-3.5 flex items-center justify-between border-t pt-2.5 text-[10px] font-mono ${
-                        isSelected ? 'border-gray-700 text-gray-300' : 'border-[#EAE6DF] text-[#767676]'
+                        isSelected ? 'border-gray-700 text-gray-300' : 'border-[#E2E8F0] text-[#64748B]'
                       }`}
                     >
                       <span>{cat.teamSizeLabel}</span>
-                      <span className="font-bold">{cat.venue}</span>
+                      <span className="font-bold text-[#10B981]">{cat.venue}</span>
                     </div>
                   </button>
                 );
@@ -719,13 +708,13 @@ export function RegistrationForm({
           </div>
 
           {/* Action Button */}
-          <div className="flex justify-end pt-4 border-t border-[#EAE6DF]">
+          <div className="flex justify-end pt-4 border-t border-[#E2E8F0]">
             <button
               type="submit"
-              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#B8860B] px-7 py-3.5 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] shadow-luxury hover:from-[#B8860B] hover:to-[#8B6508] transition-all"
+              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#EA580C] px-7 py-3.5 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] shadow-luxury hover:from-[#EA580C] hover:to-[#C2410C] hover:shadow-orange-glow transition-all"
             >
               <span>Next: Team Members &amp; Domains</span>
-              <ArrowRightIcon className="h-4 w-4 text-[#FFD700]" />
+              <ArrowRightIcon className="h-4 w-4 text-[#FEF08A]" />
             </button>
           </div>
         </form>
@@ -735,30 +724,28 @@ export function RegistrationForm({
       {/* STEP 02: DOMAIN SELECTION & TEAM MEMBERS ROSTER */}
       {/* ───────────────────────────────────────────────────────────── */}
       {currentStep === 'step2_members' && (
-        <form onSubmit={handleGoToStep3} className="space-y-6 rounded-2xl border border-[#EAE6DF] bg-[#FFFFFF] p-6 sm:p-8 shadow-luxury">
-          <div className="border-b border-[#EAE6DF] pb-3">
-            <h3 className="font-serif text-lg font-bold text-[#1C1C1C] flex items-center gap-2">
-              <UserCheckIcon className="h-5 w-5 text-[#D4AF37]" />
+        <form onSubmit={handleGoToStep3} className="space-y-6 rounded-2xl border border-[#E2E8F0] bg-[#FFFFFF] p-6 sm:p-8 shadow-luxury">
+          <div className="border-b border-[#E2E8F0] pb-3">
+            <h3 className="font-serif text-lg font-bold text-[#0F172A] flex items-center gap-2">
+              <UserCheckIcon className="h-5 w-5 text-[#FF6B00]" />
               <span>Step 02: Domain Selection &amp; Team Members Roster</span>
             </h3>
-            <p className="mt-1 text-xs text-[#555555]">
+            <p className="mt-1 text-xs text-[#475569]">
               Select your problem statement / track and register all team members ({event.minMembers} to {event.maxMembers} members for {event.name}).
             </p>
           </div>
 
-          {/* ───────────────────────────────────────────────────────────── */}
-          {/* SECTION A: DOMAIN / DEPARTMENT SELECTION */}
-          {/* ───────────────────────────────────────────────────────────── */}
-          <div className="rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] p-5 space-y-4">
-            <span className="font-serif text-xs font-bold uppercase tracking-wider text-[#1C1C1C] block">
+          {/* Section A: Domain Selection */}
+          <div className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-5 space-y-4">
+            <span className="font-serif text-xs font-bold uppercase tracking-wider text-[#0F172A] block">
               1. Choose Problem Statement / Domain for {event.name}
             </span>
 
             {/* If Hackathon: Dynamic Department Selector */}
             {event.requiresDepartment && (
               <div>
-                <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-wider text-[#555555]">
-                  Engineering Department <span className="text-[#D4AF37]">*</span>
+                <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-wider text-[#475569]">
+                  Engineering Department <span className="text-[#FF6B00]">*</span>
                 </label>
                 <select
                   required
@@ -767,7 +754,7 @@ export function RegistrationForm({
                     setDepartment(e.target.value);
                     setDomain('');
                   }}
-                  className="w-full rounded-xl border border-[#EAE6DF] bg-[#FFFFFF] px-4 py-3 text-xs text-[#1C1C1C] focus:border-[#D4AF37] focus:outline-none shadow-sm"
+                  className="w-full rounded-xl border border-[#E2E8F0] bg-[#FFFFFF] px-4 py-3 text-xs text-[#0F172A] focus:border-[#FF6B00] focus:outline-none shadow-sm"
                 >
                   <option value="">Select your Engineering Department...</option>
                   {HACKATHON_DEPARTMENTS.map((dept) => (
@@ -776,7 +763,7 @@ export function RegistrationForm({
                     </option>
                   ))}
                 </select>
-                <p className="mt-1 text-[10px] text-[#767676]">
+                <p className="mt-1 text-[10px] text-[#64748B]">
                   Selecting department dynamically loads eligible problem statements below.
                 </p>
               </div>
@@ -784,16 +771,16 @@ export function RegistrationForm({
 
             {/* Dynamic Domain Dropdown */}
             <div>
-              <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-wider text-[#555555]">
+              <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-wider text-[#475569]">
                 {event.requiresDepartment ? 'Department-Specific Problem Domain' : 'Challenge Track / Domain'}{' '}
-                <span className="text-[#D4AF37]">*</span>
+                <span className="text-[#FF6B00]">*</span>
               </label>
               <select
                 required
                 value={domain}
                 onChange={(e) => setDomain(e.target.value)}
                 disabled={event.requiresDepartment && !department}
-                className="w-full rounded-xl border border-[#EAE6DF] bg-[#FFFFFF] px-4 py-3 text-xs text-[#1C1C1C] focus:border-[#D4AF37] focus:outline-none disabled:bg-[#F0EEEA] disabled:cursor-not-allowed shadow-sm"
+                className="w-full rounded-xl border border-[#E2E8F0] bg-[#FFFFFF] px-4 py-3 text-xs text-[#0F172A] focus:border-[#FF6B00] focus:outline-none disabled:bg-[#F1F5F9] disabled:cursor-not-allowed shadow-sm"
               >
                 <option value="">
                   {event.requiresDepartment && !department
@@ -811,18 +798,18 @@ export function RegistrationForm({
               </select>
             </div>
 
-            {/* Event Specification Banner (Scoring Matrix for 2D Games / Protocol for CTF) */}
+            {/* Event Specification Banner */}
             {event.scoringMatrix && (
-              <div className="mt-3 rounded-lg border border-[#D4AF37]/40 bg-[#FFFFFF] p-3 text-xs space-y-2">
-                <div className="flex items-center gap-1.5 font-serif font-bold text-[#1C1C1C]">
-                  <Gamepad2Icon className="h-4 w-4 text-[#D4AF37]" />
+              <div className="mt-3 rounded-lg border border-[#10B981]/40 bg-[#FFFFFF] p-3 text-xs space-y-2">
+                <div className="flex items-center gap-1.5 font-serif font-bold text-[#0F172A]">
+                  <Gamepad2Icon className="h-4 w-4 text-[#10B981]" />
                   <span>2D Games Official Scoring Criteria Matrix (100 Marks)</span>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-[10px]">
                   {GAMES_2D_SCORING_MATRIX.map((c, i) => (
-                    <div key={i} className="rounded bg-[#FAFAFA] border border-[#EAE6DF] p-2">
-                      <span className="font-bold text-[#1C1C1C] block">{c.category}</span>
-                      <span className="font-mono text-[#AA820A] font-bold">{c.marks} Marks</span>
+                    <div key={i} className="rounded bg-[#F8FAFC] border border-[#E2E8F0] p-2">
+                      <span className="font-bold text-[#0F172A] block">{c.category}</span>
+                      <span className="font-mono text-[#10B981] font-bold">{c.marks} Marks</span>
                     </div>
                   ))}
                 </div>
@@ -830,15 +817,15 @@ export function RegistrationForm({
             )}
 
             {event.formatDetails && (
-              <div className="mt-3 rounded-lg border border-[#D4AF37]/40 bg-[#FFFFFF] p-3 text-xs space-y-1.5">
-                <div className="flex items-center gap-1.5 font-serif font-bold text-[#1C1C1C]">
-                  <TerminalIcon className="h-4 w-4 text-[#D4AF37]" />
+              <div className="mt-3 rounded-lg border border-[#0EA5E9]/40 bg-[#FFFFFF] p-3 text-xs space-y-1.5">
+                <div className="flex items-center gap-1.5 font-serif font-bold text-[#0F172A]">
+                  <TerminalIcon className="h-4 w-4 text-[#0EA5E9]" />
                   <span>Capture The Flag Challenge Protocol</span>
                 </div>
-                <ul className="space-y-1 text-[11px] text-[#555555]">
+                <ul className="space-y-1 text-[11px] text-[#475569]">
                   {CTF_FORMAT_DETAILS.map((f, i) => (
                     <li key={i} className="flex items-center gap-1.5">
-                      <span className="text-[#D4AF37] font-bold">•</span>
+                      <span className="text-[#0EA5E9] font-bold">•</span>
                       <span>{f}</span>
                     </li>
                   ))}
@@ -847,19 +834,17 @@ export function RegistrationForm({
             )}
           </div>
 
-          {/* ───────────────────────────────────────────────────────────── */}
-          {/* SECTION B: TEAM MEMBERS ROSTER */}
-          {/* ───────────────────────────────────────────────────────────── */}
+          {/* Section B: Team Members Names */}
           <div className="space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#EAE6DF] pb-3">
-              <span className="font-serif text-xs font-bold uppercase tracking-wider text-[#1C1C1C]">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E2E8F0] pb-3">
+              <span className="font-serif text-xs font-bold uppercase tracking-wider text-[#0F172A]">
                 2. Team Members Names Roster
               </span>
 
               {/* Team Size Selector */}
               <div className="flex items-center gap-2">
-                <span className="text-xs font-mono text-[#767676] uppercase">Team Size:</span>
-                <div className="inline-flex rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] p-1">
+                <span className="text-xs font-mono text-[#64748B] uppercase">Team Size:</span>
+                <div className="inline-flex rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-1">
                   {event.memberCounts.map((count) => (
                     <button
                       key={count}
@@ -867,8 +852,8 @@ export function RegistrationForm({
                       onClick={() => handleMemberCountChange(count)}
                       className={`rounded-lg px-3.5 py-1 font-mono text-xs font-bold transition-all ${
                         memberCount === count
-                          ? 'bg-[#1C1C1C] text-[#FFFFFF] shadow-sm'
-                          : 'text-[#555555] hover:text-[#1C1C1C]'
+                          ? 'bg-[#0F172A] text-[#FFFFFF] shadow-sm'
+                          : 'text-[#475569] hover:text-[#0F172A]'
                       }`}
                     >
                       {count} Members
@@ -879,17 +864,17 @@ export function RegistrationForm({
             </div>
 
             {/* Member 1: Leader (Preview) */}
-            <div className="rounded-xl border border-[#D4AF37]/50 bg-[#FAFAFA] p-3.5">
+            <div className="rounded-xl border border-[#FF6B00]/40 bg-[#F8FAFC] p-3.5">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-[#D4AF37] text-white font-mono text-xs font-bold">
+                  <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-[#FF6B00] text-white font-mono text-xs font-bold">
                     01
                   </span>
-                  <span className="font-serif text-sm font-bold text-[#1C1C1C]">
+                  <span className="font-serif text-sm font-bold text-[#0F172A]">
                     {leaderName || 'Team Leader'} (Team Lead)
                   </span>
                 </div>
-                <span className="font-mono text-xs text-[#AA820A] font-bold">{leaderEmail}</span>
+                <span className="font-mono text-xs text-[#FF6B00] font-bold">{leaderEmail}</span>
               </div>
             </div>
 
@@ -899,23 +884,23 @@ export function RegistrationForm({
               return (
                 <div
                   key={index}
-                  className="rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] p-4 sm:p-5 transition-all hover:border-[#D4AF37]/60"
+                  className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-4 sm:p-5 transition-all hover:border-[#FF6B00]/60"
                 >
                   <div className="mb-3 flex items-center justify-between">
-                    <span className="flex items-center gap-2 font-serif text-xs font-bold uppercase tracking-wider text-[#1C1C1C]">
-                      <span className="flex h-5 w-5 items-center justify-center rounded-md bg-[#FFFFFF] border border-[#EAE6DF] font-mono text-[10px] text-[#555555]">
+                    <span className="flex items-center gap-2 font-serif text-xs font-bold uppercase tracking-wider text-[#0F172A]">
+                      <span className="flex h-5 w-5 items-center justify-center rounded-md bg-[#FFFFFF] border border-[#E2E8F0] font-mono text-[10px] text-[#475569]">
                         {memberNum.toString().padStart(2, '0')}
                       </span>
                       <span>Team Member #{memberNum}</span>
                     </span>
-                    <span className="text-[10px] font-mono text-[#767676]">Student Identity</span>
+                    <span className="text-[10px] font-mono text-[#64748B]">Student Identity</span>
                   </div>
 
                   <div className="grid gap-3 sm:grid-cols-3">
                     {/* Full Name */}
                     <div>
-                      <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-[#555555]">
-                        Full Name <span className="text-[#D4AF37]">*</span>
+                      <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-[#475569]">
+                        Full Name <span className="text-[#FF6B00]">*</span>
                       </label>
                       <input
                         type="text"
@@ -923,13 +908,13 @@ export function RegistrationForm({
                         value={member.name}
                         onChange={(e) => updateSquadMember(index, { name: e.target.value })}
                         placeholder={`Member #${memberNum} Full Name`}
-                        className="w-full rounded-lg border border-[#EAE6DF] bg-[#FFFFFF] px-3 py-2 text-xs text-[#1C1C1C] placeholder:text-[#767676] focus:border-[#D4AF37] focus:outline-none"
+                        className="w-full rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-2 text-xs text-[#0F172A] placeholder:text-[#64748B] focus:border-[#FF6B00] focus:outline-none"
                       />
                     </div>
 
                     {/* Email */}
                     <div>
-                      <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-[#555555]">
+                      <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-[#475569]">
                         Email Address
                       </label>
                       <input
@@ -937,13 +922,13 @@ export function RegistrationForm({
                         value={member.email || ''}
                         onChange={(e) => updateSquadMember(index, { email: e.target.value })}
                         placeholder="student@college.edu"
-                        className="w-full rounded-lg border border-[#EAE6DF] bg-[#FFFFFF] px-3 py-2 text-xs text-[#1C1C1C] placeholder:text-[#767676] focus:border-[#D4AF37] focus:outline-none"
+                        className="w-full rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-2 text-xs text-[#0F172A] placeholder:text-[#64748B] focus:border-[#FF6B00] focus:outline-none"
                       />
                     </div>
 
                     {/* Department / Roll No */}
                     <div>
-                      <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-[#555555]">
+                      <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-[#475569]">
                         Roll No. / Department
                       </label>
                       <input
@@ -956,7 +941,7 @@ export function RegistrationForm({
                           })
                         }
                         placeholder="e.g. 21CS045 / CSE"
-                        className="w-full rounded-lg border border-[#EAE6DF] bg-[#FFFFFF] px-3 py-2 text-xs text-[#1C1C1C] placeholder:text-[#767676] focus:border-[#D4AF37] focus:outline-none"
+                        className="w-full rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-2 text-xs text-[#0F172A] placeholder:text-[#64748B] focus:border-[#FF6B00] focus:outline-none"
                       />
                     </div>
                   </div>
@@ -966,21 +951,21 @@ export function RegistrationForm({
           </div>
 
           {/* Action Buttons */}
-          <div className="flex items-center justify-between pt-4 border-t border-[#EAE6DF]">
+          <div className="flex items-center justify-between pt-4 border-t border-[#E2E8F0]">
             <button
               type="button"
               onClick={() => setCurrentStep('step1_squad')}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] px-4 py-2.5 text-xs font-semibold text-[#555555] hover:bg-[#FFFFFF] hover:text-[#1C1C1C]"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-2.5 text-xs font-semibold text-[#475569] hover:bg-[#FFFFFF] hover:text-[#0F172A]"
             >
               <ArrowLeftIcon className="h-3.5 w-3.5" />
               <span>Back: Team Identity</span>
             </button>
             <button
               type="submit"
-              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#B8860B] px-7 py-3 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] shadow-luxury hover:from-[#B8860B] hover:to-[#8B6508]"
+              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#EA580C] px-7 py-3 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] shadow-luxury hover:from-[#EA580C] hover:to-[#C2410C] hover:shadow-orange-glow"
             >
               <span>Next: Terms &amp; Rules</span>
-              <ArrowRightIcon className="h-4 w-4 text-[#FFD700]" />
+              <ArrowRightIcon className="h-4 w-4 text-[#FEF08A]" />
             </button>
           </div>
         </form>
@@ -990,54 +975,51 @@ export function RegistrationForm({
       {/* STEP 03: TERMS & CODE OF CONDUCT */}
       {/* ───────────────────────────────────────────────────────────── */}
       {currentStep === 'step3_terms' && (
-        <form onSubmit={handleGoToStep4} className="space-y-6 rounded-2xl border border-[#EAE6DF] bg-[#FFFFFF] p-6 sm:p-8 shadow-luxury">
-          <div className="border-b border-[#EAE6DF] pb-3">
-            <h3 className="font-serif text-lg font-bold text-[#1C1C1C] flex items-center gap-2">
-              <FileTextIcon className="h-5 w-5 text-[#D4AF37]" />
+        <form onSubmit={handleGoToStep4} className="space-y-6 rounded-2xl border border-[#E2E8F0] bg-[#FFFFFF] p-6 sm:p-8 shadow-luxury">
+          <div className="border-b border-[#E2E8F0] pb-3">
+            <h3 className="font-serif text-lg font-bold text-[#0F172A] flex items-center gap-2">
+              <FileTextIcon className="h-5 w-5 text-[#FF6B00]" />
               <span>Step 03: Event Rules &amp; Code of Conduct</span>
             </h3>
-            <p className="mt-1 text-xs text-[#555555]">
+            <p className="mt-1 text-xs text-[#475569]">
               Please review and accept the official rules for {event.fullName}.
             </p>
           </div>
 
-          {/* Rules List Box */}
-          <div className="space-y-3 rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] p-4 sm:p-6 text-xs text-[#555555]">
+          <div className="space-y-3 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-4 sm:p-6 text-xs text-[#475569]">
             {(event.rules || [
               'All squad members must carry valid college identity cards on the event day (19 Sep 2026).',
               'All projects and solutions must be developed fresh on-site.',
               'Jury scoring decisions are final and binding.'
             ]).map((rule, idx) => (
               <div key={idx} className="flex items-start gap-2.5">
-                <CheckCircle2Icon className="h-4 w-4 text-[#D4AF37] shrink-0 mt-0.5" />
+                <CheckCircle2Icon className="h-4 w-4 text-[#10B981] shrink-0 mt-0.5" />
                 <p className="leading-relaxed">{rule}</p>
               </div>
             ))}
           </div>
 
-          {/* Agreement Checkbox */}
-          <label className="flex items-start gap-3 rounded-xl border border-[#D4AF37]/40 bg-[#FAFAFA] p-4 cursor-pointer hover:bg-[#FFFFFF] transition-colors">
+          <label className="flex items-start gap-3 rounded-xl border border-[#FF6B00]/40 bg-[#F8FAFC] p-4 cursor-pointer hover:bg-[#FFFFFF] transition-colors">
             <input
               type="checkbox"
               required
               checked={termsAccepted}
               onChange={(e) => setTermsAccepted(e.target.checked)}
-              className="h-5 w-5 rounded border-[#EAE6DF] text-[#D4AF37] focus:ring-[#D4AF37] mt-0.5"
+              className="h-5 w-5 rounded border-[#E2E8F0] text-[#FF6B00] focus:ring-[#FF6B00] mt-0.5"
             />
-            <div className="text-xs text-[#555555]">
-              <span className="font-bold block text-[#1C1C1C]">Team Declaration &amp; Acceptance</span>
+            <div className="text-xs text-[#475569]">
+              <span className="font-bold block text-[#0F172A]">Team Declaration &amp; Acceptance</span>
               <span>
                 I hereby declare that all provided team details are accurate and all participants agree to follow the RYVANTA '26 rules and campus regulations.
               </span>
             </div>
           </label>
 
-          {/* Action Buttons */}
-          <div className="flex items-center justify-between pt-4 border-t border-[#EAE6DF]">
+          <div className="flex items-center justify-between pt-4 border-t border-[#E2E8F0]">
             <button
               type="button"
               onClick={() => setCurrentStep('step2_members')}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] px-4 py-2.5 text-xs font-semibold text-[#555555] hover:bg-[#FFFFFF] hover:text-[#1C1C1C]"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-2.5 text-xs font-semibold text-[#475569] hover:bg-[#FFFFFF] hover:text-[#0F172A]"
             >
               <ArrowLeftIcon className="h-3.5 w-3.5" />
               <span>Back: Members</span>
@@ -1045,10 +1027,10 @@ export function RegistrationForm({
             <button
               type="submit"
               disabled={!termsAccepted}
-              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#B8860B] px-7 py-3 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] shadow-luxury hover:from-[#B8860B] hover:to-[#8B6508] disabled:opacity-50"
+              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#EA580C] px-7 py-3 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] shadow-luxury hover:from-[#EA580C] hover:to-[#C2410C] hover:shadow-orange-glow disabled:opacity-50"
             >
               <span>Next: Review Details</span>
-              <ArrowRightIcon className="h-4 w-4 text-[#FFD700]" />
+              <ArrowRightIcon className="h-4 w-4 text-[#FEF08A]" />
             </button>
           </div>
         </form>
@@ -1058,72 +1040,66 @@ export function RegistrationForm({
       {/* STEP 04: REVIEW DETAILS */}
       {/* ───────────────────────────────────────────────────────────── */}
       {currentStep === 'step4_review' && (
-        <div className="space-y-6 rounded-2xl border border-[#EAE6DF] bg-[#FFFFFF] p-6 sm:p-8 shadow-luxury">
-          <div className="border-b border-[#EAE6DF] pb-3">
-            <h3 className="font-serif text-lg font-bold text-[#1C1C1C] flex items-center gap-2">
-              <LayersIcon className="h-5 w-5 text-[#D4AF37]" />
+        <div className="space-y-6 rounded-2xl border border-[#E2E8F0] bg-[#FFFFFF] p-6 sm:p-8 shadow-luxury">
+          <div className="border-b border-[#E2E8F0] pb-3">
+            <h3 className="font-serif text-lg font-bold text-[#0F172A] flex items-center gap-2">
+              <LayersIcon className="h-5 w-5 text-[#FF6B00]" />
               <span>Step 04: Review Registration Summary</span>
             </h3>
-            <p className="mt-1 text-xs text-[#555555]">
+            <p className="mt-1 text-xs text-[#475569]">
               Verify your team information before proceeding to generate the participation ID.
             </p>
           </div>
 
-          {/* Summary Cards */}
           <div className="grid gap-4 sm:grid-cols-2">
-            {/* Squad Info */}
-            <div className="rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] p-4 space-y-2">
-              <span className="font-mono text-[10px] uppercase font-bold tracking-widest text-[#767676]">
+            <div className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-4 space-y-2">
+              <span className="font-mono text-[10px] uppercase font-bold tracking-widest text-[#64748B]">
                 Event &amp; Domain
               </span>
-              <div className="font-serif text-base font-bold text-[#1C1C1C]">{event.fullName}</div>
-              <div className="text-xs text-[#555555]">{institution}</div>
-              {department && <div className="text-xs text-[#555555]">Dept: {department}</div>}
-              <div className="mt-2 rounded-lg bg-[#FFFFFF] border border-[#EAE6DF] p-2 text-xs font-mono text-[#AA820A] font-bold">
+              <div className="font-serif text-base font-bold text-[#0F172A]">{event.fullName}</div>
+              <div className="text-xs text-[#475569]">{institution}</div>
+              {department && <div className="text-xs text-[#475569]">Dept: {department}</div>}
+              <div className="mt-2 rounded-lg bg-[#FFFFFF] border border-[#E2E8F0] p-2 text-xs font-mono text-[#FF6B00] font-bold">
                 Domain: {domain}
               </div>
             </div>
 
-            {/* Leader Info */}
-            <div className="rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] p-4 space-y-2">
-              <span className="font-mono text-[10px] uppercase font-bold tracking-widest text-[#767676]">
+            <div className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-4 space-y-2">
+              <span className="font-mono text-[10px] uppercase font-bold tracking-widest text-[#64748B]">
                 Team &amp; Leader Contact
               </span>
-              <div className="font-serif text-base font-bold text-[#1C1C1C]">{teamName}</div>
-              <div className="text-xs text-[#555555]">Lead: {leaderName}</div>
-              <div className="text-xs font-mono text-[#555555]">{leaderEmail}</div>
-              <div className="text-xs font-mono text-[#767676]">Mobile: +91 {leaderPhone}</div>
+              <div className="font-serif text-base font-bold text-[#0F172A]">{teamName}</div>
+              <div className="text-xs text-[#475569]">Lead: {leaderName}</div>
+              <div className="text-xs font-mono text-[#475569]">{leaderEmail}</div>
+              <div className="text-xs font-mono text-[#64748B]">Mobile: +91 {leaderPhone}</div>
             </div>
 
-            {/* Squad Members */}
-            <div className="sm:col-span-2 rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] p-4 space-y-3">
+            <div className="sm:col-span-2 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-4 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="font-mono text-[10px] uppercase font-bold tracking-widest text-[#767676]">
+                <span className="font-mono text-[10px] uppercase font-bold tracking-widest text-[#64748B]">
                   Team Roster ({memberCount} Members)
                 </span>
                 <button
                   type="button"
                   onClick={() => setCurrentStep('step2_members')}
-                  className="text-xs font-bold text-[#AA820A] hover:underline"
+                  className="text-xs font-bold text-[#FF6B00] hover:underline"
                 >
                   Edit Members
                 </button>
               </div>
 
               <div className="grid gap-2 sm:grid-cols-2">
-                {/* Leader */}
-                <div className="rounded-lg border border-[#D4AF37]/40 bg-[#FFFFFF] p-3 text-xs">
-                  <span className="font-bold text-[#1C1C1C] block">{leaderName} (Team Lead)</span>
-                  <span className="text-[11px] font-mono text-[#767676]">{leaderEmail}</span>
+                <div className="rounded-lg border border-[#FF6B00]/40 bg-[#FFFFFF] p-3 text-xs">
+                  <span className="font-bold text-[#0F172A] block">{leaderName} (Team Lead)</span>
+                  <span className="text-[11px] font-mono text-[#64748B]">{leaderEmail}</span>
                 </div>
 
-                {/* Other members */}
                 {squadMembers.map((m, idx) => (
-                  <div key={idx} className="rounded-lg border border-[#EAE6DF] bg-[#FFFFFF] p-3 text-xs">
-                    <span className="font-bold text-[#1C1C1C] block">
+                  <div key={idx} className="rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] p-3 text-xs">
+                    <span className="font-bold text-[#0F172A] block">
                       {m.name || `Member #${idx + 2}`}
                     </span>
-                    <span className="text-[11px] font-mono text-[#767676]">
+                    <span className="text-[11px] font-mono text-[#64748B]">
                       {m.email || 'Participant'} {m.rollNo ? `(${m.rollNo})` : ''}
                     </span>
                   </div>
@@ -1131,28 +1107,26 @@ export function RegistrationForm({
               </div>
             </div>
 
-            {/* Fee Summary */}
-            <div className="sm:col-span-2 flex items-center justify-between rounded-xl border border-[#D4AF37] bg-gradient-to-r from-[#D4AF37]/15 to-transparent p-4">
+            <div className="sm:col-span-2 flex items-center justify-between rounded-xl border border-[#FF6B00] bg-gradient-to-r from-orange-50 to-emerald-50/50 p-4">
               <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-[#1C1C1C] block">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#0F172A] block">
                   Registration Fee
                 </span>
-                <span className="text-[11px] text-[#555555]">
+                <span className="text-[11px] text-[#475569]">
                   Flat entry fee per team for {event.name}
                 </span>
               </div>
-              <div className="font-serif text-2xl font-black text-[#1C1C1C]">
+              <div className="font-serif text-2xl font-black text-[#0F172A]">
                 ₹{REGISTRATION_FEE}
               </div>
             </div>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex items-center justify-between pt-4 border-t border-[#EAE6DF]">
+          <div className="flex items-center justify-between pt-4 border-t border-[#E2E8F0]">
             <button
               type="button"
               onClick={() => setCurrentStep('step3_terms')}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] px-4 py-2.5 text-xs font-semibold text-[#555555] hover:bg-[#FFFFFF] hover:text-[#1C1C1C]"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-2.5 text-xs font-semibold text-[#475569] hover:bg-[#FFFFFF] hover:text-[#0F172A]"
             >
               <ArrowLeftIcon className="h-3.5 w-3.5" />
               <span>Back: Terms</span>
@@ -1160,10 +1134,10 @@ export function RegistrationForm({
             <button
               type="button"
               onClick={handleGoToStep5}
-              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#B8860B] px-7 py-3 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] shadow-luxury hover:from-[#B8860B] hover:to-[#8B6508]"
+              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#EA580C] px-7 py-3 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] shadow-luxury hover:from-[#EA580C] hover:to-[#C2410C] hover:shadow-orange-glow"
             >
               <span>Proceed to Payment</span>
-              <ArrowRightIcon className="h-4 w-4 text-[#FFD700]" />
+              <ArrowRightIcon className="h-4 w-4 text-[#FEF08A]" />
             </button>
           </div>
         </div>
@@ -1174,7 +1148,6 @@ export function RegistrationForm({
       {/* ───────────────────────────────────────────────────────────── */}
       {currentStep === 'step5_payment' && (
         <div className="space-y-6">
-          {/* Official Payment Box */}
           <PaymentQrBox
             upiId={upiId}
             payeeName={payeeName}
@@ -1187,43 +1160,41 @@ export function RegistrationForm({
             onScreenshotChange={setPaymentScreenshot}
           />
 
-          {/* Live Automated Verification Progress Bar */}
-          <div className="space-y-3 rounded-2xl border border-[#EAE6DF] bg-[#FFFFFF] p-5 text-xs shadow-luxury">
+          <div className="space-y-3 rounded-2xl border border-[#E2E8F0] bg-[#FFFFFF] p-5 text-xs shadow-luxury">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 {isSubmitting ? (
-                  <Loader2Icon className="h-4 w-4 animate-spin text-[#D4AF37]" />
+                  <Loader2Icon className="h-4 w-4 animate-spin text-[#FF6B00]" />
                 ) : (
-                  <div className="h-2.5 w-2.5 rounded-full bg-[#D4AF37] animate-ping" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-[#10B981] animate-ping" />
                 )}
-                <span className="font-semibold text-[#1C1C1C]">
+                <span className="font-semibold text-[#0F172A]">
                   {isSubmitting
                     ? verificationStatusText
                     : 'Awaiting Payment Verification: Pay via QR or UPI apps above'}
                 </span>
               </div>
-              <span className="font-mono text-xs font-bold text-[#D4AF37]">
+              <span className="font-mono text-xs font-bold text-[#FF6B00]">
                 {isSubmitting ? `${verificationProgress}%` : 'READY'}
               </span>
             </div>
 
             {isSubmitting && (
-              <div className="h-2 w-full overflow-hidden rounded-full bg-[#EAE6DF]">
+              <div className="h-2 w-full overflow-hidden rounded-full bg-[#E2E8F0]">
                 <div
-                  className="h-full bg-gradient-to-r from-[#D4AF37] to-[#FFD700] transition-all duration-300 ease-out shadow-sm"
+                  className="h-full bg-gradient-to-r from-[#FF6B00] via-[#0EA5E9] to-[#10B981] transition-all duration-300 ease-out shadow-sm"
                   style={{ width: `${verificationProgress}%` }}
                 />
               </div>
             )}
           </div>
 
-          {/* Final Submission Buttons */}
           <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
             <button
               type="button"
               onClick={() => setCurrentStep('step4_review')}
               disabled={isSubmitting}
-              className="inline-flex w-full sm:w-auto items-center justify-center gap-1.5 rounded-xl border border-[#EAE6DF] bg-[#FAFAFA] px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-[#555555] hover:bg-[#FFFFFF] hover:text-[#1C1C1C] disabled:opacity-50"
+              className="inline-flex w-full sm:w-auto items-center justify-center gap-1.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-[#475569] hover:bg-[#FFFFFF] hover:text-[#0F172A] disabled:opacity-50"
             >
               <ArrowLeftIcon className="h-4 w-4" />
               <span>Review Details</span>
@@ -1233,16 +1204,16 @@ export function RegistrationForm({
               type="button"
               onClick={() => void handleFinalSubmission()}
               disabled={isSubmitting}
-              className="inline-flex flex-1 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#B8860B] px-6 py-4 text-xs font-black uppercase tracking-wider text-[#FFFFFF] shadow-luxury transition-all hover:from-[#B8860B] hover:to-[#8B6508] disabled:cursor-not-allowed disabled:opacity-50"
+              className="inline-flex flex-1 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#EA580C] px-6 py-4 text-xs font-black uppercase tracking-wider text-[#FFFFFF] shadow-luxury transition-all hover:from-[#EA580C] hover:to-[#C2410C] hover:shadow-orange-glow disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isSubmitting ? (
                 <>
-                  <Loader2Icon className="h-4 w-4 animate-spin text-[#FFD700]" />
+                  <Loader2Icon className="h-4 w-4 animate-spin text-[#FEF08A]" />
                   <span>{verificationStatusText || 'Generating Participation ID...'}</span>
                 </>
               ) : (
                 <>
-                  <ShieldCheckIcon className="h-5 w-5 text-[#FFD700]" />
+                  <ShieldCheckIcon className="h-5 w-5 text-[#FEF08A]" />
                   <span>I Have Completed Payment — Generate TI{event.code}1001 ID</span>
                 </>
               )}

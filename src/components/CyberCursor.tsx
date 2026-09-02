@@ -21,7 +21,7 @@ export function CyberCursor() {
       mousePos.current.x = e.clientX;
       mousePos.current.y = e.clientY;
 
-      // Update ambient spotlight instantly
+      // Update ambient electric blue spotlight instantly
       if (spotRef.current) {
         spotRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
       }
@@ -62,25 +62,25 @@ export function CyberCursor() {
 
     // High-performance RAF loop
     function updateCursor() {
-      ringPos.current.x += (mousePos.current.x - ringPos.current.x) * 0.48;
-      ringPos.current.y += (mousePos.current.y - ringPos.current.y) * 0.48;
+      ringPos.current.x += (mousePos.current.x - ringPos.current.x) * 0.52;
+      ringPos.current.y += (mousePos.current.y - ringPos.current.y) * 0.52;
 
       if (ringRef.current) {
         const scale = isHovered.current ? 1.4 : isClicked.current ? 0.75 : 1;
         ringRef.current.style.transform = `translate3d(${ringPos.current.x}px, ${ringPos.current.y}px, 0) translate(-50%, -50%) scale(${scale})`;
 
         if (isHovered.current) {
-          ringRef.current.style.borderColor = '#D4AF37';
-          ringRef.current.style.backgroundColor = 'rgba(212, 175, 55, 0.15)';
-          ringRef.current.style.boxShadow = '0 0 20px rgba(212, 175, 55, 0.45)';
+          ringRef.current.style.borderColor = '#10B981';
+          ringRef.current.style.backgroundColor = 'rgba(16, 185, 129, 0.15)';
+          ringRef.current.style.boxShadow = '0 0 20px rgba(16, 185, 129, 0.5)';
         } else if (isClicked.current) {
-          ringRef.current.style.borderColor = '#1C1C1C';
-          ringRef.current.style.backgroundColor = 'rgba(28, 28, 28, 0.15)';
-          ringRef.current.style.boxShadow = '0 0 15px rgba(28, 28, 28, 0.2)';
+          ringRef.current.style.borderColor = '#FF6B00';
+          ringRef.current.style.backgroundColor = 'rgba(255, 107, 0, 0.2)';
+          ringRef.current.style.boxShadow = '0 0 15px rgba(255, 107, 0, 0.4)';
         } else {
-          ringRef.current.style.borderColor = '#D4AF37';
-          ringRef.current.style.backgroundColor = 'rgba(212, 175, 55, 0.04)';
-          ringRef.current.style.boxShadow = '0 0 12px rgba(212, 175, 55, 0.3)';
+          ringRef.current.style.borderColor = '#FF6B00';
+          ringRef.current.style.backgroundColor = 'rgba(255, 107, 0, 0.05)';
+          ringRef.current.style.boxShadow = '0 0 12px rgba(255, 107, 0, 0.35)';
         }
       }
 
@@ -100,26 +100,26 @@ export function CyberCursor() {
 
   return (
     <>
-      {/* Soft Metallic Gold Ambient Spotlight */}
+      {/* Dynamic Luminous Electric Blue Spotlight */}
       <div
         ref={spotRef}
         className="pointer-events-none fixed left-0 top-0 z-30 opacity-100 will-change-transform"
         style={{
           width: '380px',
           height: '380px',
-          background: 'radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, rgba(255, 215, 0, 0.03) 40%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(14, 165, 233, 0.12) 0%, rgba(59, 130, 246, 0.04) 40%, transparent 70%)',
           borderRadius: '50%'
         }}
       />
 
-      {/* Regal Metallic Gold Cursor Ring */}
+      {/* Cyber Orange & Green Cursor Ring */}
       <div
         ref={ringRef}
         className="pointer-events-none fixed left-0 top-0 z-50 rounded-full border opacity-100 will-change-transform transition-[border-color,background-color,box-shadow] duration-150 ease-out"
         style={{
-          width: '34px',
-          height: '34px',
-          borderWidth: '1.5px'
+          width: '32px',
+          height: '32px',
+          borderWidth: '2px'
         }}
       />
     </>
