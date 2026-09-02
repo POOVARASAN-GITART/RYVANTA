@@ -19,7 +19,7 @@ export function FloatingSupportWidget() {
                 <h4 className="font-serif text-sm font-bold text-[#000000]">
                   Official Helplines
                 </h4>
-                <p className="text-[10px] text-[#64748B]">Symposium &amp; Hackathon Desk</p>
+                <p className="text-[10px] text-[#64748B]">Tech Innovation Challenge Desk</p>
               </div>
             </div>
             <button

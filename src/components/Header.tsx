@@ -29,7 +29,7 @@ export function Header({ onOpenAdmin }: HeaderProps) {
               <span className="font-mono text-xs font-bold text-[#0EA5E9]">'26</span>
             </div>
             <span className="text-[10px] font-sans font-semibold tracking-wider text-[#64748B] uppercase line-clamp-1">
-              Jaya Engineering College · National Level Symposium &amp; Hackathon
+              Jaya Engineering College · National Level Tech Innovation Challenge
             </span>
           </div>
         </NavLink>

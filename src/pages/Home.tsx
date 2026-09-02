@@ -55,7 +55,7 @@ export function Home() {
         <div className="relative z-10">
           <div className="inline-flex items-center gap-2 rounded-full border border-[#0EA5E9] bg-[#FFFFFF] px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-widest text-[#0284C7] shadow-sm">
             <SparklesIcon className="h-3.5 w-3.5 text-[#0EA5E9]" />
-            <span>Jaya Engineering College · National Level Symposium &amp; Hackathon</span>
+            <span>Jaya Engineering College · National Level Tech Innovation Challenge</span>
           </div>
 
           <h1 className="mt-5 font-serif text-5xl font-black leading-[1.08] tracking-tight text-[#000000] sm:text-6xl lg:text-7xl">
@@ -119,7 +119,7 @@ export function Home() {
           />
 
           <CountdownCard
-            label="Symposium Commences In"
+            label="Challenge Commences In"
             target={EVENT_STARTS_AT}
             caption="Reporting Time: 19 September 2026, 08:30 AM IST (All Main Events)"
             completeLabel="Live today"

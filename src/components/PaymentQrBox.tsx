@@ -103,7 +103,7 @@ export function PaymentQrBox({
           </div>
           <div>
             <h3 className="font-serif text-base font-bold text-[#000000]">
-              Official Symposium Payment Gateway
+              Official Challenge Payment Gateway
             </h3>
             <span className="text-xs text-[#64748B]">Instant Automated Verification &amp; ID Issue</span>
           </div>

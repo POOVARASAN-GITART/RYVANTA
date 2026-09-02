@@ -138,7 +138,7 @@ export function Events() {
             <li className="flex items-start gap-2">
               <span className="text-[#0EA5E9] font-bold">•</span>
               <span>
-                <strong className="text-[#000000]">Symposium Day:</strong> All competitions take place on <strong>19 September 2026</strong>.
+                <strong className="text-[#000000]">Challenge Day:</strong> All competitions take place on <strong>19 September 2026</strong>.
               </span>
             </li>
           </ul>

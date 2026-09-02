@@ -194,7 +194,7 @@ export function RyvantaIntroLoader({ onComplete }: { onComplete?: () => void }) 
             : 'opacity-0 translate-y-6'
         }`}
       >
-        National Level Technical Symposium &amp; Hackathon
+        National Level Tech Innovation Challenge
       </p>
 
       {/* Cyber Progress Indicator Bar */}

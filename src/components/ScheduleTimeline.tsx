@@ -19,7 +19,7 @@ export function ScheduleTimeline() {
         <div>
           <div className="inline-flex items-center gap-2 rounded-full border border-[#0EA5E9]/40 bg-[#F8FAFC] px-3.5 py-1 text-xs font-mono font-bold uppercase tracking-widest text-[#0284C7]">
             <SparklesIcon className="h-3.5 w-3.5 text-[#0EA5E9]" />
-            <span>Symposium Day Schedule</span>
+            <span>Tech Innovation Challenge Schedule</span>
           </div>
           <h2 className="mt-3 font-serif text-2xl font-bold tracking-tight text-[#000000] sm:text-3xl lg:text-4xl">
             Event <span className="text-blue-gradient">Timeline</span> &amp; Schedule
@@ -31,7 +31,7 @@ export function ScheduleTimeline() {
 
         <div className="flex items-center gap-2 rounded-2xl border border-[#0EA5E9] bg-sky-50/70 px-4 py-2.5 text-xs font-mono font-bold text-[#0284C7] shadow-sm">
           <CalendarIcon className="h-4 w-4 text-[#0EA5E9]" />
-          <span>SYMPOSIUM DAY: 19 SEPTEMBER 2026</span>
+          <span>CHALLENGE DAY: 19 SEPTEMBER 2026</span>
         </div>
       </div>
 

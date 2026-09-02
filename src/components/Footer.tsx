@@ -17,7 +17,7 @@ export function Footer() {
               </span>
             </div>
             <p className="mt-2 text-xs text-[#64748B] max-w-md">
-              Jaya Engineering College · National Level Technical Symposium &amp; Hackathon — 19 September 2026.
+              Jaya Engineering College · National Level Tech Innovation Challenge — 19 September 2026.
               All competitions and team events held on-campus.
             </p>
           </div>
