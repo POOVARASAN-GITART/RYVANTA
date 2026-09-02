@@ -1,5 +1,6 @@
 import { EVENTS, REGISTRATION_FEE, getEvent } from '../data/events';
 import { CloudDatabase } from './firebase';
+import { saveToNeon, updatePaymentInNeon, fetchFromNeon } from './neonDatabase';
 import { submitToWeb3Forms } from './web3forms';
 import type {
   EventSettings,
@@ -193,6 +194,7 @@ export async function createRegistration(
 
   writeStore([...existing, record]);
   void CloudDatabase.saveRegistration(record);
+  void saveToNeon(record);
   void submitToWeb3Forms(record);
   return record;
 }
@@ -214,6 +216,7 @@ export async function updatePaymentStatus(
 
   writeStore(existing.map((record) => (record.id === id ? updated : record)));
   void CloudDatabase.updatePaymentStatus(id, paymentStatus);
+  void updatePaymentInNeon(id, paymentStatus, target.upiRef);
   return updated;
 }
 

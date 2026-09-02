@@ -63,14 +63,34 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ryvanta_backend.wsgi.application'
 
-# Database
-# Default to SQLite for easy zero-config local development
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+# Database Configuration (Supports Neon.tech Serverless PostgreSQL & Local SQLite)
+import urllib.parse
+
+NEON_DB_URL = os.environ.get('NEON_DATABASE_URL') or os.environ.get('DATABASE_URL')
+
+if NEON_DB_URL:
+    url = urllib.parse.urlparse(NEON_DB_URL)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': url.path[1:] if url.path else 'neondb',
+            'USER': url.username or '',
+            'PASSWORD': url.password or '',
+            'HOST': url.hostname or '',
+            'PORT': url.port or 5432,
+            'OPTIONS': {
+                'sslmode': 'require',
+            },
+        }
     }
-}
+else:
+    # Default to SQLite for easy zero-config local development
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [

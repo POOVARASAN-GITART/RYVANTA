@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@emotion/react": "^11.13.3",
+    "@neondatabase/serverless": "^1.1.0",
     "@types/qrcode": "^1.5.6",
     "@vercel/analytics": "^2.0.1",
     "firebase": "^12.18.0",
