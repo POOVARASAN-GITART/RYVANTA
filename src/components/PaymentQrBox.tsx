@@ -21,6 +21,7 @@ interface PaymentQrBoxProps {
   onUpiRefChange?: (val: string) => void;
   paymentScreenshot?: string;
   onScreenshotChange?: (base64: string | undefined) => void;
+  hideQrCode?: boolean;
 }
 
 export function PaymentQrBox({
@@ -32,7 +33,8 @@ export function PaymentQrBox({
   upiRef = '',
   onUpiRefChange,
   paymentScreenshot,
-  onScreenshotChange
+  onScreenshotChange,
+  hideQrCode = false
 }: PaymentQrBoxProps) {
   const [copiedUpi, setCopiedUpi] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
@@ -119,18 +121,20 @@ export function PaymentQrBox({
         </div>
       </div>
 
-      <div className="mt-6 grid gap-6 md:grid-cols-[220px_minmax(0,1fr)] items-start">
-        {/* QR Code Container */}
-        <div className="flex flex-col items-center justify-center rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-4 text-center">
-          <div className="rounded-xl border border-[#CBD5E1] bg-[#FFFFFF] p-3 shadow-md">
-            <QrCodeView value={genericUpiUri} size={168} />
-          </div>
+      <div className={`mt-6 grid gap-6 ${hideQrCode ? 'grid-cols-1' : 'md:grid-cols-[220px_minmax(0,1fr)]'} items-start`}>
+        {/* QR Code Container (hidden if hideQrCode is true) */}
+        {!hideQrCode && (
+          <div className="flex flex-col items-center justify-center rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-4 text-center">
+            <div className="rounded-xl border border-[#CBD5E1] bg-[#FFFFFF] p-3 shadow-md">
+              <QrCodeView value={genericUpiUri} size={168} />
+            </div>
 
-          <span className="mt-3 font-mono text-[10px] font-bold uppercase tracking-wider text-[#64748B]">
-            Scan with any UPI App
-          </span>
-          <span className="mt-0.5 text-[11px] font-medium text-[#0284C7]">GPay · PhonePe · Paytm · BHIM</span>
-        </div>
+            <span className="mt-3 font-mono text-[10px] font-bold uppercase tracking-wider text-[#64748B]">
+              Scan with any UPI App
+            </span>
+            <span className="mt-0.5 text-[11px] font-medium text-[#0284C7]">GPay · PhonePe · Paytm · BHIM</span>
+          </div>
+        )}
 
         {/* UPI Details & Deep Links */}
         <div className="space-y-4">

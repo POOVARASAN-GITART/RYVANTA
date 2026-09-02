@@ -23,7 +23,9 @@ export interface EventConfig {
   domains?: string[];
   scoringMatrix?: ScoringCriterion[];
   formatDetails?: string[];
+  hideQrCode?: boolean;
   rules?: string[];
+  scheduleTime?: string;
 }
 
 export const REGISTRATION_FEE = 300;
@@ -94,8 +96,8 @@ export const HACKATHON_TIMELINE: TimelineMilestone[] = [
     title: 'Live Sprint & Mentorship Evaluation',
     date: '19 Sep 2026',
     timeSlot: '09:30 AM – 05:30 PM',
-    venue: 'Auditorium / IT Lab / FOSS Lab',
-    description: 'Non-stop hacking and technical challenge rounds across Auditorium, IT Lab, and FOSS Lab with mandatory mentor reviews.',
+    venue: 'Auditorium / IT Lab / FOSS Lab / Network Lab / Smart Class Room',
+    description: 'Non-stop hacking and technical challenge rounds across all designated laboratories and competition halls with mentor reviews.',
     status: 'upcoming',
     badge: 'LIVE SPRINT',
     milestones: [
@@ -125,7 +127,7 @@ export const HACKATHON_TIMELINE: TimelineMilestone[] = [
     date: '19 Sep 2026',
     timeSlot: '08:00 PM – 09:30 PM',
     venue: 'Main Auditorium',
-    description: 'Announcement of winners across all 3 technical events, certificate distribution, internship offers, and cash prizes.',
+    description: 'Announcement of winners across all 5 technical arenas, certificate distribution, internship offers, and cash prizes.',
     status: 'upcoming',
     badge: 'AWARDS',
     milestones: [
@@ -230,7 +232,23 @@ export const CTF_FORMAT_DETAILS = [
   'Live Dynamic Scoreboard with time-penalty multipliers'
 ];
 
-// The Three Specific Technical Events
+// Event 4: E-Games (Free Fire) Domains
+export const EGAMES_DOMAINS = [
+  'Squad Battle Royale (Bermuda / Purgatory)',
+  'Clash Squad Championship',
+  'Custom Room Tactical Showdown',
+  'Free Fire E-Sports League'
+];
+
+// Event 5: Photography and video '26 Domains
+export const PHOTOGRAPHY_DOMAINS = [
+  'Photography & Video Editing',
+  'Candid Campus Life Photography',
+  'Cinematic Event Reel & Video Editing',
+  'Creative Visual Storytelling'
+];
+
+// The Five Official Technical Events
 export const EVENTS: EventConfig[] = [
   {
     id: 'hackathon',
@@ -294,6 +312,52 @@ export const EVENTS: EventConfig[] = [
       'Registration Fee: ₹300 per team.',
       'Format: 2 Rounds, 2 Flags to capture.',
       'Ethical hacking rules strictly enforced — no DDoS or attacking host infra.'
+    ]
+  },
+  {
+    id: 'egames',
+    code: 'E',
+    index: 4,
+    name: 'E-Games (Free Fire)',
+    fullName: 'E-Games (E-Sports Showdown - Free Fire)',
+    tagline: 'High-octane mobile battle royale showdown competing for the ultimate Booyah title.',
+    venue: 'Network Lab',
+    minMembers: 4,
+    maxMembers: 5,
+    memberCounts: [4, 5],
+    fee: REGISTRATION_FEE,
+    requiresDepartment: false,
+    domains: EGAMES_DOMAINS,
+    hideQrCode: true,
+    rules: [
+      'Team Size: Maximum 4 players + 1 substitute (4–5 members).',
+      'Venue: Network Lab.',
+      'Fair Play Policy: Strictly mobile devices only. Emulators, iPad triggers, and third-party tools are banned.',
+      'Room IDs and passwords will be distributed in the Network Lab.'
+    ]
+  },
+  {
+    id: 'photography',
+    code: 'P',
+    index: 5,
+    name: "Photography & Video '26",
+    fullName: "Photography and video '26",
+    tagline: 'Capture the visual essence of the technical challenge with candid photography and cinematic reels.',
+    venue: 'Smart Class Room',
+    minMembers: 2,
+    maxMembers: 3,
+    memberCounts: [2, 3],
+    fee: REGISTRATION_FEE,
+    requiresDepartment: false,
+    domains: PHOTOGRAPHY_DOMAINS,
+    scheduleTime: '02:00 PM onwards',
+    rules: [
+      'Venue: Smart Class Room.',
+      'Domain: Photography & Video Editing.',
+      'Date: September 19th, 2026 | Time: 02:00 PM onwards.',
+      'Team Size: Minimum 2, Maximum 3 members.',
+      'All footage & shots must be captured on-campus on event day.',
+      'Bring your own DSLRs / mirrorless cameras or smartphones and editing systems.'
     ]
   }
 ];

@@ -9,8 +9,10 @@ import {
   TrophyIcon,
   Gamepad2Icon,
   TerminalIcon,
+  FlameIcon,
+  CameraIcon,
   SparklesIcon,
-  BuildingIcon
+  ClockIcon
 } from 'lucide-react';
 import { CountdownCard } from '../components/CountdownCard';
 import { ScheduleTimeline } from '../components/ScheduleTimeline';
@@ -24,7 +26,9 @@ import {
 const EVENT_ICONS: Record<string, typeof TrophyIcon> = {
   hackathon: TrophyIcon,
   '2d-games': Gamepad2Icon,
-  ctf: TerminalIcon
+  ctf: TerminalIcon,
+  egames: FlameIcon,
+  photography: CameraIcon
 };
 
 const EVENT_COLOR_CLASSES: Record<string, { iconBg: string; iconColor: string; badgeColor: string }> = {
@@ -42,6 +46,16 @@ const EVENT_COLOR_CLASSES: Record<string, { iconBg: string; iconColor: string; b
     iconBg: 'bg-slate-100',
     iconColor: 'text-[#0F172A]',
     badgeColor: 'border-[#64748B]/40 text-[#0F172A]'
+  },
+  egames: {
+    iconBg: 'bg-sky-50',
+    iconColor: 'text-[#0EA5E9]',
+    badgeColor: 'border-[#0EA5E9]/40 text-[#0284C7]'
+  },
+  photography: {
+    iconBg: 'bg-blue-50',
+    iconColor: 'text-[#2563EB]',
+    badgeColor: 'border-[#2563EB]/40 text-[#2563EB]'
   }
 };
 
@@ -67,7 +81,7 @@ export function Home() {
           </h1>
 
           <p className="mt-6 max-w-xl text-base leading-relaxed text-[#475569] sm:text-lg">
-            Three premier national technical arenas, one prestigious campus, one defining day.
+            Five premier national technical arenas, one prestigious campus, one defining day.
             RYVANTA '26 takes off on{' '}
             <span className="font-bold text-[#000000]">19 September 2026</span> at Jaya Engineering College — a flat entry fee of{' '}
             <span className="font-bold text-[#0EA5E9]">₹{REGISTRATION_FEE}</span> per team grants full access to compete and win prizes.
@@ -77,7 +91,7 @@ export function Home() {
           <div className="mt-6 flex flex-wrap gap-2.5 text-xs font-mono">
             <span className="rounded-xl border border-[#E2E8F0] bg-[#FFFFFF] px-3.5 py-2 text-[#000000] font-semibold flex items-center gap-2 shadow-sm">
               <TrophyIcon className="h-3.5 w-3.5 text-[#0EA5E9]" />
-              3 Technical Arenas
+              {EVENTS.length} Technical Arenas
             </span>
             <span className="rounded-xl border border-[#E2E8F0] bg-[#FFFFFF] px-3.5 py-2 text-[#000000] font-semibold flex items-center gap-2 shadow-sm">
               <ZapIcon className="h-3.5 w-3.5 text-[#2563EB]" />
@@ -85,7 +99,7 @@ export function Home() {
             </span>
             <span className="rounded-xl border border-[#E2E8F0] bg-[#FFFFFF] px-3.5 py-2 text-[#000000] font-semibold flex items-center gap-2 shadow-sm">
               <ShieldCheckIcon className="h-3.5 w-3.5 text-[#0EA5E9]" />
-              Instant Participation ID (TICH/TID/TIC)
+              Instant Participation ID (TICH/TID/TIC/TIE/TIP)
             </span>
           </div>
 
@@ -133,7 +147,7 @@ export function Home() {
       <ScheduleTimeline />
 
       {/* ───────────────────────────────────────────────────────────── */}
-      {/* 3. DIGITAL POSTER CARDS FOR THE 3 TECHNICAL EVENTS */}
+      {/* 3. DIGITAL POSTER CARDS FOR THE 5 TECHNICAL EVENTS */}
       {/* ───────────────────────────────────────────────────────────── */}
       <section aria-labelledby="lineup-heading" className="space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b border-[#E2E8F0] pb-4">
@@ -169,7 +183,9 @@ export function Home() {
                       CODE: TI{event.code}1001
                     </span>
                     <span className="rounded-md border border-[#E2E8F0] bg-[#F8FAFC] px-2.5 py-1 text-[10px] font-mono font-semibold text-[#475569]">
-                      {event.minMembers}–{event.maxMembers} Members
+                      {event.id === 'egames'
+                        ? '4 + 1 Sub'
+                        : `${event.minMembers}–${event.maxMembers} Members`}
                     </span>
                   </div>
 
@@ -202,6 +218,18 @@ export function Home() {
                   {event.requiresDepartment && (
                     <div className="mt-4 inline-flex items-center gap-1.5 rounded-lg border border-[#0EA5E9]/40 bg-[#F8FAFC] px-2.5 py-1 text-[10px] font-mono font-bold text-[#0EA5E9]">
                       <span>Dynamic Department Selector (7 Depts)</span>
+                    </div>
+                  )}
+
+                  {event.id === 'egames' && (
+                    <div className="mt-4 inline-flex items-center gap-1.5 rounded-lg border border-[#0EA5E9]/40 bg-[#F8FAFC] px-2.5 py-1 text-[10px] font-mono font-bold text-[#0EA5E9]">
+                      <span>Max 4 Players + 1 Substitute · Network Lab</span>
+                    </div>
+                  )}
+
+                  {event.id === 'photography' && (
+                    <div className="mt-4 inline-flex items-center gap-1.5 rounded-lg border border-[#2563EB]/40 bg-[#F8FAFC] px-2.5 py-1 text-[10px] font-mono font-bold text-[#2563EB]">
+                      <span>19 Sep 2026 · 02:00 PM onwards · Smart Class Room</span>
                     </div>
                   )}
                 </div>

@@ -6,6 +6,8 @@ class Registration(models.Model):
         ('CH', "Hackathon '26 (Multi-Department Flagship)"),
         ('D', "2D Games (SOZO '26)"),
         ('C', "Capture The Flag (NEXVORA '26)"),
+        ('E', "E-Games (E-Sports Showdown - Free Fire)"),
+        ('P', "Photography and video '26"),
     ]
 
     DEPARTMENT_CHOICES = [
@@ -28,7 +30,7 @@ class Registration(models.Model):
         max_length=10,
         choices=EVENT_CHOICES,
         verbose_name="Event Code",
-        help_text="Event code (CH for Hackathon, D for 2D Games, C for CTF)"
+        help_text="Event code (CH for Hackathon, D for 2D Games, C for CTF, E for E-Games, P for Photography)"
     )
 
     event_name = models.CharField(
@@ -43,12 +45,12 @@ class Registration(models.Model):
         null=True,
         choices=DEPARTMENT_CHOICES,
         verbose_name="Engineering Department",
-        help_text="Required for Hackathon; Optional/Blank for 2D Games & CTF"
+        help_text="Required for Hackathon; Optional/Blank for others"
     )
 
     domain = models.CharField(
         max_length=200,
-        verbose_name="Selected Problem Domain / Game Theme",
+        verbose_name="Selected Problem Domain / Track",
         help_text="Chosen domain or problem statement track"
     )
 
@@ -79,7 +81,7 @@ class Registration(models.Model):
         unique=True,
         blank=True,
         verbose_name="Participation ID",
-        help_text="Unique formatted ID (e.g., TICH1001, TID1001, TIC1001)"
+        help_text="Unique formatted ID (e.g., TICH1001, TID1001, TIC1001, TIE1001, TIP1001)"
     )
 
     institution = models.CharField(

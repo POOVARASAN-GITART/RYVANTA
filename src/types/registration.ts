@@ -1,4 +1,4 @@
-export type EventId = 'hackathon' | '2d-games' | 'ctf';
+export type EventId = 'hackathon' | '2d-games' | 'ctf' | 'egames' | 'photography';
 
 export type PaymentStatus = 'pending' | 'verified' | 'rejected';
 
@@ -12,7 +12,7 @@ export interface SquadMember {
 }
 
 export interface Registration {
-  id: string; // e.g. TICH1001, TID1001, TIC1001
+  id: string; // e.g. TICH1001, TID1001, TIC1001, TIE1001, TIP1001
   eventId: EventId;
   eventName: string;
   teamName: string;

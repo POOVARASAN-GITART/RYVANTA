@@ -17,7 +17,11 @@ import {
   Gamepad2Icon,
   TerminalIcon,
   SparklesIcon,
-  TrophyIcon
+  TrophyIcon,
+  FlameIcon,
+  CameraIcon,
+  ClockIcon,
+  MapPinIcon
 } from 'lucide-react';
 import {
   HACKATHON_DEPARTMENTS,
@@ -91,6 +95,26 @@ const EVENT_CATEGORY_CARDS: {
     icon: TerminalIcon,
     colorClass: 'text-[#0284C7]',
     desc: '2 Rounds · Cybersecurity Offensive Challenge'
+  },
+  {
+    id: 'egames',
+    name: "E-Games (Free Fire)",
+    codeBadge: 'TIE###',
+    teamSizeLabel: '4 + 1 Substitute',
+    venue: 'Network Lab',
+    icon: FlameIcon,
+    colorClass: 'text-[#0EA5E9]',
+    desc: 'E-Sports Showdown · Mobile Squad Battle Royale'
+  },
+  {
+    id: 'photography',
+    name: "Photography & video '26",
+    codeBadge: 'TIP###',
+    teamSizeLabel: '2–3 Members',
+    venue: 'Smart Class Room',
+    icon: CameraIcon,
+    colorClass: 'text-[#2563EB]',
+    desc: 'Photography & Video Editing · 02:00 PM Onwards'
   }
 ];
 
@@ -252,7 +276,7 @@ export function RegistrationForm({
       return false;
     }
     if (!selectedEventId) {
-      setError(new ApiRequestError('Please select one of the three competition categories below.'));
+      setError(new ApiRequestError('Please select one of the competition categories below.'));
       return false;
     }
 
@@ -359,7 +383,7 @@ export function RegistrationForm({
         phone: m.phone?.trim() || '',
         department: m.department?.trim() || '',
         rollNo: m.rollNo?.trim() || '',
-        role: `Member #${idx + 2}`
+        role: idx === 3 && selectedEventId === 'egames' ? 'Substitute Player' : `Member #${idx + 2}`
       }))
     ];
 
@@ -497,7 +521,7 @@ export function RegistrationForm({
       )}
 
       {/* ───────────────────────────────────────────────────────────── */}
-      {/* STEP 01: TEAM IDENTITY & 3 COMPETITION CATEGORIES */}
+      {/* STEP 01: TEAM IDENTITY & 5 COMPETITION CATEGORIES */}
       {/* ───────────────────────────────────────────────────────────── */}
       {currentStep === 'step1_squad' && (
         <form onSubmit={handleGoToStep2} className="space-y-6 rounded-2xl border border-[#E2E8F0] bg-[#FFFFFF] p-6 sm:p-8 shadow-luxury">
@@ -628,19 +652,19 @@ export function RegistrationForm({
           </div>
 
           {/* ───────────────────────────────────────────────────────────── */}
-          {/* THE 3 COMPETITION CATEGORIES (BELOW TEAM LEADER EMAIL ID) */}
+          {/* THE 5 COMPETITION CATEGORIES (BELOW TEAM LEADER EMAIL ID) */}
           {/* ───────────────────────────────────────────────────────────── */}
           <div className="pt-4 border-t border-[#E2E8F0] space-y-3">
             <div className="flex items-center justify-between">
               <label className="block text-xs font-serif font-bold uppercase tracking-wider text-[#000000]">
-                Select Competition Category <span className="text-[#0EA5E9]">*</span>
+                Select Competition Category ({EVENT_CATEGORY_CARDS.length} Technical Arenas) <span className="text-[#0EA5E9]">*</span>
               </label>
               <span className="text-[11px] font-mono text-[#0284C7] font-bold">
                 Flat ₹{REGISTRATION_FEE} per team
               </span>
             </div>
 
-            <div className="grid gap-3.5 sm:grid-cols-3">
+            <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
               {EVENT_CATEGORY_CARDS.map((cat) => {
                 const isSelected = selectedEventId === cat.id;
                 const Icon = cat.icon;
@@ -798,7 +822,7 @@ export function RegistrationForm({
               </select>
             </div>
 
-            {/* Event Specification Banner */}
+            {/* Event Specific Criteria Banners */}
             {event.scoringMatrix && (
               <div className="mt-3 rounded-lg border border-[#CBD5E1] bg-[#FFFFFF] p-3 text-xs space-y-2">
                 <div className="flex items-center gap-1.5 font-serif font-bold text-[#000000]">
@@ -832,6 +856,42 @@ export function RegistrationForm({
                 </ul>
               </div>
             )}
+
+            {selectedEventId === 'egames' && (
+              <div className="mt-3 rounded-lg border border-[#0EA5E9]/40 bg-[#FFFFFF] p-3 text-xs space-y-1.5">
+                <div className="flex items-center gap-1.5 font-serif font-bold text-[#000000]">
+                  <FlameIcon className="h-4 w-4 text-[#0EA5E9]" />
+                  <span>E-Sports Free Fire Battle Royale Protocol</span>
+                </div>
+                <p className="text-[11px] text-[#475569]">
+                  Squads play in Network Lab with mobile devices. Team consists of 4 main players plus 1 optional substitute.
+                </p>
+              </div>
+            )}
+
+            {selectedEventId === 'photography' && (
+              <div className="mt-3 rounded-lg border border-[#2563EB]/40 bg-[#FFFFFF] p-3 text-xs space-y-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1.5 font-serif font-bold text-[#000000]">
+                    <CameraIcon className="h-4 w-4 text-[#2563EB]" />
+                    <span>Photography and video '26 Schedule Details</span>
+                  </div>
+                  <span className="rounded-full bg-sky-50 border border-[#0EA5E9] px-2.5 py-0.5 font-mono text-[10px] font-bold text-[#0284C7]">
+                    02:00 PM ONWARDS
+                  </span>
+                </div>
+                <div className="flex flex-wrap gap-4 text-[11px] text-[#475569] font-mono">
+                  <span className="flex items-center gap-1">
+                    <MapPinIcon className="h-3 w-3 text-[#0EA5E9]" />
+                    Venue: Smart Class Room
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <ClockIcon className="h-3 w-3 text-[#0EA5E9]" />
+                    Date: 19 Sep 2026, 02:00 PM
+                  </span>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Section B: Team Members Names */}
@@ -856,7 +916,7 @@ export function RegistrationForm({
                           : 'text-[#475569] hover:text-[#000000]'
                       }`}
                     >
-                      {count} Members
+                      {count} {selectedEventId === 'egames' && count === 5 ? 'Members (4 + 1 Sub)' : 'Members'}
                     </button>
                   ))}
                 </div>
@@ -881,6 +941,7 @@ export function RegistrationForm({
             {/* Dynamic Members List */}
             {squadMembers.map((member, index) => {
               const memberNum = index + 2;
+              const isSubstitute = selectedEventId === 'egames' && memberNum === 5;
               return (
                 <div
                   key={index}
@@ -891,9 +952,11 @@ export function RegistrationForm({
                       <span className="flex h-5 w-5 items-center justify-center rounded-md bg-[#FFFFFF] border border-[#CBD5E1] font-mono text-[10px] text-[#475569]">
                         {memberNum.toString().padStart(2, '0')}
                       </span>
-                      <span>Team Member #{memberNum}</span>
+                      <span>{isSubstitute ? 'Substitute Player (Player #5)' : `Team Member #${memberNum}`}</span>
                     </span>
-                    <span className="text-[10px] font-mono text-[#64748B]">Student Identity</span>
+                    <span className="text-[10px] font-mono text-[#64748B]">
+                      {isSubstitute ? 'Backup Participant' : 'Student Identity'}
+                    </span>
                   </div>
 
                   <div className="grid gap-3 sm:grid-cols-3">
@@ -1097,7 +1160,7 @@ export function RegistrationForm({
                 {squadMembers.map((m, idx) => (
                   <div key={idx} className="rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] p-3 text-xs">
                     <span className="font-bold text-[#000000] block">
-                      {m.name || `Member #${idx + 2}`}
+                      {m.name || `Member #${idx + 2}`} {idx === 3 && selectedEventId === 'egames' ? '(Substitute)' : ''}
                     </span>
                     <span className="text-[11px] font-mono text-[#64748B]">
                       {m.email || 'Participant'} {m.rollNo ? `(${m.rollNo})` : ''}
@@ -1158,6 +1221,7 @@ export function RegistrationForm({
             onUpiRefChange={setUpiRef}
             paymentScreenshot={paymentScreenshot}
             onScreenshotChange={setPaymentScreenshot}
+            hideQrCode={Boolean(event.hideQrCode)}
           />
 
           <div className="space-y-3 rounded-2xl border border-[#E2E8F0] bg-[#FFFFFF] p-5 text-xs shadow-luxury">
@@ -1171,7 +1235,7 @@ export function RegistrationForm({
                 <span className="font-semibold text-[#000000]">
                   {isSubmitting
                     ? verificationStatusText
-                    : 'Awaiting Payment Verification: Pay via QR or UPI apps above'}
+                    : 'Awaiting Payment Verification: Pay via UPI apps or UPI ID above'}
                 </span>
               </div>
               <span className="font-mono text-xs font-bold text-[#0EA5E9]">
