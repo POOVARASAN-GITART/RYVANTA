@@ -5,6 +5,7 @@ import { TrophyIcon } from 'lucide-react';
 const NAV_ITEMS = [
   { to: '/', label: 'Home' },
   { to: '/events', label: 'Events & Registration' },
+  { to: '/about', label: 'About Us' },
   { to: '/support', label: 'Helpdesk & Support' }
 ];
 

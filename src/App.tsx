@@ -11,6 +11,7 @@ import { RegistrationsProvider } from './contexts/RegistrationsContext';
 import { Events } from './pages/Events';
 import { Home } from './pages/Home';
 import { Support } from './pages/Support';
+import { About } from './pages/About';
 
 export function App() {
   const [isAdminOpen, setIsAdminOpen] = useState(false);
@@ -78,6 +79,7 @@ export function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/events" element={<Events />} />
+                <Route path="/about" element={<About />} />
                 <Route path="/support" element={<Support />} />
                 <Route path="/admin" element={<AdminDirectView />} />
                 <Route path="*" element={<Home />} />
