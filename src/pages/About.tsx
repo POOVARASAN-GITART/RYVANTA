@@ -52,6 +52,11 @@ export function About() {
             <GraduationCapIcon className="h-3.5 w-3.5" />
             Vice – Chairman
           </div>
+          <div className="mt-6 border-t border-[#E2E8F0] pt-6">
+            <p className="font-serif text-[13px] font-medium italic leading-relaxed text-[#475569]">
+              "Mind has thousand eyes But the Heart with one yet the light of whole life done when the Education is in"
+            </p>
+          </div>
         </div>
 
         {/* Secretary */}
@@ -63,6 +68,11 @@ export function About() {
           <div className="mt-2 inline-flex items-center gap-1.5 rounded-lg border border-[#0EA5E9]/30 bg-[#0EA5E9]/10 px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-wider text-[#0284C7]">
             <UserIcon className="h-3.5 w-3.5" />
             Secretary
+          </div>
+          <div className="mt-6 border-t border-[#E2E8F0] pt-6">
+            <p className="font-serif text-[13px] font-medium italic leading-relaxed text-[#475569]">
+              "We are launching in all hearts of forth-coming Engineering doers. The vision of worldwide corporate scope has been given and still continues in our reputed Jaya Engineering College. We are giving helping-aid to various technical innovations and stimulating those projects for worldwide knowledge. Like a Mother assuaging the pain to success of child, we are indeed find immense pleasure in helping economically lagging but mentally capable students to obtain scholarships, sponsors, bank loans and other endowment prizes. Like a well known proverb, this is not an end; but a beginning. Our Jaya Engineering College will do Educational Service in Eternal Manner."
+            </p>
           </div>
         </div>
       </div>
