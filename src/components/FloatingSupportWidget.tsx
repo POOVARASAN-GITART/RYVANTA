@@ -73,7 +73,7 @@ export function FloatingSupportWidget() {
         </div>
         <span className="font-serif">Official Helplines</span>
         <span className="rounded-full bg-sky-950/60 border border-[#0EA5E9] px-2 py-0.5 font-mono text-[10px] font-bold text-[#38BDF8]">
-          +91 95665 2006
+          +91 95665 42006
         </span>
       </button>
     </div>
