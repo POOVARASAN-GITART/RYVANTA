@@ -19,8 +19,7 @@ import { ScheduleTimeline } from '../components/ScheduleTimeline';
 import {
   EVENTS,
   EVENT_STARTS_AT,
-  REGISTRATION_CLOSES_AT,
-  REGISTRATION_FEE
+  REGISTRATION_CLOSES_AT
 } from '../data/events';
 
 const EVENT_ICONS: Record<string, typeof TrophyIcon> = {
@@ -83,8 +82,7 @@ export function Home() {
           <p className="mt-6 max-w-xl text-base leading-relaxed text-[#475569] sm:text-lg">
             Five premier national technical arenas, one prestigious campus, one defining day.
             RYVANTA '26 takes off on{' '}
-            <span className="font-bold text-[#000000]">19 September 2026</span> at Jaya Engineering College — an entry fee of{' '}
-            <span className="font-bold text-[#0EA5E9]">₹{REGISTRATION_FEE}</span> per person grants full access to compete and win prizes.
+            <span className="font-bold text-[#000000]">19 September 2026</span> at Jaya Engineering College. Join us to compete, innovate, and win exciting prizes.
           </p>
 
           {/* Key Value Badges */}
@@ -92,10 +90,6 @@ export function Home() {
             <span className="rounded-xl border border-[#E2E8F0] bg-[#FFFFFF] px-3.5 py-2 text-[#000000] font-semibold flex items-center gap-2 shadow-sm">
               <TrophyIcon className="h-3.5 w-3.5 text-[#0EA5E9]" />
               {EVENTS.length} Technical Arenas
-            </span>
-            <span className="rounded-xl border border-[#E2E8F0] bg-[#FFFFFF] px-3.5 py-2 text-[#000000] font-semibold flex items-center gap-2 shadow-sm">
-              <ZapIcon className="h-3.5 w-3.5 text-[#0EA5E9]" />
-              ₹100 Per Person Entry
             </span>
             <span className="rounded-xl border border-[#E2E8F0] bg-[#FFFFFF] px-3.5 py-2 text-[#000000] font-semibold flex items-center gap-2 shadow-sm">
               <ShieldCheckIcon className="h-3.5 w-3.5 text-[#0EA5E9]" />

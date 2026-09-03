@@ -186,7 +186,7 @@ export async function createRegistration(
     eventName: event.fullName,
     memberCount: input.members.length,
     paymentMethod: 'upi',
-    feeAmount: input.feeAmount || ((input.members?.length || input.memberCount || 1) * REGISTRATION_FEE),
+    feeAmount: input.feeAmount || REGISTRATION_FEE,
     paymentStatus: input.paymentStatus ?? 'verified',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
