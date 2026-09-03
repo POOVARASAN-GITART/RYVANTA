@@ -67,10 +67,10 @@ export function Home() {
           </div>
 
           <h1 className="mt-5 font-serif text-5xl font-black leading-[1.08] tracking-tight text-[#000000] sm:text-6xl lg:text-7xl">
-            Innovate. Build.
+            Inspire. Invent.
             <br />
             <span className="text-[#0EA5E9]">
-              Conquer.
+              Impact.
             </span>
           </h1>
 
