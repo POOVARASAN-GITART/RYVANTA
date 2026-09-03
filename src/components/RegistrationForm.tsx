@@ -392,7 +392,7 @@ export function RegistrationForm({
     ];
 
     const totalMembersCount = 1 + squadMembers.length;
-    const totalFeeAmount = REGISTRATION_FEE;
+    const totalFeeAmount = totalMembersCount * REGISTRATION_FEE;
 
     await PaymentGateway.initiatePayment({
       teamName: teamName.trim(),
@@ -673,7 +673,7 @@ export function RegistrationForm({
                 Select Competition Category ({EVENT_CATEGORY_CARDS.length} Technical Arenas) <span className="text-[#0EA5E9]">*</span>
               </label>
               <span className="text-[11px] font-mono text-[#0284C7] font-bold">
-                ₹{REGISTRATION_FEE} per team
+                ₹{REGISTRATION_FEE} per person
               </span>
             </div>
 
@@ -1163,14 +1163,14 @@ export function RegistrationForm({
             <div className="sm:col-span-2 flex items-center justify-between rounded-xl border border-[#0EA5E9] bg-sky-50 p-4">
               <div>
                 <span className="text-xs font-bold uppercase tracking-wider text-[#000000] block">
-                  Registration Fee
+                  Registration Fee (₹{REGISTRATION_FEE} / person)
                 </span>
                 <span className="text-[11px] text-[#475569]">
-                  Flat team registration fee for {event.fullName}
+                  ₹{REGISTRATION_FEE} × {1 + squadMembers.length} participants ({leaderName.trim() || 'Leader'} + {squadMembers.length} squad member{squadMembers.length !== 1 ? 's' : ''})
                 </span>
               </div>
               <div className="font-serif text-2xl font-black text-[#000000]">
-                ₹{REGISTRATION_FEE}
+                ₹{(1 + squadMembers.length) * REGISTRATION_FEE}
               </div>
             </div>
           </div>
@@ -1204,7 +1204,7 @@ export function RegistrationForm({
           <PaymentQrBox
             upiId={upiId}
             payeeName={payeeName}
-            feeAmount={REGISTRATION_FEE}
+            feeAmount={(1 + squadMembers.length) * REGISTRATION_FEE}
             eventName={event.fullName}
             teamName={teamName}
             upiRef={upiRef}
@@ -1270,7 +1270,7 @@ export function RegistrationForm({
               ) : (
                 <>
                   <ShieldCheckIcon className="h-5 w-5 text-[#E0F2FE]" />
-                  <span>Authenticate Payment &amp; Generate TI{event.code}1001 ID (₹{REGISTRATION_FEE})</span>
+                  <span>Authenticate Payment &amp; Generate TI{event.code}1001 ID (₹{(1 + squadMembers.length) * REGISTRATION_FEE})</span>
                 </>
               )}
             </button>

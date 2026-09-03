@@ -126,7 +126,7 @@ export function Events() {
             <li className="flex items-start gap-2">
               <span className="text-[#2563EB] font-bold">•</span>
               <span>
-                <strong className="text-[#000000]">Entry Fee:</strong> Registration fee of <code className="text-[#000000] font-mono font-bold bg-[#F8FAFC] px-1.5 py-0.5 rounded border border-[#E2E8F0]">₹300</code> per team.
+                <strong className="text-[#000000]">Entry Fee:</strong> Registration fee of <code className="text-[#000000] font-mono font-bold bg-[#F8FAFC] px-1.5 py-0.5 rounded border border-[#E2E8F0]">₹100</code> per person.
               </span>
             </li>
             <li className="flex items-start gap-2">

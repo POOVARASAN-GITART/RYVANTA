@@ -86,7 +86,7 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
   const collected = registrations.filter((r) => r.paymentStatus === 'verified').length;
   const totalRevenue = registrations
     .filter((r) => r.paymentStatus === 'verified')
-    .reduce((sum, r) => sum + (r.feeAmount || REGISTRATION_FEE), 0);
+    .reduce((sum, r) => sum + (r.feeAmount || ((r.members?.length || r.memberCount || 1) * REGISTRATION_FEE)), 0);
 
   async function handleAuth(event: React.FormEvent) {
     event.preventDefault();
