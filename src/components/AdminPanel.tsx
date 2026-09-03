@@ -169,8 +169,8 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
                 <h3 className="font-serif text-base font-bold text-[#000000]">
                   Convenor Passcode Required
                 </h3>
-                <p className="text-xs text-[#64748B]">
-                  Default convenor passcode: <code className="font-mono font-bold text-[#000000] bg-white px-1.5 py-0.5 rounded border">admin123</code>
+                <p className="mt-1 text-xs text-[#64748B]">
+                  Enter authorized convenor security key to access.
                 </p>
               </div>
 
