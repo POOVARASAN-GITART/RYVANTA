@@ -192,7 +192,7 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
               <button
                 type="submit"
                 disabled={isAuthenticating || !passcode}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#0EA5E9] to-[#2563EB] px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] hover:from-[#0284C7] hover:to-[#1D4ED8] disabled:opacity-50 shadow-md"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#0EA5E9] px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] hover:bg-[#0284C7] disabled:opacity-50 shadow-md"
               >
                 {isAuthenticating && <Loader2Icon className="h-4 w-4 animate-spin" />}
                 <span>Unlock Console</span>
@@ -244,7 +244,7 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
                     type="button"
                     onClick={downloadCsv}
                     disabled={!registrations.length}
-                    className="inline-flex items-center gap-1.5 rounded-xl border border-[#0EA5E9] bg-gradient-to-r from-[#0EA5E9] to-[#2563EB] px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] hover:from-[#0284C7] hover:to-[#1D4ED8] shadow-sm"
+                    className="inline-flex items-center gap-1.5 rounded-xl bg-[#0EA5E9] px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] hover:bg-[#0284C7] shadow-sm"
                   >
                     <DownloadIcon className="h-3.5 w-3.5" />
                     <span>CSV</span>
@@ -558,7 +558,7 @@ function NeonDatabaseManager({ registrations }: { registrations: Registration[] 
               <button
                 type="submit"
                 disabled={isTesting || !connString.trim()}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#0EA5E9] to-[#2563EB] px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] hover:from-[#0284C7] hover:to-[#1D4ED8] disabled:opacity-50 shadow-sm"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-[#0EA5E9] px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] hover:bg-[#0284C7] disabled:opacity-50 shadow-sm"
               >
                 {isTesting && <Loader2Icon className="h-3.5 w-3.5 animate-spin" />}
                 <span>{isTesting ? 'Testing...' : 'Connect & Save'}</span>
@@ -679,7 +679,7 @@ function PayeeSettings({ settings, onSave }: PayeeSettingsProps) {
         <button
           type="submit"
           disabled={!isDirty || isSaving}
-          className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#0EA5E9] to-[#2563EB] px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] hover:from-[#0284C7] hover:to-[#1D4ED8] disabled:opacity-50 shadow-sm"
+          className="inline-flex items-center gap-1.5 rounded-xl bg-[#0EA5E9] px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] hover:bg-[#0284C7] disabled:opacity-50 shadow-sm"
         >
           {isSaving && <Loader2Icon className="h-3.5 w-3.5 animate-spin text-[#E0F2FE]" />}
           {saved && !isDirty && <CheckIcon className="h-3.5 w-3.5 text-sky-200" />}

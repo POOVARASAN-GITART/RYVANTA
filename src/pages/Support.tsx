@@ -12,7 +12,7 @@ export function Support() {
         </div>
 
         <h1 className="mt-4 font-serif text-3xl sm:text-4xl font-black text-[#000000] tracking-tight">
-          Helpdesk &amp; <span className="text-blue-gradient">Support</span>
+          Helpdesk &amp; <span className="text-[#0EA5E9]">Support</span>
         </h1>
         <p className="mt-3 text-sm leading-relaxed text-[#475569]">
           Have queries regarding registration, payments, problem domains, or need team changes?

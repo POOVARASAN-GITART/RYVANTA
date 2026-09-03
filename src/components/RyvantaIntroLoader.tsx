@@ -101,25 +101,25 @@ export function RyvantaIntroLoader({ onComplete }: { onComplete?: () => void }) 
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         {/* Top edge beam */}
         <div
-          className={`absolute top-0 left-0 h-[2px] w-full bg-gradient-to-r from-transparent via-[#0EA5E9] to-transparent transition-all duration-1000 ease-out ${
+          className={`absolute top-0 left-0 h-[2px] w-full bg-[#0EA5E9] transition-all duration-1000 ease-out ${
             mounted ? 'translate-x-0 opacity-80' : '-translate-x-full opacity-0'
           }`}
         />
         {/* Bottom edge beam */}
         <div
-          className={`absolute bottom-0 left-0 h-[2px] w-full bg-gradient-to-r from-transparent via-[#2563EB] to-transparent transition-all duration-1000 ease-out ${
+          className={`absolute bottom-0 left-0 h-[2px] w-full bg-[#0EA5E9] transition-all duration-1000 ease-out ${
             mounted ? 'translate-x-0 opacity-80' : 'translate-x-full opacity-0'
           }`}
         />
         {/* Left edge beam */}
         <div
-          className={`absolute top-0 left-0 w-[2px] h-full bg-gradient-to-b from-transparent via-[#CBD5E1] to-transparent transition-all duration-1000 ease-out ${
+          className={`absolute top-0 left-0 w-[2px] h-full bg-[#CBD5E1] transition-all duration-1000 ease-out ${
             mounted ? 'translate-y-0 opacity-60' : '-translate-y-full opacity-0'
           }`}
         />
         {/* Right edge beam */}
         <div
-          className={`absolute top-0 right-0 w-[2px] h-full bg-gradient-to-b from-transparent via-[#CBD5E1] to-transparent transition-all duration-1000 ease-out ${
+          className={`absolute top-0 right-0 w-[2px] h-full bg-[#CBD5E1] transition-all duration-1000 ease-out ${
             mounted ? 'translate-y-0 opacity-60' : 'translate-y-full opacity-0'
           }`}
         />
@@ -163,7 +163,7 @@ export function RyvantaIntroLoader({ onComplete }: { onComplete?: () => void }) 
                       : 'none'
                 }}
               >
-                <span className="bg-gradient-to-b from-[#FFFFFF] via-[#E2E8F0] to-[#94A3B8] bg-clip-text text-transparent">
+                <span className="text-[#FFFFFF]">
                   {item.char}
                 </span>
               </span>
@@ -179,10 +179,10 @@ export function RyvantaIntroLoader({ onComplete }: { onComplete?: () => void }) 
               : 'opacity-0 scale-0 translate-y-8'
           }`}
           style={{
-            textShadow: '0 0 25px rgba(14, 165, 233, 0.9), 0 0 50px rgba(37, 99, 235, 0.6)'
+            textShadow: '0 0 25px rgba(14, 165, 233, 0.9)'
           }}
         >
-          <span className="bg-gradient-to-r from-[#38BDF8] via-[#0EA5E9] to-[#2563EB] bg-clip-text text-transparent">
+          <span className="text-[#0EA5E9]">
             '26
           </span>
         </span>
@@ -208,7 +208,7 @@ export function RyvantaIntroLoader({ onComplete }: { onComplete?: () => void }) 
             type="button"
             onClick={handleLoginToWebsite}
             autoFocus
-            className="group relative inline-flex items-center gap-2.5 rounded-2xl bg-gradient-to-r from-[#0EA5E9] via-[#38BDF8] to-[#2563EB] px-8 py-4 text-xs font-mono font-bold uppercase tracking-widest text-[#FFFFFF] shadow-2xl hover:scale-105 hover:shadow-blue-glow transition-all duration-200 animate-bounce"
+            className="group relative inline-flex items-center gap-2.5 rounded-2xl bg-[#0EA5E9] px-8 py-4 text-xs font-mono font-bold uppercase tracking-widest text-[#FFFFFF] shadow-2xl hover:bg-[#0284C7] hover:scale-105 hover:shadow-blue-glow transition-all duration-200 animate-bounce"
           >
             <CpuIcon className="h-4 w-4 text-white animate-spin" />
             <span>LOGIN TO RYVANTA PORTAL</span>
@@ -219,7 +219,7 @@ export function RyvantaIntroLoader({ onComplete }: { onComplete?: () => void }) 
           <div className="flex flex-col items-center gap-2 w-64 sm:w-80">
             <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-900 border border-slate-800">
               <div
-                className="h-full bg-gradient-to-r from-[#0EA5E9] via-[#38BDF8] to-[#2563EB] shadow-blue-glow transition-all duration-100 ease-linear"
+                className="h-full bg-[#0EA5E9] shadow-blue-glow transition-all duration-100 ease-linear"
                 style={{ width: `${progress}%` }}
               />
             </div>

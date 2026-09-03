@@ -75,7 +75,7 @@ export function Home() {
           <h1 className="mt-5 font-serif text-5xl font-black leading-[1.08] tracking-tight text-[#000000] sm:text-6xl lg:text-7xl">
             Innovate. Build.
             <br />
-            <span className="text-blue-gradient">
+            <span className="text-[#0EA5E9]">
               Conquer.
             </span>
           </h1>
@@ -94,7 +94,7 @@ export function Home() {
               {EVENTS.length} Technical Arenas
             </span>
             <span className="rounded-xl border border-[#E2E8F0] bg-[#FFFFFF] px-3.5 py-2 text-[#000000] font-semibold flex items-center gap-2 shadow-sm">
-              <ZapIcon className="h-3.5 w-3.5 text-[#2563EB]" />
+              <ZapIcon className="h-3.5 w-3.5 text-[#0EA5E9]" />
               ₹100 Per Person Entry
             </span>
             <span className="rounded-xl border border-[#E2E8F0] bg-[#FFFFFF] px-3.5 py-2 text-[#000000] font-semibold flex items-center gap-2 shadow-sm">
@@ -107,7 +107,7 @@ export function Home() {
           <div className="mt-8 flex flex-wrap items-center gap-4">
             <Link
               to="/events"
-              className="group inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#0EA5E9] to-[#2563EB] px-8 py-4 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] shadow-luxury hover:from-[#0284C7] hover:to-[#1D4ED8] hover:shadow-blue-glow transition-all duration-200 hover:scale-[1.02]"
+              className="group inline-flex items-center gap-2 rounded-xl bg-[#0EA5E9] px-8 py-4 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] shadow-luxury hover:bg-[#0284C7] hover:shadow-blue-glow transition-all duration-200 hover:scale-[1.02]"
             >
               <span>Register Your Team</span>
               <ArrowRightIcon className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1 text-[#E0F2FE]" />
@@ -159,7 +159,7 @@ export function Home() {
               id="lineup-heading"
               className="mt-1 font-serif text-3xl font-bold tracking-tight text-[#000000] sm:text-4xl"
             >
-              Official Event <span className="text-blue-gradient">Lineup</span> &amp; Modules
+              Official Event <span className="text-[#0EA5E9]">Lineup</span> &amp; Modules
             </h2>
           </div>
           <span className="rounded-xl border border-[#0EA5E9] bg-[#FFFFFF] px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-widest text-[#000000] shadow-sm">

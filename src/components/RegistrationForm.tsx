@@ -758,7 +758,7 @@ export function RegistrationForm({
           <div className="flex justify-end pt-4 border-t border-[#E2E8F0]">
             <button
               type="submit"
-              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#0EA5E9] to-[#2563EB] px-7 py-3.5 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] shadow-luxury hover:from-[#0284C7] hover:to-[#1D4ED8] hover:shadow-blue-glow transition-all"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#0EA5E9] px-7 py-3.5 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] shadow-luxury hover:bg-[#0284C7] hover:shadow-blue-glow transition-all"
             >
               <span>Next: Team Members &amp; Domains</span>
               <ArrowRightIcon className="h-4 w-4 text-[#E0F2FE]" />
@@ -1048,7 +1048,7 @@ export function RegistrationForm({
             </button>
             <button
               type="submit"
-              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#0EA5E9] to-[#2563EB] px-7 py-3 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] shadow-luxury hover:from-[#0284C7] hover:to-[#1D4ED8] hover:shadow-blue-glow"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#0EA5E9] px-7 py-3 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] shadow-luxury hover:bg-[#0284C7] hover:shadow-blue-glow"
             >
               <span>Next: Terms &amp; Rules</span>
               <ArrowRightIcon className="h-4 w-4 text-[#E0F2FE]" />
@@ -1113,7 +1113,7 @@ export function RegistrationForm({
             <button
               type="submit"
               disabled={!termsAccepted}
-              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#0EA5E9] to-[#2563EB] px-7 py-3 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] shadow-luxury hover:from-[#0284C7] hover:to-[#1D4ED8] hover:shadow-blue-glow disabled:opacity-50"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#0EA5E9] px-7 py-3 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] shadow-luxury hover:bg-[#0284C7] hover:shadow-blue-glow disabled:opacity-50"
             >
               <span>Next: Review Details</span>
               <ArrowRightIcon className="h-4 w-4 text-[#E0F2FE]" />
@@ -1193,7 +1193,7 @@ export function RegistrationForm({
               </div>
             </div>
 
-            <div className="sm:col-span-2 flex items-center justify-between rounded-xl border border-[#0EA5E9] bg-gradient-to-r from-sky-50 to-slate-100 p-4">
+            <div className="sm:col-span-2 flex items-center justify-between rounded-xl border border-[#0EA5E9] bg-sky-50 p-4">
               <div>
                 <span className="text-xs font-bold uppercase tracking-wider text-[#000000] block">
                   Registration Fee (₹{REGISTRATION_FEE} / person)
@@ -1220,7 +1220,7 @@ export function RegistrationForm({
             <button
               type="button"
               onClick={handleGoToStep5}
-              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#0EA5E9] to-[#2563EB] px-7 py-3 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] shadow-luxury hover:from-[#0284C7] hover:to-[#1D4ED8] hover:shadow-blue-glow"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#0EA5E9] px-7 py-3 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] shadow-luxury hover:bg-[#0284C7] hover:shadow-blue-glow"
             >
               <span>Proceed to Payment</span>
               <ArrowRightIcon className="h-4 w-4 text-[#E0F2FE]" />
@@ -1271,7 +1271,7 @@ export function RegistrationForm({
             {isSubmitting && (
               <div className="h-2 w-full overflow-hidden rounded-full bg-[#E2E8F0]">
                 <div
-                  className="h-full bg-gradient-to-r from-[#0EA5E9] via-[#38BDF8] to-[#2563EB] transition-all duration-300 ease-out shadow-sm"
+                  className="h-full bg-[#0EA5E9] transition-all duration-300 ease-out shadow-sm"
                   style={{ width: `${verificationProgress}%` }}
                 />
               </div>
@@ -1293,7 +1293,7 @@ export function RegistrationForm({
               type="button"
               onClick={() => void handleFinalSubmission()}
               disabled={isSubmitting || (!upiRef.trim() && !paymentScreenshot)}
-              className="inline-flex flex-1 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#0EA5E9] to-[#2563EB] px-6 py-4 text-xs font-black uppercase tracking-wider text-[#FFFFFF] shadow-luxury transition-all hover:from-[#0284C7] hover:to-[#1D4ED8] hover:shadow-blue-glow disabled:cursor-not-allowed disabled:opacity-50"
+              className="inline-flex flex-1 w-full items-center justify-center gap-2 rounded-xl bg-[#0EA5E9] px-6 py-4 text-xs font-black uppercase tracking-wider text-[#FFFFFF] shadow-luxury transition-all hover:bg-[#0284C7] hover:shadow-blue-glow disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isSubmitting ? (
                 <>

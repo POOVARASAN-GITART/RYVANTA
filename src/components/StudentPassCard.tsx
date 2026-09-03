@@ -38,7 +38,7 @@ export function StudentPassCard({
       {/* Action Bar */}
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E2E8F0] pb-4 print:hidden">
         <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-[#0EA5E9] to-[#2563EB] text-white font-serif font-bold text-xs">
+          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#0EA5E9] text-white font-serif font-bold text-xs">
             TI
           </div>
           <div>
@@ -79,7 +79,7 @@ export function StudentPassCard({
         className="student-pass-root relative overflow-hidden rounded-3xl border-2 border-[#0EA5E9] bg-[#FFFFFF] p-6 sm:p-8 shadow-luxury-lg text-[#000000]"
       >
         {/* Decorative Corner Glow */}
-        <div className="absolute -top-12 -right-12 h-32 w-32 rounded-full bg-gradient-to-br from-sky-400/20 to-slate-400/20 blur-xl pointer-events-none" />
+        <div className="absolute -top-12 -right-12 h-32 w-32 rounded-full bg-sky-500/10 blur-xl pointer-events-none" />
 
         {/* Header Ribbon */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b-2 border-[#E2E8F0] pb-6">

@@ -34,7 +34,7 @@ export function Footer({ onOpenAdmin }: FooterProps) {
               className="flex items-center gap-2 cursor-pointer select-none group"
               title="RYVANTA '26"
             >
-              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-[#0EA5E9] to-[#2563EB] text-white font-serif font-black text-xs group-hover:scale-105 transition-transform">
+              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#0EA5E9] text-white font-serif font-black text-xs group-hover:scale-105 transition-transform">
                 R
               </div>
               <span className="font-serif text-xl font-bold tracking-wider text-[#000000]">

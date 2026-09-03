@@ -22,7 +22,7 @@ export function ScheduleTimeline() {
             <span>Tech Innovation Challenge Schedule</span>
           </div>
           <h2 className="mt-3 font-serif text-2xl font-bold tracking-tight text-[#000000] sm:text-3xl lg:text-4xl">
-            Event <span className="text-blue-gradient">Timeline</span> &amp; Schedule
+            Event <span className="text-[#0EA5E9]">Timeline</span> &amp; Schedule
           </h2>
           <p className="mt-2 max-w-xl text-xs sm:text-sm text-[#475569]">
             Complete milestone breakdown from online team registration (deadline 10-09-2026) to the Grand Awards Ceremony on 19-09-2026.

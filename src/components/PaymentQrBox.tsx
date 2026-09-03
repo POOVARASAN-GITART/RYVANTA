@@ -175,7 +175,7 @@ export function PaymentQrBox({
               </a>
               <a
                 href={genericUpiUri}
-                className="flex items-center justify-center gap-1.5 rounded-xl border border-[#0EA5E9] bg-gradient-to-r from-sky-50 to-slate-100 p-2.5 text-xs font-bold text-[#000000] hover:bg-sky-100 transition-colors shadow-sm"
+                className="flex items-center justify-center gap-1.5 rounded-xl border border-[#0EA5E9] bg-sky-50 p-2.5 text-xs font-bold text-[#000000] hover:bg-sky-100 transition-colors shadow-sm"
               >
                 <ExternalLinkIcon className="h-3.5 w-3.5 text-[#0EA5E9]" />
                 <span>Any UPI App</span>

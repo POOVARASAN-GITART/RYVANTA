@@ -41,7 +41,7 @@ export function Header({ onOpenAdmin }: HeaderProps) {
           title="RYVANTA '26"
         >
           <NavLink to="/" className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#0EA5E9] to-[#2563EB] text-[#FFFFFF] font-serif font-black text-lg shadow-md transition-transform duration-200 group-hover:scale-105">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#0EA5E9] text-[#FFFFFF] font-serif font-black text-lg shadow-md transition-transform duration-200 group-hover:scale-105">
               R
             </div>
             <div className="flex flex-col">
@@ -83,7 +83,7 @@ export function Header({ onOpenAdmin }: HeaderProps) {
         <div className="flex items-center gap-3">
           <Link
             to="/events"
-            className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#0EA5E9] to-[#2563EB] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] shadow-md hover:from-[#0284C7] hover:to-[#1D4ED8] transition-all duration-200 hover:shadow-blue-glow"
+            className="inline-flex items-center gap-2 rounded-xl bg-[#0EA5E9] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-[#FFFFFF] shadow-md hover:bg-[#0284C7] transition-all duration-200 hover:shadow-blue-glow"
           >
             <TrophyIcon className="h-3.5 w-3.5 text-[#E0F2FE]" />
             <span>Register Team</span>

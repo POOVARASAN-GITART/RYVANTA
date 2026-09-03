@@ -19,7 +19,6 @@
   --text-muted: #64748B;
   
   --brand-blue: #0EA5E9;
-  --brand-blue-deep: #2563EB;
   --silver-metallic: #94A3B8;
   --silver-border: #E2E8F0;
 }
@@ -35,11 +34,6 @@ body {
   color: #1E293B;
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
-  background-image: 
-    radial-gradient(circle at 10% 0%, rgba(14, 165, 233, 0.05) 0%, transparent 45%),
-    radial-gradient(circle at 90% 20%, rgba(148, 163, 184, 0.08) 0%, transparent 45%),
-    radial-gradient(circle at 50% 80%, rgba(37, 99, 235, 0.04) 0%, transparent 50%);
-  background-size: 100% 100%, 100% 100%, 100% 100%;
 }
 
 ::selection {
@@ -52,7 +46,7 @@ body {
   outline-offset: 2px;
 }
 
-/* Polished Blue & Silver Scrollbar */
+/* Polished Single Primary Blue Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -61,40 +55,38 @@ body {
   background: #F8FAFC;
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #0EA5E9 0%, #64748B 100%);
+  background: #0EA5E9;
   border-radius: 4px;
   border: 2px solid #FFFFFF;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #0284C7 0%, #475569 100%);
+  background: #0284C7;
 }
 
-/* Typography Gradients */
+/* Typography Classes (Single Primary Solid Color) */
 .text-blue-gradient, .text-gold-gradient, .text-orange-gradient {
-  background: linear-gradient(135deg, #0EA5E9 0%, #2563EB 50%, #1D4ED8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #0EA5E9;
+  -webkit-text-fill-color: #0EA5E9;
 }
 
 .text-silver-gradient {
-  background: linear-gradient(135deg, #0F172A 0%, #64748B 50%, #94A3B8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #64748B;
+  -webkit-text-fill-color: #64748B;
 }
 
 .blue-border-glow {
-  border: 1px solid rgba(14, 165, 233, 0.6);
-  box-shadow: 0 0 20px rgba(14, 165, 233, 0.25);
+  border: 1px solid #0EA5E9;
+  box-shadow: 0 0 15px rgba(14, 165, 233, 0.2);
 }
 
 .blue-border-glow:hover {
-  border-color: #0EA5E9;
-  box-shadow: 0 0 30px rgba(14, 165, 233, 0.4);
+  border-color: #0284C7;
+  box-shadow: 0 0 20px rgba(14, 165, 233, 0.35);
 }
 
 .silver-border-glow {
-  border: 1px solid rgba(148, 163, 184, 0.6);
-  box-shadow: 0 0 20px rgba(148, 163, 184, 0.2);
+  border: 1px solid #CBD5E1;
+  box-shadow: 0 0 15px rgba(148, 163, 184, 0.15);
 }
 
 .shadow-luxury {
