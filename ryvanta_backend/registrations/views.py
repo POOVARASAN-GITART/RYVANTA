@@ -76,10 +76,14 @@ class RegistrationStatsAPIView(views.APIView):
     """
     def get(self, request):
         total_count = Registration.objects.count()
-        verified_count = Registration.objects.filter(payment_status='verified').count()
+        verified_regs = Registration.objects.filter(payment_status='verified')
+        verified_count = verified_regs.count()
         event_breakdown = Registration.objects.values('event_code', 'event_name').annotate(total=Count('id'))
 
-        total_revenue = verified_count * 300  # Flat ₹300 per team
+        total_revenue = sum(
+            len(r.members) * 100 if isinstance(r.members, list) and len(r.members) > 0 else 100
+            for r in verified_regs
+        )
 
         return Response({
             "total_teams": total_count,

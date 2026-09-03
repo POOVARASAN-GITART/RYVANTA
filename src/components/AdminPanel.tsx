@@ -84,6 +84,9 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
   }, [query, registrations]);
 
   const collected = registrations.filter((r) => r.paymentStatus === 'verified').length;
+  const totalRevenue = registrations
+    .filter((r) => r.paymentStatus === 'verified')
+    .reduce((sum, r) => sum + (r.feeAmount || ((r.members?.length || r.memberCount || 1) * REGISTRATION_FEE)), 0);
 
   async function handleAuth(event: React.FormEvent) {
     event.preventDefault();
@@ -222,7 +225,7 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
                     Total Fees Collected
                   </span>
                   <div className="font-serif text-2xl font-bold text-[#000000]">
-                    ₹{collected * REGISTRATION_FEE}
+                    ₹{totalRevenue.toLocaleString('en-IN')}
                   </div>
                 </div>
 

@@ -28,7 +28,8 @@ export interface EventConfig {
   scheduleTime?: string;
 }
 
-export const REGISTRATION_FEE = 300;
+export const REGISTRATION_FEE = 100; // ₹100 per person
+export const REGISTRATION_FEE_PER_PERSON = 100;
 
 export const REGISTRATION_CLOSES_AT = '2026-09-10T23:59:59';
 export const EVENT_STARTS_AT = '2026-09-19T08:30:00';
@@ -309,7 +310,7 @@ export const EVENTS: EventConfig[] = [
     formatDetails: CTF_FORMAT_DETAILS,
     rules: [
       'Team Size: Minimum 2, Maximum 3 members.',
-      'Registration Fee: ₹300 per team.',
+      'Registration Fee: ₹100 per person.',
       'Format: 2 Rounds, 2 Flags to capture.',
       'Ethical hacking rules strictly enforced — no DDoS or attacking host infra.'
     ]
