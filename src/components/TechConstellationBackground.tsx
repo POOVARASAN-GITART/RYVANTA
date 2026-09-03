@@ -23,14 +23,6 @@ export function TechConstellationBackground() {
     let width = 0;
     let height = 0;
     let isMobile = false;
-
-    // Mouse tracking for dynamic blue wave interactivity (desktop only)
-    const mouse = {
-      x: -1000,
-      y: -1000,
-      radius: 140
-    };
-
     let points: Point[] = [];
 
     function resize() {
@@ -39,7 +31,7 @@ export function TechConstellationBackground() {
       height = window.innerHeight;
       isMobile = width < 768 || window.matchMedia('(pointer: coarse)').matches;
 
-      // Use 1.0 DPR on mobile for maximum framerate & battery efficiency
+      // 1.0 DPR on mobile for maximum responsiveness
       const dpr = isMobile ? 1.0 : Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
@@ -50,7 +42,7 @@ export function TechConstellationBackground() {
 
     function initPoints() {
       points = [];
-      const count = isMobile ? 18 : Math.min(Math.max(Math.floor((width * height) / 18000), 30), 55);
+      const count = isMobile ? 16 : Math.min(Math.max(Math.floor((width * height) / 20000), 24), 45);
 
       const colorOptions: Point['colorType'][] = [
         'cyan',
@@ -67,46 +59,27 @@ export function TechConstellationBackground() {
         points.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          vx: (Math.random() - 0.5) * (isMobile ? 0.35 : 0.45),
-          vy: (Math.random() - 0.5) * (isMobile ? 0.35 : 0.45),
-          radius: isSilver ? Math.random() * 1.4 + 1.0 : Math.random() * 1.3 + 0.8,
-          baseAlpha: Math.random() * 0.45 + 0.3,
+          vx: (Math.random() - 0.5) * (isMobile ? 0.3 : 0.4),
+          vy: (Math.random() - 0.5) * (isMobile ? 0.3 : 0.4),
+          radius: isSilver ? Math.random() * 1.3 + 0.9 : Math.random() * 1.2 + 0.8,
+          baseAlpha: Math.random() * 0.4 + 0.25,
           colorType
         });
       }
     }
 
-    function onMouseMove(e: MouseEvent) {
-      if (isMobile) return;
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-    }
-
-    function onMouseLeave() {
-      mouse.x = -1000;
-      mouse.y = -1000;
-    }
-
     window.addEventListener('resize', resize, { passive: true });
-    if (!window.matchMedia('(pointer: coarse)').matches) {
-      window.addEventListener('mousemove', onMouseMove, { passive: true });
-      document.addEventListener('mouseleave', onMouseLeave, { passive: true });
-    }
-
     resize();
 
-    const connectionDistance = isMobile ? 65 : 120;
-    let waveTime = 0;
+    const connectionDistance = isMobile ? 65 : 115;
 
     function render() {
       if (!ctx || !canvas) return;
 
       ctx.clearRect(0, 0, width, height);
-      waveTime += 0.012;
-
       const len = points.length;
 
-      // Render living blue & silver particle constellation
+      // Smooth ambient particle floating without any mouse tracking
       for (let i = 0; i < len; i++) {
         const p = points[i];
 
@@ -118,19 +91,6 @@ export function TechConstellationBackground() {
         if (p.x < 0 || p.x > width) p.vx *= -1;
         if (p.y < 0 || p.y > height) p.vy *= -1;
 
-        // Mouse attraction (Desktop only)
-        if (!isMobile && mouse.x > 0 && mouse.y > 0) {
-          const dx = mouse.x - p.x;
-          const dy = mouse.y - p.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-
-          if (dist < mouse.radius) {
-            const force = (1 - dist / mouse.radius) * 0.5;
-            p.x += (dx / dist) * force;
-            p.y += (dy / dist) * force;
-          }
-        }
-
         // Draw connecting electric blue / silver lines
         for (let j = i + 1; j < len; j++) {
           const p2 = points[j];
@@ -139,12 +99,12 @@ export function TechConstellationBackground() {
           const dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist < connectionDistance) {
-            const alpha = (1 - dist / connectionDistance) * 0.22;
+            const alpha = (1 - dist / connectionDistance) * 0.2;
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
             ctx.strokeStyle = `rgba(14, 165, 233, ${alpha})`;
-            ctx.lineWidth = 0.8;
+            ctx.lineWidth = 0.75;
             ctx.stroke();
           }
         }
@@ -175,8 +135,6 @@ export function TechConstellationBackground() {
 
     return () => {
       window.removeEventListener('resize', resize);
-      window.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseleave', onMouseLeave);
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
@@ -185,7 +143,7 @@ export function TechConstellationBackground() {
     <canvas
       ref={canvasRef}
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 z-0 h-full w-full opacity-70 will-change-transform"
+      className="pointer-events-none fixed inset-0 z-0 h-full w-full opacity-65 will-change-transform"
     />
   );
 }

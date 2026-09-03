@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { AdminPanel } from './components/AdminPanel';
-import { CyberCursor } from './components/CyberCursor';
 import { FloatingSupportWidget } from './components/FloatingSupportWidget';
 import { TechConstellationBackground } from './components/TechConstellationBackground';
 import { RyvantaIntroLoader } from './components/RyvantaIntroLoader';
@@ -37,9 +36,6 @@ export function App() {
         <div className="relative min-h-screen w-full flex-col bg-[#FFFFFF] overflow-x-hidden text-[#1E293B] selection:bg-[#0EA5E9] selection:text-white">
           {/* Interactive Living Tech Constellation Canvas Background */}
           <TechConstellationBackground />
-
-          {/* Interactive Cyber Blue & Silver Dual-Ring Cursor */}
-          <CyberCursor />
 
           {/* Persistent Floating Support Widget */}
           <FloatingSupportWidget />
