@@ -226,7 +226,7 @@ export function RyvantaIntroLoader({ onComplete }: { onComplete?: () => void }) 
             <div className="flex w-full items-center justify-between font-mono text-[10px] text-slate-500">
               <span className="flex items-center gap-1.5">
                 <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#0EA5E9] animate-ping" />
-                SYSTEM INITIALIZING (3.0s)
+                SYSTEM INITIALIZING
               </span>
               <span className="font-bold text-[#0EA5E9]">{progress}%</span>
             </div>
