@@ -23,7 +23,7 @@ export function About() {
         {/* Chairman */}
         <div className="flex flex-col items-center rounded-2xl border border-[#E2E8F0] bg-[#FFFFFF] p-8 text-center shadow-luxury transition-all duration-300 hover:-translate-y-1 hover:border-[#0EA5E9] hover:shadow-luxury-lg">
           <div className="mb-6 h-56 w-56 overflow-hidden rounded-full border-4 border-sky-50 shadow-md bg-[#FFFFFF]">
-            <img src="/images/chairman.png" alt="Prof.A. Kanagaraj M.A., M.Phil." className="h-full w-full object-contain p-2" />
+            <img src="/images/chairman.jpg" alt="Prof.A. Kanagaraj M.A., M.Phil." className="h-full w-full object-cover" />
           </div>
           <h2 className="font-serif text-xl font-bold text-[#000000]">Prof.A. Kanagaraj M.A., M.Phil.</h2>
           <div className="mt-2 inline-flex items-center gap-1.5 rounded-lg border border-[#0EA5E9]/30 bg-[#0EA5E9]/10 px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-wider text-[#0284C7]">
@@ -45,7 +45,7 @@ export function About() {
         {/* Vice-Chairman */}
         <div className="flex flex-col items-center rounded-2xl border border-[#E2E8F0] bg-[#FFFFFF] p-8 text-center shadow-luxury transition-all duration-300 hover:-translate-y-1 hover:border-[#0EA5E9] hover:shadow-luxury-lg">
           <div className="mb-6 h-56 w-56 overflow-hidden rounded-full border-4 border-sky-50 shadow-md bg-[#FFFFFF]">
-            <img src="/images/vice-chairman.png" alt="Er. K.Navaraj, M.Tech., (Ph.D.)" className="h-full w-full object-contain p-2" />
+            <img src="/images/vice-chairman.jpg" alt="Er. K.Navaraj, M.Tech., (Ph.D.)" className="h-full w-full object-cover" />
           </div>
           <h2 className="font-serif text-xl font-bold text-[#000000]">Er. K.Navaraj, M.Tech., (Ph.D.)</h2>
           <div className="mt-2 inline-flex items-center gap-1.5 rounded-lg border border-[#0EA5E9]/30 bg-[#0EA5E9]/10 px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-wider text-[#0284C7]">
@@ -62,7 +62,7 @@ export function About() {
         {/* Secretary */}
         <div className="flex flex-col items-center rounded-2xl border border-[#E2E8F0] bg-[#FFFFFF] p-8 text-center shadow-luxury transition-all duration-300 hover:-translate-y-1 hover:border-[#0EA5E9] hover:shadow-luxury-lg">
           <div className="mb-6 h-56 w-56 overflow-hidden rounded-full border-4 border-sky-50 shadow-md bg-[#FFFFFF]">
-            <img src="/images/secretary.png" alt="Smt. K.Vijaya Kumari, M.A., B.Ed." className="h-full w-full object-contain p-2" />
+            <img src="/images/secretary.jpg" alt="Smt. K.Vijaya Kumari, M.A., B.Ed." className="h-full w-full object-cover" />
           </div>
           <h2 className="font-serif text-xl font-bold text-[#000000]">Smt. K.Vijaya Kumari, M.A., B.Ed.</h2>
           <div className="mt-2 inline-flex items-center gap-1.5 rounded-lg border border-[#0EA5E9]/30 bg-[#0EA5E9]/10 px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-wider text-[#0284C7]">
