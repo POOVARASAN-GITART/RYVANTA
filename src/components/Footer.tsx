@@ -1,15 +1,40 @@
-import React from 'react';
-import { SparklesIcon, ShieldCheckIcon, PhoneIcon } from 'lucide-react';
+import React, { useRef } from 'react';
+import { ShieldCheckIcon, PhoneIcon, LockIcon } from 'lucide-react';
 import { SUPPORT_LINES } from '../data/events';
 
-export function Footer() {
+interface FooterProps {
+  onOpenAdmin?: () => void;
+}
+
+export function Footer({ onOpenAdmin }: FooterProps) {
+  const clickCount = useRef(0);
+  const clickTimer = useRef<NodeJS.Timeout | null>(null);
+
+  function handleSecretLogoClick() {
+    clickCount.current += 1;
+    if (clickTimer.current) clearTimeout(clickTimer.current);
+
+    if (clickCount.current >= 3) {
+      clickCount.current = 0;
+      onOpenAdmin?.();
+    } else {
+      clickTimer.current = setTimeout(() => {
+        clickCount.current = 0;
+      }, 1200);
+    }
+  }
+
   return (
     <footer className="border-t border-[#E2E8F0] bg-[#FFFFFF] py-12 text-[#475569] print:hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 border-b border-[#E2E8F0] pb-8">
           <div>
-            <div className="flex items-center gap-2">
-              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-[#0EA5E9] to-[#2563EB] text-white font-serif font-black text-xs">
+            <div
+              onClick={handleSecretLogoClick}
+              className="flex items-center gap-2 cursor-pointer select-none group"
+              title="RYVANTA '26"
+            >
+              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-[#0EA5E9] to-[#2563EB] text-white font-serif font-black text-xs group-hover:scale-105 transition-transform">
                 R
               </div>
               <span className="font-serif text-xl font-bold tracking-wider text-[#000000]">
@@ -47,9 +72,23 @@ export function Footer() {
             <span>Secure Automated Registration &amp; Sequential ID Engine</span>
           </div>
 
-          <p>© 2026 RYVANTA Organizing Committee · Jaya Engineering College. All rights reserved.</p>
+          <div className="flex items-center gap-3">
+            <p>© 2026 RYVANTA Organizing Committee · Jaya Engineering College. All rights reserved.</p>
+            {/* Discrete Secret Lock Button for Organizers */}
+            <button
+              type="button"
+              onClick={onOpenAdmin}
+              className="text-[#CBD5E1] hover:text-[#0EA5E9] p-1 transition-colors"
+              title="Organizer Portal"
+              aria-label="Organizer Portal"
+            >
+              <LockIcon className="h-3 w-3" />
+            </button>
+          </div>
         </div>
       </div>
     </footer>
   );
 }
+
+export default Footer;

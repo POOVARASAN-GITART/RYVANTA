@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { AdminPanel } from './components/AdminPanel';
@@ -15,12 +15,42 @@ import { Support } from './pages/Support';
 export function App() {
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [isLoadingIntro, setIsLoadingIntro] = useState(true);
+  const keyBuffer = useRef('');
 
   useEffect(() => {
-    if (!isAdminOpen) return;
     function onKeyDown(event: KeyboardEvent) {
-      if (event.key === 'Escape') setIsAdminOpen(false);
+      // 1. Close on Escape
+      if (event.key === 'Escape' && isAdminOpen) {
+        setIsAdminOpen(false);
+        return;
+      }
+
+      // Ignore input fields
+      const target = event.target as HTMLElement | null;
+      if (target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) {
+        return;
+      }
+
+      // 2. Secret Keyboard Shortcut: Ctrl + Shift + A or Cmd + Shift + A or F2
+      if (
+        ((event.ctrlKey || event.metaKey) && event.shiftKey && (event.key === 'A' || event.key === 'a')) ||
+        event.key === 'F2'
+      ) {
+        event.preventDefault();
+        setIsAdminOpen((prev) => !prev);
+        return;
+      }
+
+      // 3. Secret Sequence: Typing "admin" on keyboard
+      if (/^[a-zA-Z]$/.test(event.key)) {
+        keyBuffer.current = (keyBuffer.current + event.key.toLowerCase()).slice(-5);
+        if (keyBuffer.current === 'admin') {
+          keyBuffer.current = '';
+          setIsAdminOpen(true);
+        }
+      }
     }
+
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [isAdminOpen]);
@@ -34,7 +64,7 @@ export function App() {
         )}
 
         <div className="relative min-h-screen w-full flex-col bg-[#FFFFFF] overflow-x-hidden text-[#1E293B] selection:bg-[#0EA5E9] selection:text-white">
-          {/* Interactive Living Tech Constellation Canvas Background */}
+          {/* Interactive Living Tech Constellation Canvas Background (Enlarged & Cinematic) */}
           <TechConstellationBackground />
 
           {/* Persistent Floating Support Widget */}
@@ -54,7 +84,7 @@ export function App() {
               </Routes>
             </main>
 
-            <Footer />
+            <Footer onOpenAdmin={() => setIsAdminOpen(true)} />
 
             {isAdminOpen && <AdminPanel onClose={() => setIsAdminOpen(false)} />}
           </div>
@@ -71,3 +101,5 @@ function AdminDirectView() {
     </div>
   );
 }
+
+export default App;
