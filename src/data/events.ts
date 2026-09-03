@@ -324,14 +324,14 @@ export const EVENTS: EventConfig[] = [
     tagline: 'High-octane mobile battle royale showdown competing for the ultimate Booyah title.',
     venue: 'Network Lab',
     minMembers: 4,
-    maxMembers: 5,
-    memberCounts: [4, 5],
+    maxMembers: 4,
+    memberCounts: [4],
     fee: REGISTRATION_FEE,
     requiresDepartment: false,
     domains: EGAMES_DOMAINS,
     hideQrCode: true,
     rules: [
-      'Team Size: Maximum 4 players + 1 substitute (4–5 members).',
+      'Team Size: 4 players per squad (Mobile Battle Royale).',
       'Venue: Network Lab.',
       'Fair Play Policy: Strictly mobile devices only. Emulators, iPad triggers, and third-party tools are banned.',
       'Room IDs and passwords will be distributed in the Network Lab.'

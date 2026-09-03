@@ -101,7 +101,7 @@ const EVENT_CATEGORY_CARDS: {
     id: 'egames',
     name: "E-Games (Free Fire)",
     codeBadge: 'TIE###',
-    teamSizeLabel: '4 + 1 Substitute',
+    teamSizeLabel: '4 Players',
     venue: 'Network Lab',
     icon: FlameIcon,
     colorClass: 'text-[#0EA5E9]',
@@ -397,7 +397,7 @@ export function RegistrationForm({
         phone: m.phone?.trim() || '',
         department: m.department?.trim() || '',
         rollNo: m.rollNo?.trim() || '',
-        role: idx === 3 && selectedEventId === 'egames' ? 'Substitute Player' : `Member #${idx + 2}`
+        role: `Member #${idx + 2}`
       }))
     ];
 
@@ -964,7 +964,6 @@ export function RegistrationForm({
             {/* Dynamic Members List */}
             {squadMembers.map((member, index) => {
               const memberNum = index + 2;
-              const isSubstitute = selectedEventId === 'egames' && memberNum === 5;
               return (
                 <div
                   key={index}
@@ -975,10 +974,10 @@ export function RegistrationForm({
                       <span className="flex h-5 w-5 items-center justify-center rounded-md bg-[#FFFFFF] border border-[#CBD5E1] font-mono text-[10px] text-[#475569]">
                         {memberNum.toString().padStart(2, '0')}
                       </span>
-                      <span>{isSubstitute ? 'Substitute Player (Player #5)' : `Team Member #${memberNum}`}</span>
+                      <span>Team Member #{memberNum}</span>
                     </span>
                     <span className="text-[10px] font-mono text-[#64748B]">
-                      {isSubstitute ? 'Backup Participant' : 'Student Identity'}
+                      Student Identity
                     </span>
                   </div>
 
@@ -1183,7 +1182,7 @@ export function RegistrationForm({
                 {squadMembers.map((m, idx) => (
                   <div key={idx} className="rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] p-3 text-xs">
                     <span className="font-bold text-[#000000] block">
-                      {m.name || `Member #${idx + 2}`} {idx === 3 && selectedEventId === 'egames' ? '(Substitute)' : ''}
+                      {m.name || `Member #${idx + 2}`}
                     </span>
                     <span className="text-[11px] font-mono text-[#64748B]">
                       {m.email || 'Participant'} {m.rollNo ? `(${m.rollNo})` : ''}

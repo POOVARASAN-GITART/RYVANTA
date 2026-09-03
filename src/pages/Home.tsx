@@ -223,7 +223,7 @@ export function Home() {
 
                   {event.id === 'egames' && (
                     <div className="mt-4 inline-flex items-center gap-1.5 rounded-lg border border-[#0EA5E9]/40 bg-[#F8FAFC] px-2.5 py-1 text-[10px] font-mono font-bold text-[#0EA5E9]">
-                      <span>Max 4 Players + 1 Substitute · Network Lab</span>
+                      <span>4 Players Squad · Network Lab</span>
                     </div>
                   )}
 
