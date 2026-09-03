@@ -9,8 +9,6 @@ import {
   CheckCircle2Icon,
   LockIcon
 } from 'lucide-react';
-import { QrCodeView } from './QrCodeView';
-
 interface PaymentQrBoxProps {
   upiId?: string;
   payeeName?: string;
@@ -117,8 +115,8 @@ export function PaymentQrBox({
         {/* QR Code Container (hidden if hideQrCode is true) */}
         {!hideQrCode && (
           <div className="flex flex-col items-center justify-center rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-4 text-center">
-            <div className="rounded-xl border border-[#CBD5E1] bg-[#FFFFFF] p-3 shadow-md">
-              <QrCodeView value={genericUpiUri} size={168} />
+            <div className="rounded-xl border border-[#CBD5E1] bg-[#FFFFFF] p-2 shadow-md">
+              <img src="/images/payment-qr.jpg" alt="Payment QR Code" className="w-[168px] h-[168px] object-cover rounded-lg" />
             </div>
 
             <span className="mt-3 font-mono text-[10px] font-bold uppercase tracking-wider text-[#64748B]">
