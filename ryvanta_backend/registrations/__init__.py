@@ -1,1 +1,0 @@
-# registrations app package
