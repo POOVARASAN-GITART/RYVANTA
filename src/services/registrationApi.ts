@@ -82,10 +82,10 @@ function validate(input: RegistrationInput, existing: Registration[]): void {
 
   // 2. Team Members Names (Constrained strictly by event's minMembers and maxMembers)
   if (!input.members || input.members.length < event.minMembers || input.members.length > event.maxMembers) {
-    throw new ApiRequestError(
-      `${event.name} requires between ${event.minMembers} and ${event.maxMembers} team members.`,
-      'members'
-    );
+    const errorMsg = event.minMembers === event.maxMembers
+      ? `${event.name} requires exactly ${event.minMembers} team members.`
+      : `${event.name} requires between ${event.minMembers} and ${event.maxMembers} team members.`;
+    throw new ApiRequestError(errorMsg, 'members');
   }
 
   if (input.members.some((name) => !name || name.trim().length < 2)) {

@@ -71,7 +71,7 @@ const EVENT_CATEGORY_CARDS: {
     id: 'hackathon',
     name: "Hackathon '26",
     codeBadge: 'TICH###',
-    teamSizeLabel: '3–4 Members',
+    teamSizeLabel: '3 Members',
     venue: 'Auditorium',
     icon: TrophyIcon,
     colorClass: 'text-[#0EA5E9]',
@@ -81,7 +81,7 @@ const EVENT_CATEGORY_CARDS: {
     id: '2d-games',
     name: "2D Games (SOZO '26)",
     codeBadge: 'TID###',
-    teamSizeLabel: '2–3 Members',
+    teamSizeLabel: '3 Members',
     venue: 'IT Lab',
     icon: Gamepad2Icon,
     colorClass: 'text-[#2563EB]',
@@ -91,7 +91,7 @@ const EVENT_CATEGORY_CARDS: {
     id: 'ctf',
     name: "Capture The Flag (NEXVORA '26)",
     codeBadge: 'TIC###',
-    teamSizeLabel: '2–3 Members',
+    teamSizeLabel: '3 Members',
     venue: 'FOSS Lab',
     icon: TerminalIcon,
     colorClass: 'text-[#0284C7]',
@@ -101,7 +101,7 @@ const EVENT_CATEGORY_CARDS: {
     id: 'egames',
     name: "E-Games (Free Fire)",
     codeBadge: 'TIE###',
-    teamSizeLabel: '4 Players',
+    teamSizeLabel: '4 Members',
     venue: 'Network Lab',
     icon: FlameIcon,
     colorClass: 'text-[#0EA5E9]',
@@ -290,7 +290,10 @@ export function RegistrationForm({
     }
 
     if (memberCount < event.minMembers || memberCount > event.maxMembers) {
-      setError(new ApiRequestError(`${event.name} requires between ${event.minMembers} and ${event.maxMembers} members.`, 'members'));
+      const errorMsg = event.minMembers === event.maxMembers
+        ? `${event.name} requires exactly ${event.minMembers} members.`
+        : `${event.name} requires between ${event.minMembers} and ${event.maxMembers} members.`;
+      setError(new ApiRequestError(errorMsg, 'members'));
       return false;
     }
 
@@ -768,7 +771,7 @@ export function RegistrationForm({
               <span>Step 02: Domain Selection &amp; Team Members Roster</span>
             </h3>
             <p className="mt-1 text-xs text-[#475569]">
-              Select your problem statement / track and register all team members ({event.minMembers} to {event.maxMembers} members for {event.name}).
+              Select your problem statement / track and register all team members ({event.minMembers === event.maxMembers ? `${event.minMembers} members` : `${event.minMembers} to ${event.maxMembers} members`} for {event.name}).
             </p>
           </div>
 
