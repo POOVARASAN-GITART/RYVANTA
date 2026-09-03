@@ -106,16 +106,6 @@ const EVENT_CATEGORY_CARDS: {
     icon: FlameIcon,
     colorClass: 'text-[#0EA5E9]',
     desc: 'E-Sports Showdown · Mobile Squad Battle Royale'
-  },
-  {
-    id: 'photography',
-    name: "Photography & video '26",
-    codeBadge: 'TIP###',
-    teamSizeLabel: '2–3 Members',
-    venue: 'Smart Class Room',
-    icon: CameraIcon,
-    colorClass: 'text-[#2563EB]',
-    desc: 'Photography & Video Editing · 02:00 PM Onwards'
   }
 ];
 
@@ -892,29 +882,7 @@ export function RegistrationForm({
               </div>
             )}
 
-            {selectedEventId === 'photography' && (
-              <div className="mt-3 rounded-lg border border-[#2563EB]/40 bg-[#FFFFFF] p-3 text-xs space-y-2">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 font-serif font-bold text-[#000000]">
-                    <CameraIcon className="h-4 w-4 text-[#2563EB]" />
-                    <span>Photography and video '26 Schedule Details</span>
-                  </div>
-                  <span className="rounded-full bg-sky-50 border border-[#0EA5E9] px-2.5 py-0.5 font-mono text-[10px] font-bold text-[#0284C7]">
-                    02:00 PM ONWARDS
-                  </span>
-                </div>
-                <div className="flex flex-wrap gap-4 text-[11px] text-[#475569] font-mono">
-                  <span className="flex items-center gap-1">
-                    <MapPinIcon className="h-3 w-3 text-[#0EA5E9]" />
-                    Venue: Smart Class Room
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <ClockIcon className="h-3 w-3 text-[#0EA5E9]" />
-                    Date: 19 Sep 2026, 02:00 PM
-                  </span>
-                </div>
-              </div>
-            )}
+
           </div>
 
           {/* Section B: Team Members Names */}

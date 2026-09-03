@@ -26,8 +26,7 @@ const EVENT_ICONS: Record<string, typeof TrophyIcon> = {
   hackathon: TrophyIcon,
   '2d-games': Gamepad2Icon,
   ctf: TerminalIcon,
-  egames: FlameIcon,
-  photography: CameraIcon
+  egames: FlameIcon
 };
 
 const EVENT_COLOR_CLASSES: Record<string, { iconBg: string; iconColor: string; badgeColor: string }> = {
@@ -50,11 +49,6 @@ const EVENT_COLOR_CLASSES: Record<string, { iconBg: string; iconColor: string; b
     iconBg: 'bg-sky-50',
     iconColor: 'text-[#0EA5E9]',
     badgeColor: 'border-[#0EA5E9]/40 text-[#0284C7]'
-  },
-  photography: {
-    iconBg: 'bg-blue-50',
-    iconColor: 'text-[#2563EB]',
-    badgeColor: 'border-[#2563EB]/40 text-[#2563EB]'
   }
 };
 
@@ -93,7 +87,7 @@ export function Home() {
             </span>
             <span className="rounded-xl border border-[#E2E8F0] bg-[#FFFFFF] px-3.5 py-2 text-[#000000] font-semibold flex items-center gap-2 shadow-sm">
               <ShieldCheckIcon className="h-3.5 w-3.5 text-[#0EA5E9]" />
-              Instant Participation ID (TICH/TID/TIC/TIE/TIP)
+              Instant Participation ID (TICH/TID/TIC/TIE)
             </span>
           </div>
 
@@ -221,11 +215,6 @@ export function Home() {
                     </div>
                   )}
 
-                  {event.id === 'photography' && (
-                    <div className="mt-4 inline-flex items-center gap-1.5 rounded-lg border border-[#2563EB]/40 bg-[#F8FAFC] px-2.5 py-1 text-[10px] font-mono font-bold text-[#2563EB]">
-                      <span>19 Sep 2026 · 02:00 PM onwards · Smart Class Room</span>
-                    </div>
-                  )}
                 </div>
 
                 <div className="mt-6 flex items-center justify-between border-t border-[#E2E8F0] pt-4 text-xs font-mono text-[#64748B]">

@@ -240,13 +240,6 @@ export const EGAMES_DOMAINS = [
   'Free Fire E-Sports League'
 ];
 
-// Event 5: Photography and video '26 Domains
-export const PHOTOGRAPHY_DOMAINS = [
-  'Photography & Video Editing',
-  'Candid Campus Life Photography',
-  'Cinematic Event Reel & Video Editing',
-  'Creative Visual Storytelling'
-];
 
 // The Five Official Technical Events
 export const EVENTS: EventConfig[] = [
@@ -334,30 +327,6 @@ export const EVENTS: EventConfig[] = [
       'Venue: Network Lab.',
       'Fair Play Policy: Strictly mobile devices only. Emulators, iPad triggers, and third-party tools are banned.',
       'Room IDs and passwords will be distributed in the Network Lab.'
-    ]
-  },
-  {
-    id: 'photography',
-    code: 'P',
-    index: 5,
-    name: "Photography & Video '26",
-    fullName: "Photography and video '26",
-    tagline: 'Capture the visual essence of the technical challenge with candid photography and cinematic reels.',
-    venue: 'Smart Class Room',
-    minMembers: 2,
-    maxMembers: 3,
-    memberCounts: [2, 3],
-    fee: REGISTRATION_FEE,
-    requiresDepartment: false,
-    domains: PHOTOGRAPHY_DOMAINS,
-    scheduleTime: '02:00 PM onwards',
-    rules: [
-      'Venue: Smart Class Room.',
-      'Domain: Photography & Video Editing.',
-      'Date: September 19th, 2026 | Time: 02:00 PM onwards.',
-      'Team Size: Minimum 2, Maximum 3 members.',
-      'All footage & shots must be captured on-campus on event day.',
-      'Bring your own DSLRs / mirrorless cameras or smartphones and editing systems.'
     ]
   }
 ];
