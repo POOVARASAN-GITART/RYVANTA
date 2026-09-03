@@ -43,11 +43,11 @@ export function Support() {
 
         <div className="mt-8 border-t border-[#E2E8F0] pt-6 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-[#64748B]">
           <a
-            href="mailto:ryvanta26@college.edu"
+            href="mailto:ryvanta26@gmail.com"
             className="inline-flex items-center gap-2 text-[#000000] font-semibold hover:text-[#0EA5E9] transition-colors"
           >
             <MailIcon className="h-4 w-4 text-[#0EA5E9]" aria-hidden="true" />
-            <span>ryvanta26@college.edu</span>
+            <span>ryvanta26@gmail.com</span>
           </a>
           <span className="text-[#64748B]">Helpline Timings: 8:00 AM – 9:00 PM IST</span>
         </div>

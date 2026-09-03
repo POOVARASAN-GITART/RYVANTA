@@ -333,7 +333,7 @@ export const EVENTS: EventConfig[] = [
 
 export const SUPPORT_LINES = [
   { label: 'Convenor Helpline 1', number: '+91 95665 42006', tel: '+919566542006' },
-  { label: 'Registration Helpline 2', number: '+91 90030 18088', tel: '+919003018088' }
+  { label: 'Registration Helpline 2', number: '+91 76959 67642', tel: '+917695967642' }
 ];
 
 export function getEvent(id: EventId): EventConfig {
