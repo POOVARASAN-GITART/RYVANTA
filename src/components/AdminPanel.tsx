@@ -179,8 +179,8 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
                   type="password"
                   value={passcode}
                   onChange={(e) => setPasscode(e.target.value)}
-                  placeholder="••••••••"
-                  className="w-full rounded-xl border border-[#CBD5E1] bg-[#FFFFFF] px-4 py-2.5 text-center font-mono text-sm tracking-widest text-[#000000] placeholder:text-[#64748B] focus:border-[#0EA5E9] focus:outline-none"
+                  placeholder="Enter Password"
+                  className="w-full rounded-xl border border-[#CBD5E1] bg-[#FFFFFF] px-4 py-2.5 text-center text-sm font-medium text-[#000000] placeholder:text-[#94A3B8] placeholder:tracking-normal focus:border-[#0EA5E9] focus:outline-none"
                   autoFocus
                 />
               </div>
