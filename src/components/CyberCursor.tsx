@@ -1,29 +1,34 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
+/**
+ * Cyber Arrow Mouse Cursor
+ * Sleek, high-precision futuristic cursor arrow for desktop; 100% disabled on mobile touchscreens for zero lag.
+ */
 export function CyberCursor() {
-  const ringRef = useRef<HTMLDivElement>(null);
-  const spotRef = useRef<HTMLDivElement>(null);
-
-  const mousePos = useRef({ x: -100, y: -100 });
-  const ringPos = useRef({ x: -100, y: -100 });
-  const isHovered = useRef(false);
-  const isClicked = useRef(false);
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const [isTouchDevice, setIsTouchDevice] = useState(true);
 
   useEffect(() => {
-    // Only activate on devices with fine pointer (mouse/trackpad)
-    if (window.matchMedia('(pointer: coarse)').matches) {
+    // Check if the current device is a touch / mobile device
+    const isTouch =
+      typeof window !== 'undefined' &&
+      (window.matchMedia('(pointer: coarse)').matches ||
+        'ontouchstart' in window ||
+        navigator.maxTouchPoints > 0 ||
+        window.innerWidth < 768);
+
+    if (isTouch) {
+      setIsTouchDevice(true);
       return;
     }
 
-    let animationFrameId: number;
+    setIsTouchDevice(false);
+
+    let isHovered = false;
 
     function onMouseMove(e: MouseEvent) {
-      mousePos.current.x = e.clientX;
-      mousePos.current.y = e.clientY;
-
-      // Update ambient electric blue spotlight instantly
-      if (spotRef.current) {
-        spotRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
+      if (cursorRef.current) {
+        cursorRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
       }
 
       // Check for clickable elements under cursor
@@ -32,96 +37,70 @@ export function CyberCursor() {
         const isClickable = Boolean(
           target.closest('button, a, input, select, textarea, label, [role="button"], .clickable')
         );
-        isHovered.current = isClickable;
+        if (isClickable !== isHovered) {
+          isHovered = isClickable;
+          if (cursorRef.current) {
+            cursorRef.current.classList.toggle('cursor-hovered', isClickable);
+          }
+        }
       }
-    }
-
-    function onMouseDown() {
-      isClicked.current = true;
-    }
-
-    function onMouseUp() {
-      isClicked.current = false;
     }
 
     function onMouseLeave() {
-      if (ringRef.current) ringRef.current.style.opacity = '0';
-      if (spotRef.current) spotRef.current.style.opacity = '0';
+      if (cursorRef.current) cursorRef.current.style.opacity = '0';
     }
 
     function onMouseEnter() {
-      if (ringRef.current) ringRef.current.style.opacity = '1';
-      if (spotRef.current) spotRef.current.style.opacity = '1';
+      if (cursorRef.current) cursorRef.current.style.opacity = '1';
     }
 
     window.addEventListener('mousemove', onMouseMove, { passive: true });
-    window.addEventListener('mousedown', onMouseDown);
-    window.addEventListener('mouseup', onMouseUp);
     document.addEventListener('mouseleave', onMouseLeave);
     document.addEventListener('mouseenter', onMouseEnter);
 
-    // High-performance RAF loop
-    function updateCursor() {
-      ringPos.current.x += (mousePos.current.x - ringPos.current.x) * 0.52;
-      ringPos.current.y += (mousePos.current.y - ringPos.current.y) * 0.52;
-
-      if (ringRef.current) {
-        const scale = isHovered.current ? 1.4 : isClicked.current ? 0.75 : 1;
-        ringRef.current.style.transform = `translate3d(${ringPos.current.x}px, ${ringPos.current.y}px, 0) translate(-50%, -50%) scale(${scale})`;
-
-        if (isHovered.current) {
-          ringRef.current.style.borderColor = '#0EA5E9';
-          ringRef.current.style.backgroundColor = 'rgba(14, 165, 233, 0.15)';
-          ringRef.current.style.boxShadow = '0 0 20px rgba(14, 165, 233, 0.5)';
-        } else if (isClicked.current) {
-          ringRef.current.style.borderColor = '#000000';
-          ringRef.current.style.backgroundColor = 'rgba(0, 0, 0, 0.15)';
-          ringRef.current.style.boxShadow = '0 0 15px rgba(0, 0, 0, 0.25)';
-        } else {
-          ringRef.current.style.borderColor = '#94A3B8';
-          ringRef.current.style.backgroundColor = 'rgba(148, 163, 184, 0.08)';
-          ringRef.current.style.boxShadow = '0 0 12px rgba(14, 165, 233, 0.3)';
-        }
-      }
-
-      animationFrameId = requestAnimationFrame(updateCursor);
-    }
-    animationFrameId = requestAnimationFrame(updateCursor);
-
     return () => {
       window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('mousedown', onMouseDown);
-      window.removeEventListener('mouseup', onMouseUp);
       document.removeEventListener('mouseleave', onMouseLeave);
       document.removeEventListener('mouseenter', onMouseEnter);
-      cancelAnimationFrame(animationFrameId);
     };
   }, []);
 
-  return (
-    <>
-      {/* Dynamic Luminous Electric Blue Spotlight */}
-      <div
-        ref={spotRef}
-        className="pointer-events-none fixed left-0 top-0 z-30 opacity-100 will-change-transform"
-        style={{
-          width: '380px',
-          height: '380px',
-          background: 'radial-gradient(circle, rgba(14, 165, 233, 0.12) 0%, rgba(37, 99, 235, 0.04) 40%, transparent 70%)',
-          borderRadius: '50%'
-        }}
-      />
+  if (isTouchDevice) {
+    return null;
+  }
 
-      {/* Cyber Blue & Silver Cursor Ring */}
-      <div
-        ref={ringRef}
-        className="pointer-events-none fixed left-0 top-0 z-50 rounded-full border opacity-100 will-change-transform transition-[border-color,background-color,box-shadow] duration-150 ease-out"
-        style={{
-          width: '32px',
-          height: '32px',
-          borderWidth: '2px'
-        }}
-      />
-    </>
+  return (
+    <div
+      ref={cursorRef}
+      className="pointer-events-none fixed left-0 top-0 z-[9999] opacity-100 will-change-transform transition-opacity duration-150 ease-out select-none"
+      style={{
+        transform: 'translate3d(-100px, -100px, 0)'
+      }}
+    >
+      {/* Sleek Aerodynamic Cyber Arrow Pointer */}
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="transition-transform duration-100 ease-out origin-top-left drop-shadow-[0_2px_8px_rgba(14,165,233,0.5)]"
+      >
+        <path
+          d="M3 2L19 10L11 12L9 20L3 2Z"
+          fill="#000000"
+          stroke="#0EA5E9"
+          strokeWidth="1.75"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M5.5 5.5L14.5 10L10 11L8.5 16L5.5 5.5Z"
+          fill="#0EA5E9"
+          fillOpacity="0.25"
+        />
+      </svg>
+    </div>
   );
 }
+
+export default CyberCursor;
