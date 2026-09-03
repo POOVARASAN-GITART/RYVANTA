@@ -177,8 +177,8 @@ export function Home() {
                       CODE: TI{event.code}1001
                     </span>
                     <span className="rounded-md border border-[#E2E8F0] bg-[#F8FAFC] px-2.5 py-1 text-[10px] font-mono font-semibold text-[#475569]">
-                      {event.id === 'egames'
-                        ? '4 + 1 Sub'
+                      {event.minMembers === event.maxMembers
+                        ? `${event.minMembers} Members`
                         : `${event.minMembers}–${event.maxMembers} Members`}
                     </span>
                   </div>
