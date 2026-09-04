@@ -193,7 +193,7 @@ function handleRegistered(record) {
 
 .tab-btn:hover:not(.tab-active) {
 	border-color: var(--brand-blue);
-	background-color: rgba(248, 250, 252, 1);
+	background-color: var(--bg-secondary);
 	color: var(--text-primary);
 }
 
@@ -211,7 +211,7 @@ function handleRegistered(record) {
 }
 
 .tab-active .tab-index {
-	color: var(--brand-blue-hover);
+	color: var(--bg-primary);
 }
 
 .error-banner {
@@ -221,11 +221,11 @@ function handleRegistered(record) {
 	justify-content: space-between;
 	gap: 0.75rem;
 	border-radius: var(--radius-2xl);
-	border: 1px solid rgba(125, 211, 252, 1);
-	background-color: rgba(240, 249, 255, 1);
+	border: 1px solid var(--border-light);
+	background-color: var(--brand-blue-light);
 	padding: 1rem 1.25rem;
 	font-size: 0.875rem;
-	color: rgba(12, 74, 110, 1);
+	color: var(--text-primary);
 	box-shadow: var(--shadow-sm);
 }
 
@@ -243,8 +243,8 @@ function handleRegistered(record) {
 
 .retry-btn {
 	border-radius: var(--radius-lg);
-	border: 1px solid rgba(56, 189, 248, 1);
-	background-color: rgba(224, 242, 254, 1);
+	border: 1px solid var(--brand-blue);
+	background-color: var(--brand-blue-light);
 	padding: 0.25rem 0.75rem;
 	font-size: 0.75rem;
 	font-weight: 600;
@@ -254,7 +254,7 @@ function handleRegistered(record) {
 }
 
 .retry-btn:hover {
-	background-color: rgba(186, 230, 253, 1);
+	background-color: var(--brand-blue-light);
 }
 
 .success-dialog-container {
@@ -282,7 +282,7 @@ function handleRegistered(record) {
 	align-items: center;
 	justify-content: center;
 	border-radius: var(--radius-full);
-	background-color: rgba(240, 253, 244, 1); /* green-50 */
+	background-color: var(--success-bg);
 	color: var(--success);
 }
 
@@ -405,8 +405,8 @@ function handleRegistered(record) {
 
 .module-code-box {
 	border-radius: var(--radius-xl);
-	border: 1px solid rgba(14, 165, 233, 0.4);
-	background-color: rgba(248, 250, 252, 1);
+	border: 1px solid var(--brand-blue);
+	background-color: var(--bg-secondary);
 	padding: 0.875rem;
 	display: flex;
 	flex-direction: column;
@@ -457,10 +457,10 @@ function handleRegistered(record) {
 	color: var(--brand-blue);
 }
 .text-blue {
-	color: rgba(37, 99, 235, 1);
+	color: var(--brand-blue);
 }
 .text-sky {
-	color: rgba(2, 132, 199, 1);
+	color: var(--brand-blue);
 }
 .text-bold {
 	font-weight: 700;
@@ -471,7 +471,7 @@ function handleRegistered(record) {
 	color: var(--text-primary);
 	font-family: var(--font-mono);
 	font-weight: 700;
-	background-color: rgba(248, 250, 252, 1);
+	background-color: var(--bg-secondary);
 	padding: 0.125rem 0.375rem;
 	border-radius: 0.25rem;
 	border: 1px solid var(--border-light);

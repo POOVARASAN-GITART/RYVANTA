@@ -337,12 +337,12 @@ const getEventThemeClass = (id) => {
 	gap: 0.5rem;
 	border-radius: var(--radius-xl);
 	background-color: var(--brand-blue);
-	padding: 1rem 2rem;
-	font-size: 0.75rem;
+	padding: 0.875rem 1.75rem;
+	font-size: 0.875rem;
 	font-weight: 700;
 	text-transform: uppercase;
 	letter-spacing: 0.05em;
-	color: #ffffff;
+	color: var(--bg-primary);
 	box-shadow: var(--shadow-luxury);
 	transition: all 0.2s ease;
 }
@@ -368,13 +368,13 @@ const getEventThemeClass = (id) => {
 }
 .btn-secondary:hover {
 	border-color: var(--brand-blue);
-	background-color: rgba(240, 249, 255, 0.4);
+	background-color: var(--bg-secondary);
 }
 
 .btn-icon-right {
 	width: 1rem;
 	height: 1rem;
-	color: #e0f2fe;
+	color: var(--bg-primary);
 	transition: transform 0.2s ease;
 }
 .btn-primary:hover .btn-icon-right {
@@ -544,7 +544,7 @@ const getEventThemeClass = (id) => {
 
 .event-card:hover .prize-badge {
 	border-style: solid;
-	border-color: rgba(14, 165, 233, 0.3);
+	border-color: var(--brand-blue);
 	background-color: rgba(14, 165, 233, 0.05);
 }
 
@@ -588,7 +588,7 @@ const getEventThemeClass = (id) => {
 .theme-ctf,
 .theme-games {
 	/* we will just set colors generally below to emulate the dynamic utility classes */
-	background-color: rgba(240, 249, 255, 1);
+	background-color: var(--brand-blue-light);
 	color: var(--brand-blue);
 }
 .event-card:hover .event-icon-wrapper {

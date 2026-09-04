@@ -262,7 +262,7 @@ function handleUpiRefChange(e) {
 	align-items: center;
 	gap: 0.5rem;
 	border-radius: var(--radius-xl);
-	background-color: rgba(224, 242, 254, 0.8);
+	background-color: var(--brand-blue-light);
 	border: 1px solid var(--brand-blue);
 	padding: 0.5rem 1rem;
 }
@@ -382,13 +382,13 @@ function handleUpiRefChange(e) {
 
 .live-badge {
 	border-radius: var(--radius-full);
-	background-color: rgba(209, 250, 229, 0.5);
-	border: 1px solid rgba(110, 231, 183, 1);
+	background-color: var(--bg-secondary);
+	border: 1px solid var(--success);
 	padding: 0.125rem 0.625rem;
 	font-family: var(--font-mono);
 	font-size: 0.625rem;
 	font-weight: 700;
-	color: #047857;
+	color: var(--success);
 }
 
 .secure-desc {
@@ -448,11 +448,11 @@ function handleUpiRefChange(e) {
 
 .primary-app-button {
 	border-color: var(--brand-blue);
-	background-color: rgba(224, 242, 254, 0.5);
+	background-color: var(--brand-blue-light);
 }
 
 .primary-app-button:hover {
-	background-color: rgba(224, 242, 254, 1);
+	background-color: var(--brand-blue-light);
 }
 
 .app-icon {
@@ -580,8 +580,8 @@ function handleUpiRefChange(e) {
 }
 
 .input-valid {
-	border-color: rgba(52, 211, 153, 1);
-	background-color: rgba(209, 250, 229, 0.3);
+	border-color: var(--success);
+	background-color: var(--success-bg);
 }
 .input-valid:focus {
 	border-color: var(--success);

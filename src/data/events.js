@@ -33,27 +33,27 @@ export const EVENTS = [
 		agenda: [
 			{
 				time: "08:30 AM - 09:30 AM",
-				task: "Inauguration"
+				task: "Inauguration",
 			},
 			{
 				time: "09:30 AM - 10:30 AM",
-				task: "PPT Prepare"
+				task: "PPT Prepare",
 			},
 			{
 				time: "10:30 AM - 12:30 PM",
-				task: "PPT Presentation"
+				task: "PPT Presentation",
 			},
 			{
 				time: "12:30 PM - 01:00 PM",
-				task: "Lunch"
+				task: "Lunch",
 			},
 			{
 				time: "01:15 PM - 03:00 PM",
-				task: "Prototype Evaluation"
+				task: "Prototype Evaluation",
 			},
 			{
 				time: "03:00 PM - 03:30 PM",
-				task: "Prize Distribution"
+				task: "Prize Distribution",
 			},
 		],
 		prize: [
@@ -70,20 +70,37 @@ export const EVENTS = [
 		venue: "HPC Lab",
 		fee: 100,
 		memberCounts: [2, 3],
+		domains: [
+			"Cyber Detective",
+			"Disaster Resources",
+			"Puzzle",
+			"Endless Runner",
+			"Farming",
+			"Space Adventure",
+			"Logics",
+			"Racing",
+			"2D Combats",
+			"Eco – City",
+		],
 		rules: [
-			"Teams must consist of 2-3 members.",
-			"Every team must bring their own laptop for the competition.",
-			"Each team must ensure that their laptop is fully charged and has the required development environment installed before the event.",
-			"Game domains/themes will be provided at the beginning of the event, and teams must develop their game based on the provided domain.",
-			"Participants are free to use any suitable 2D game engine or development framework of their choice.",
-			"Pre-built games or previously developed game projects are strictly not allowed.",
-			"The game must be developed and submitted within the specified time limit.",
-			"Participants must follow all instructions given by the event coordinators and volunteers throughout the competition.",
+			"Bring your own laptop — compulsory.",
+			"Choose your own technology, engine and programming language.",
+			"The game must be developed during the official 2-hour period.",
+			"Previously completed/substantially pre-developed games are not allowed.",
+			"Participation is team-based.",
+			"Each team must ensure that its laptop is fully charged and has the required development environment installed before the event.",
+			"After submission/deadline, no modification is permitted.",
+			"The winner is determined using the published 100-point judging criteria, not personal preference.",
+			"Each team must select ONE domain from the official list of 10 domains.",
+			"A domain can be selected by more than one team.",
+			"Teams are free to develop their own game concept within the selected domain.",
+			"The selected domain must have a meaningful connection to the gameplay.",
+			"Teams cannot change their domain after the development period has started, except with explicit permission from the coordinator in case of an organizational error.",
 		],
 		agenda: [
 			{
 				time: "08:30 AM - 10:00 AM",
-				task: "Inauguration"
+				task: "Inauguration",
 			},
 			{
 				time: "10:00 AM - 10:10 AM",
@@ -91,15 +108,15 @@ export const EVENTS = [
 			},
 			{
 				time: "10:10 AM - 11:10 AM",
-				task: "Development 1"
+				task: "Development 1",
 			},
 			{
 				time: "11:10 AM - 11:25 AM",
-				task: "Break"
+				task: "Break",
 			},
 			{
 				time: "11:25 AM - 12:40 PM",
-				task: "Round 2"
+				task: "Round 2",
 			},
 		],
 		prize: [

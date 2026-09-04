@@ -84,7 +84,7 @@ import { SUPPORT_LINES } from "../data/events.js";
 	gap: 0.5rem;
 	border-radius: var(--radius-full);
 	border: 1px solid var(--brand-blue);
-	background-color: rgba(248, 250, 252, 1);
+	background-color: var(--bg-secondary);
 	padding: 0.25rem 0.875rem;
 	font-family: var(--font-mono);
 	font-size: 0.75rem;

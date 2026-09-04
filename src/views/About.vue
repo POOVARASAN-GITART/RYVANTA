@@ -134,7 +134,7 @@ import {
 	gap: 0.5rem;
 	border-radius: var(--radius-full);
 	border: 1px solid var(--brand-blue);
-	background-color: rgba(240, 249, 255, 1);
+	background-color: var(--brand-blue-light);
 	padding: 0.375rem 1rem;
 	font-family: var(--font-mono);
 	font-size: 0.75rem;
@@ -215,7 +215,7 @@ import {
 	width: 14rem;
 	overflow: hidden;
 	border-radius: 50%;
-	border: 4px solid rgba(240, 249, 255, 1);
+	border: 4px solid var(--brand-blue-light);
 	background-color: var(--bg-primary);
 	box-shadow: var(--shadow-md);
 }
@@ -239,8 +239,8 @@ import {
 	align-items: center;
 	gap: 0.375rem;
 	border-radius: var(--radius-lg);
-	border: 1px solid rgba(14, 165, 233, 0.3);
-	background-color: rgba(14, 165, 233, 0.1);
+	border: 1px solid var(--brand-blue);
+	background-color: var(--brand-blue-light);
 	padding: 0.25rem 0.75rem;
 	font-family: var(--font-mono);
 	font-size: 0.625rem;

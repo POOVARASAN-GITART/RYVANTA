@@ -104,7 +104,7 @@ function handleLogoClick() {
 	z-index: 50;
 	width: 100%;
 	backdrop-filter: blur(12px);
-	background-color: rgba(255, 255, 255, 0.8);
+	background-color: var(--bg-primary);
 	border-bottom: 1px solid var(--border-light);
 }
 
@@ -143,7 +143,7 @@ function handleLogoClick() {
 	justify-content: center;
 	border-radius: var(--radius-lg);
 	background-color: var(--brand-blue);
-	color: #ffffff;
+	color: var(--bg-primary);
 	box-shadow: var(--shadow-sm);
 }
 
@@ -246,7 +246,7 @@ function handleLogoClick() {
 .mobile-nav {
 	display: block;
 	border-top: 1px solid var(--border-light);
-	background-color: rgba(255, 255, 255, 0.9);
+	background-color: var(--bg-primary);
 }
 
 @media (min-width: 1024px) {

@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from "vue";
-import { ShieldCheckIcon, PhoneIcon, LockIcon } from "lucide-vue-next";
+import { ref, onMounted, watch } from "vue";
+import { PhoneIcon, MoonIcon, SunIcon } from "lucide-vue-next";
 import { SUPPORT_LINES } from "../data/events.js";
 
 let clickCount = 0;
@@ -18,6 +18,26 @@ function handleSecretLogoClick() {
 		alert("Terminal Access Granted...");
 	}
 }
+
+const isDarkTheme = ref(false);
+
+onMounted(() => {
+	const stored = localStorage.getItem("ryvanta-theme");
+	if (stored === "dark") {
+		isDarkTheme.value = true;
+		document.documentElement.classList.add("dark");
+	}
+});
+
+watch(isDarkTheme, (val) => {
+	if (val) {
+		document.documentElement.classList.add("dark");
+		localStorage.setItem("ryvanta-theme", "dark");
+	} else {
+		document.documentElement.classList.remove("dark");
+		localStorage.setItem("ryvanta-theme", "light");
+	}
+});
 </script>
 
 <template>
@@ -59,6 +79,29 @@ function handleSecretLogoClick() {
 						</li>
 					</ul>
 				</div>
+
+				<!-- Settings -->
+				<div class="footer-settings">
+					<h4 class="section-title">Appearance</h4>
+					<div class="theme-switch-buttons">
+						<button
+							type="button"
+							@click="isDarkTheme = false"
+							class="switch-button"
+							:class="{ 'switch-active': !isDarkTheme }"
+						>
+							<SunIcon class="switch-icon" />
+						</button>
+						<button
+							type="button"
+							@click="isDarkTheme = true"
+							class="switch-button"
+							:class="{ 'switch-active': isDarkTheme }"
+						>
+							<MoonIcon class="switch-icon" />
+						</button>
+					</div>
+				</div>
 			</div>
 		</div>
 	</footer>
@@ -86,7 +129,7 @@ function handleSecretLogoClick() {
 
 @media (min-width: 768px) {
 	.footer-grid {
-		grid-template-columns: repeat(2, 1fr);
+		grid-template-columns: repeat(3, 1fr);
 	}
 }
 
@@ -197,6 +240,50 @@ function handleSecretLogoClick() {
 	font-family: var(--font-mono);
 	font-size: 0.875rem;
 	color: var(--brand-blue);
+}
+
+.footer-settings {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+
+.theme-switch-buttons {
+	display: inline-flex;
+	border-radius: var(--radius-xl);
+	border: 1px solid var(--border-light);
+	background-color: var(--bg-secondary);
+	padding: 0.25rem;
+	width: fit-content;
+}
+
+.switch-button {
+	border-radius: var(--radius-lg);
+	padding: 0.5rem 0.75rem;
+	color: var(--text-muted);
+	transition: all 0.2s ease;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.switch-button:hover {
+	color: var(--text-primary);
+}
+
+.switch-active {
+	background-color: var(--text-primary);
+	color: var(--bg-primary);
+	box-shadow: var(--shadow-sm);
+}
+
+.switch-active:hover {
+	color: var(--bg-primary);
+}
+
+.switch-icon {
+	width: 1.25rem;
+	height: 1.25rem;
 }
 
 .footer-bottom {

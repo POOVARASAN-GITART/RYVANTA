@@ -30,12 +30,6 @@ const props = defineProps({
 const emit = defineEmits(["registered"]);
 
 const REGISTRATION_FEE = 100;
-const JEC_COLLEGES = [
-	"Jaya Engineering College",
-	"Jaya Institute of Technology",
-	"Jaya Sakthi Engineering College",
-	"Jaya College of Arts & Science",
-];
 
 // State
 const currentStep = ref("step1_squad");
@@ -150,11 +144,11 @@ async function handleFinalSubmission() {
 		// Simulate process
 		await new Promise((resolve) => setTimeout(resolve, 800));
 		verificationProgress.value = 45;
-		verificationStatusText.value = "Cross-referencing UTR/Receipt...";
+		verificationStatusText.value = "Registering Form Data...";
 
 		await new Promise((resolve) => setTimeout(resolve, 800));
 		verificationProgress.value = 75;
-		verificationStatusText.value = "Generating Participation ID...";
+		verificationStatusText.value = "Updating Database...";
 
 		const payload = {
 			eventId: event.value.id,
@@ -380,7 +374,7 @@ function getProgressPercentage() {
 						$event.target.showPicker && $event.target.showPicker()
 					"
 				>
-					<option value="">
+					<option value="" disabled>
 						Select domain / problem statement...
 					</option>
 					<option
@@ -556,7 +550,7 @@ function getProgressPercentage() {
 					:key="idx"
 					class="rule-item"
 				>
-					<CheckCircle2Icon class="rule-icon" />
+					<span class="rule-index">{{ String(idx + 1).padStart(2, '0') }}.</span>
 					<p class="rule-text">{{ rule }}</p>
 				</div>
 			</div>
@@ -746,17 +740,11 @@ function getProgressPercentage() {
 					/>
 					<span v-if="isSubmitting">{{
 						verificationStatusText ||
-						"Authenticating & Generating ID..."
+						"Authenticating..."
 					}}</span>
 					<template v-else>
-						<ShieldCheckIcon class="btn-icon-left text-white" />
-						<span
-							>Authenticate Payment &amp; Generate TI{{
-								event.code
-							}}1001 ID (₹{{
-								(1 + squadMembers.length) * REGISTRATION_FEE
-							}})</span
-						>
+						<ShieldCheckIcon class="btn-icon-left" />
+						<span>Submit Details</span>
 					</template>
 				</button>
 			</div>
@@ -803,8 +791,8 @@ function getProgressPercentage() {
 .error-alert {
 	margin-bottom: 1.5rem;
 	border-radius: var(--radius-xl);
-	border: 1px solid rgba(254, 202, 202, 1);
-	background-color: rgba(254, 242, 242, 1);
+	border: 1px solid var(--error);
+	background-color: var(--bg-primary);
 	padding: 1rem;
 	font-size: 0.875rem;
 	color: var(--error);
@@ -888,8 +876,8 @@ function getProgressPercentage() {
 	align-items: flex-start;
 	gap: 0.75rem;
 	border-radius: var(--radius-xl);
-	border: 1px solid rgba(14, 165, 233, 0.2);
-	background-color: rgba(240, 249, 255, 0.5);
+	border: 1px solid var(--brand-blue-light);
+	background-color: var(--bg-secondary);
 	padding: 0.75rem;
 	cursor: pointer;
 }
@@ -947,7 +935,7 @@ function getProgressPercentage() {
 }
 
 .form-input::placeholder {
-	color: #64748b;
+	color: var(--text-muted);
 }
 .form-input:focus {
 	outline: none;
@@ -1023,7 +1011,7 @@ function getProgressPercentage() {
 	font-weight: 700;
 	text-transform: uppercase;
 	letter-spacing: 0.05em;
-	color: #ffffff;
+	color: var(--bg-primary);
 	box-shadow: var(--shadow-luxury);
 	transition: all 0.2s ease;
 }
@@ -1055,7 +1043,7 @@ function getProgressPercentage() {
 .btn-icon-right {
 	width: 1rem;
 	height: 1rem;
-	color: #e0f2fe;
+	color: var(--bg-primary);
 }
 .btn-icon-left {
 	width: 0.875rem;
@@ -1128,7 +1116,7 @@ function getProgressPercentage() {
 
 .leader-box {
 	border-radius: var(--radius-xl);
-	border: 1px solid rgba(14, 165, 233, 0.4);
+	border: 1px solid var(--brand-blue);
 	background-color: var(--bg-secondary);
 	padding: 0.875rem;
 }
@@ -1153,7 +1141,7 @@ function getProgressPercentage() {
 	justify-content: center;
 	border-radius: var(--radius-lg);
 	background-color: var(--brand-blue);
-	color: #ffffff;
+	color: var(--bg-primary);
 	font-family: var(--font-mono);
 	font-size: 0.75rem;
 	font-weight: 700;
@@ -1188,7 +1176,7 @@ function getProgressPercentage() {
 }
 
 .member-card:hover {
-	border-color: rgba(14, 165, 233, 0.6);
+	border-color: var(--brand-blue);
 }
 
 .member-card-header {
@@ -1265,10 +1253,10 @@ function getProgressPercentage() {
 	gap: 0.625rem;
 }
 
-.rule-icon {
-	width: 1rem;
-	height: 1rem;
+.rule-index {
+	font-family: var(--font-mono);
 	color: var(--brand-blue);
+	font-weight: 700;
 	flex-shrink: 0;
 	margin-top: 0.125rem;
 }
@@ -1282,7 +1270,7 @@ function getProgressPercentage() {
 	align-items: flex-start;
 	gap: 0.75rem;
 	border-radius: var(--radius-xl);
-	border: 1px solid rgba(14, 165, 233, 0.4);
+	border: 1px solid var(--brand-blue);
 	background-color: var(--bg-secondary);
 	padding: 1rem;
 	cursor: pointer;
@@ -1376,7 +1364,7 @@ function getProgressPercentage() {
 .review-value-mono-light {
 	font-size: 0.75rem;
 	font-family: var(--font-mono);
-	color: #64748b;
+	color: var(--text-muted);
 }
 
 .roster-header {
@@ -1415,7 +1403,7 @@ function getProgressPercentage() {
 }
 
 .leader-roster-item {
-	border-color: rgba(14, 165, 233, 0.4);
+	border-color: var(--brand-blue);
 }
 
 .roster-name {
@@ -1427,7 +1415,7 @@ function getProgressPercentage() {
 .roster-detail {
 	font-family: var(--font-mono);
 	font-size: 0.6875rem;
-	color: #64748b;
+	color: var(--text-muted);
 }
 
 .fee-summary-box {
@@ -1437,7 +1425,7 @@ function getProgressPercentage() {
 	justify-content: space-between;
 	border-radius: var(--radius-xl);
 	border: 1px solid var(--brand-blue);
-	background-color: rgba(240, 249, 255, 1);
+	background-color: var(--brand-blue-light);
 	padding: 1rem;
 }
 
@@ -1521,7 +1509,7 @@ function getProgressPercentage() {
 }
 
 .pulse-waiting {
-	background-color: #fbbf24;
+	background-color: var(--warning);
 }
 
 @keyframes pulse {
@@ -1549,7 +1537,7 @@ function getProgressPercentage() {
 	color: var(--success);
 }
 .badge-waiting {
-	color: #d97706;
+	color: var(--text-primary);
 }
 
 .progress-bar-container {
@@ -1595,7 +1583,7 @@ function getProgressPercentage() {
 	font-weight: 900;
 	text-transform: uppercase;
 	letter-spacing: 0.05em;
-	color: #ffffff;
+	color: var(--bg-primary);
 	box-shadow: var(--shadow-luxury);
 	transition: all 0.2s ease;
 }
@@ -1611,6 +1599,6 @@ function getProgressPercentage() {
 }
 
 .text-white {
-	color: #ffffff;
+	color: var(--text-primary);
 }
 </style>

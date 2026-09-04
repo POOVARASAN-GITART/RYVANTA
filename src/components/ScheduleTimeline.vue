@@ -137,7 +137,7 @@ const currentSchedule = computed(() => EVENTS[activeIndex.value]);
 	align-items: center;
 	gap: 0.5rem;
 	border-radius: var(--radius-full);
-	border: 1px solid rgba(14, 165, 233, 0.4);
+	border: 1px solid var(--brand-blue);
 	background-color: var(--bg-secondary);
 	padding: 0.25rem 0.875rem;
 	font-family: var(--font-mono);
@@ -196,7 +196,7 @@ const currentSchedule = computed(() => EVENTS[activeIndex.value]);
 	gap: 0.5rem;
 	border-radius: var(--radius-2xl);
 	border: 1px solid var(--brand-blue);
-	background-color: rgba(224, 242, 254, 0.7);
+	background-color: var(--brand-blue-light);
 	padding: 0.625rem 1rem;
 	font-family: var(--font-mono);
 	font-size: 0.75rem;
@@ -251,7 +251,7 @@ const currentSchedule = computed(() => EVENTS[activeIndex.value]);
 	background-color: var(--text-primary);
 	color: var(--bg-primary);
 	box-shadow: var(--shadow-md);
-	outline: 2px solid rgba(14, 165, 233, 0.4);
+	outline: 2px solid var(--brand-blue);
 }
 
 .event-tab-name {
@@ -274,7 +274,7 @@ const currentSchedule = computed(() => EVENTS[activeIndex.value]);
 	color: var(--text-muted);
 }
 .event-tab.active .event-tab-venue {
-	color: #38bdf8;
+	color: var(--bg-primary);
 }
 
 .schedule-content {
@@ -478,7 +478,7 @@ const currentSchedule = computed(() => EVENTS[activeIndex.value]);
 
 .attendance-box {
 	border-radius: var(--radius-xl);
-	border: 1px solid rgba(14, 165, 233, 0.4);
+	border: 1px solid var(--brand-blue);
 	background-color: var(--bg-secondary);
 	padding: 0.75rem;
 	text-align: center;

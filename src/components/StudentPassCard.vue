@@ -210,7 +210,7 @@ function handlePrint() {
 	justify-content: center;
 	border-radius: var(--radius-xl);
 	background-color: var(--brand-blue);
-	color: #ffffff;
+	color: var(--text-primary);
 	font-family: var(--font-serif, var(--font-sans));
 	font-weight: 700;
 	font-size: 0.75rem;
@@ -298,7 +298,7 @@ function handlePrint() {
 	height: 8rem;
 	width: 8rem;
 	border-radius: 50%;
-	background-color: rgba(14, 165, 233, 0.1);
+	background-color: var(--brand-blue-light);
 	filter: blur(1rem);
 	pointer-events: none;
 }
@@ -467,7 +467,7 @@ function handlePrint() {
 }
 
 .highlight-box {
-	border-color: rgba(14, 165, 233, 0.4);
+	border-color: var(--brand-blue);
 }
 
 .highlight-label {
