@@ -363,7 +363,7 @@ function getProgressPercentage() {
 				class="form-section border-none pt-3"
 			>
 				<label class="field-label">
-					Project Domain / Category <span class="required">*</span>
+					Project Domain <span class="required">*</span>
 				</label>
 				<select
 					v-model="domain"
@@ -375,7 +375,7 @@ function getProgressPercentage() {
 					"
 				>
 					<option value="" disabled>
-						Select domain / problem statement...
+						Select domain...
 					</option>
 					<option
 						v-for="d in availableDomains"
@@ -1028,7 +1028,7 @@ function getProgressPercentage() {
 	border-radius: var(--radius-xl);
 	border: 1px solid var(--border-light);
 	background-color: var(--bg-secondary);
-	padding: 0.625rem 1rem;
+	padding: 0.75rem 1.75rem;
 	font-size: 0.75rem;
 	font-weight: 600;
 	color: var(--text-muted);
