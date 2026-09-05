@@ -13,7 +13,7 @@ import {
 	SparklesIcon,
 } from "lucide-vue-next";
 import CountdownCard from "../components/CountdownCard.vue";
-import ScheduleTimeline from "../components/ScheduleTimeline.vue";
+// import ScheduleTimeline from "../components/ScheduleTimeline.vue";
 import {
 	EVENTS,
 	EVENT_STARTS_AT,
@@ -116,7 +116,7 @@ const getEventThemeClass = (id) => {
 		</section>
 
 		<!-- EVENT SCHEDULE COMPONENT -->
-		<ScheduleTimeline />
+		<!-- <ScheduleTimeline /> -->
 
 		<!-- DIGITAL POSTER CARDS -->
 		<section

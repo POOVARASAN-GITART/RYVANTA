@@ -214,7 +214,7 @@ import {
 	height: 14rem;
 	width: 14rem;
 	overflow: hidden;
-	border-radius: 50%;
+	border-radius: 40%;
 	border: 4px solid var(--brand-blue-light);
 	background-color: var(--bg-primary);
 	box-shadow: var(--shadow-md);
