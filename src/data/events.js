@@ -128,7 +128,7 @@ export const EVENTS = [
 			},
 		],
 		prize: [
-			{ place: "1st Prize", amount: "4,000" },
+			{ place: "1st Prize", amount: "3,000" },
 			{ place: "2nd Prize", amount: "2,000" },
 		],
 	},
@@ -164,7 +164,7 @@ export const EVENTS = [
 			{ time: "11:45 AM - 01:00 PM", task: "Round 2" },
 		],
 		prize: [
-			{ place: "1st Prize", amount: "4,000" },
+			{ place: "1st Prize", amount: "3,000" },
 			{ place: "2nd Prize", amount: "2,000" },
 		],
 	},
