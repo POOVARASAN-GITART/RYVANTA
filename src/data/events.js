@@ -1,4 +1,4 @@
-export const REGISTRATION_CLOSES_AT = "2026-09-12T23:59:59";
+export const REGISTRATION_CLOSES_AT = "2026-09-15T23:59:59";
 export const EVENT_STARTS_AT = "2026-09-19T09:00:00";
 
 export const EVENTS = [
@@ -37,22 +37,26 @@ export const EVENTS = [
 			},
 			{
 				time: "09:30 AM - 10:30 AM",
-				task: "PPT Prepare",
+				task: "Mentor Review",
 			},
 			{
 				time: "10:30 AM - 12:30 PM",
-				task: "PPT Presentation",
+				task: "Prototype Development",
 			},
 			{
 				time: "12:30 PM - 01:00 PM",
 				task: "Lunch",
 			},
 			{
-				time: "01:15 PM - 03:00 PM",
-				task: "Prototype Evaluation",
+				time: "01:00 PM - 02:30 PM",
+				task: "PPT Preparation",
 			},
 			{
-				time: "03:00 PM - 03:30 PM",
+				time: "02:30 PM - 03:30 PM",
+				task: "PPT Evaluation",
+			},
+			{
+				time: "03:30 PM - 04:00 PM",
 				task: "Prize Distribution",
 			},
 		],
@@ -120,8 +124,8 @@ export const EVENTS = [
 			},
 		],
 		prize: [
-			{ place: "1st Prize", amount: "3,000" },
-			{ place: "2nd Prize", amount: "1,000" },
+			{ place: "1st Prize", amount: "4,000" },
+			{ place: "2nd Prize", amount: "2,000" },
 		],
 	},
 	{
@@ -156,8 +160,8 @@ export const EVENTS = [
 			{ time: "11:45 AM - 01:00 PM", task: "Round 2" },
 		],
 		prize: [
-			{ place: "1st Prize", amount: "3,000" },
-			{ place: "2nd Prize", amount: "1,000" },
+			{ place: "1st Prize", amount: "4,000" },
+			{ place: "2nd Prize", amount: "2,000" },
 		],
 	},
 ];

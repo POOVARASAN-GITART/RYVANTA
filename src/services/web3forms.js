@@ -1,4 +1,4 @@
-export const WEB3FORMS_ACCESS_KEY = "42ca8ea6-f450-4594-b757-e8393c085c81";
+export const WEB3FORMS_ACCESS_KEY = "ee8b42e9-415c-4171-b303-f73f945d7f4e";
 
 export async function submitToWeb3Forms(record) {
 	try {

@@ -61,11 +61,11 @@ const getEventThemeClass = (id) => {
 				</h1>
 
 				<p class="hero-desc">
-					RYVANTA '26 takes off on
+					Mark your calendars. RYVANTA '26 is here!
 					<span class="text-bold">19 September 2026</span> at Jaya
-					Engineering College - an entry fee of
+					Engineering College. Just
 					<span class="text-brand-bold">₹{{ REGISTRATION_FEE }}</span>
-					per person grants full access to compete and win prizes.
+					per person gets you in the game. Compete, Innovate, and Win!
 				</p>
 
 				<!-- Key Value Badges -->
@@ -101,7 +101,7 @@ const getEventThemeClass = (id) => {
 				<CountdownCard
 					label="Registration Closes In"
 					:target="REGISTRATION_CLOSES_AT"
-					caption="Registration Deadline: 12 September 2026, 11:59 PM IST"
+					caption="Registration Deadline: 15 September 2026, 11:59 PM IST"
 					completeLabel="Registration closed"
 					:emphasis="true"
 				/>
@@ -358,7 +358,7 @@ const getEventThemeClass = (id) => {
 	border-radius: var(--radius-xl);
 	border: 1px solid var(--border-dark);
 	background-color: var(--bg-primary);
-	padding: 1rem 1.5rem;
+	padding: 0.875rem 1.75rem;
 	font-size: 0.75rem;
 	font-weight: 700;
 	text-transform: uppercase;
