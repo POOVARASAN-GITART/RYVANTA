@@ -32,29 +32,33 @@ export const EVENTS = [
 		],
 		agenda: [
 			{
-				time: "08:30 AM - 09:30 AM",
+				time: "08:30 AM - 10:00 AM",
 				task: "Inauguration",
 			},
 			{
-				time: "09:30 AM - 10:30 AM",
+				time: "10:00 AM - 11:30 AM",
 				task: "Mentor Review",
 			},
 			{
-				time: "10:30 AM - 12:30 PM",
-				task: "Prototype Development",
+				time: "11:30 AM - 12:30 PM",
+				task: "Live Modification / Upgrade",
 			},
 			{
 				time: "12:30 PM - 01:00 PM",
-				task: "Lunch",
+				task: "Lunch Break",
 			},
 			{
-				time: "01:00 PM - 02:30 PM",
+				time: "01:00 PM - 02:00 PM",
+				task: "Live Modification / Upgrade",
+			},
+			{
+				time: "02:00 PM - 03:00 PM",
 				task: "PPT Preparation",
 			},
 			{
-				time: "02:30 PM - 03:30 PM",
-				task: "PPT Evaluation",
-			},
+				time: "03:00 PM - 03:30 PM",
+				task: "Final Presentation & Demo",
+			},			
 			{
 				time: "03:30 PM - 04:00 PM",
 				task: "Prize Distribution",
@@ -120,7 +124,7 @@ export const EVENTS = [
 			},
 			{
 				time: "11:25 AM - 12:40 PM",
-				task: "Round 2",
+				task: "Development 2",
 			},
 		],
 		prize: [

@@ -91,7 +91,7 @@ function handleRegistered(record) {
 				</div>
 				<h2 class="success-title">Registration Made</h2>
 				<p class="success-message">
-					You will receive a confirmation email after verification.
+					You will receive a confirmation email after verification on or before 17/09/2026.
 				</p>
 
 				<div class="receipt-details">
