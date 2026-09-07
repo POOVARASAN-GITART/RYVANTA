@@ -151,8 +151,6 @@ function handleRegistered(record) {
 					:key="activeEventId"
 					:eventId="activeEventId"
 					:submit="submitRegistration"
-					upiId="jayaengg@ybl"
-					payeeName="Jaya Engineering College"
 					@registered="handleRegistered"
 				/>
 			</div>

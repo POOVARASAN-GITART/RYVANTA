@@ -22,12 +22,6 @@ const props = defineProps({
 const emit = defineEmits(["update:userUpiId", "update:upiRef"]);
 
 const note = `RYVANTA ${props.eventName.slice(0, 12)}${props.teamName ? ` - ${props.teamName.slice(0, 10)}` : ""}`;
-const baseUpiParams = `pa=${encodeURIComponent(props.upiId)}&pn=${encodeURIComponent(props.payeeName)}&am=${props.feeAmount}&cu=INR&tn=${encodeURIComponent(note)}`;
-
-const genericUpiUri = `upi://pay?${baseUpiParams}`;
-const gpayUri = `gpay://upi/pay?${baseUpiParams}`;
-const phonepeUri = `phonepe://pay?${baseUpiParams}`;
-const paytmUri = `paytmmp://pay?${baseUpiParams}`;
 
 function handleUserUpiIdChange(e) {
 	emit("update:userUpiId", e.target.value);
@@ -94,34 +88,6 @@ function handleUpiRefChange(e) {
 						12-digit UTR reference below to verify that payment has
 						been received.
 					</p>
-				</div>
-
-				<!-- Quick Pay Buttons for Mobile -->
-				<div class="quick-pay-section">
-					<span class="quick-pay-label">
-						Direct App Deep-Links (Mobile Only)
-					</span>
-					<div class="quick-pay-grid">
-						<a :href="gpayUri" class="app-button">
-							<SmartphoneIcon class="app-icon" />
-							<span>Google Pay</span>
-						</a>
-						<a :href="phonepeUri" class="app-button">
-							<SmartphoneIcon class="app-icon" />
-							<span>PhonePe</span>
-						</a>
-						<a :href="paytmUri" class="app-button">
-							<SmartphoneIcon class="app-icon" />
-							<span>Paytm</span>
-						</a>
-						<a
-							:href="genericUpiUri"
-							class="app-button primary-app-button"
-						>
-							<ExternalLinkIcon class="app-icon" />
-							<span>Any UPI App</span>
-						</a>
-					</div>
 				</div>
 			</div>
 		</div>
