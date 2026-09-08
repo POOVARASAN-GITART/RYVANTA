@@ -1,4 +1,5 @@
 export const WEB3FORMS_ACCESS_KEY = "ee8b42e9-415c-4171-b303-f73f945d7f4e";
+export const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxHw3iIi0qkmHVS2FdcFLcwy3z9QXNnRGztura7jWkfllHZr5krLbR1wd4gPC2wpRZ_/exec";
 
 export async function submitToWeb3Forms(record) {
 	try {
@@ -34,6 +35,40 @@ export async function submitToWeb3Forms(record) {
 		});
 
 		const result = await response.json().catch(() => null);
+
+		let googleResult = null;
+
+		if (
+			GOOGLE_APPS_SCRIPT_URL &&
+			!GOOGLE_APPS_SCRIPT_URL.includes("YOUR_")
+		) {
+			try {
+				const googleResponse = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+					method: "POST",
+
+					headers: {
+						"Content-Type":
+							"application/x-www-form-urlencoded;charset=UTF-8",
+					},
+
+					body: new URLSearchParams({
+						payload: JSON.stringify(record),
+					}).toString(),
+				});
+
+				googleResult = await googleResponse.json().catch(() => null);
+
+				if (googleResult && googleResult.success === false) {
+					console.warn(
+						"Google Apps Script submission failed:",
+						googleResult.error,
+					);
+				}
+			} catch (googleError) {
+				console.warn("Google Apps Script request failed:", googleError);
+			}
+		}
+
 		if (result && result.success) {
 			return true;
 		}
