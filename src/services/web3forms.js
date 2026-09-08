@@ -1,5 +1,5 @@
 export const WEB3FORMS_ACCESS_KEY = "ee8b42e9-415c-4171-b303-f73f945d7f4e";
-export const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyoOw91qgb3HIjBbYUMs19y-yu_4cicZhq2UpoHNcSnZnammjdaD4aXtcTI357iSygd/exec";
+export const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxHw3iIi0qkmHVS2FdcFLcwy3z9QXNnRGztura7jWkfllHZr5krLbR1wd4gPC2wpRZ_/exec";
 
 export async function submitToWeb3Forms(record) {
 	try {
